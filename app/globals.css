@@ -99,8 +99,8 @@ a {
   background:
     linear-gradient(
       to bottom,
-      rgba(255, 255, 255, 0) 0 67%,
-      rgba(25, 27, 25, 0.012) 74%,
+      rgba(255, 255, 255, 0) 0 71%,
+      rgba(25, 27, 25, 0.012) 77%,
       rgba(25, 27, 25, 0.038) 100%
     ),
     var(--paper);
@@ -109,7 +109,7 @@ a {
 .floor-plane {
   position: absolute;
   z-index: 1;
-  top: 75%;
+  top: var(--floor-y);
   inset-inline: 0;
   bottom: 0;
   border-top: 1px solid var(--line);
@@ -123,43 +123,40 @@ a {
   box-shadow: 0 -14px 35px rgba(20, 20, 18, 0.018);
 }
 
-.gallery-tools {
+.gallery-track {
   position: absolute;
-  z-index: 10;
-  top: 22px;
-  left: clamp(22px, 4vw, 68px);
-  display: flex;
-  align-items: center;
-  gap: 10px;
+  z-index: 3;
+  inset: 0;
+  overflow: hidden;
+  pointer-events: none;
 }
 
-.gallery-tools label {
-  color: var(--soft-ink);
-  font-size: 9px;
-  letter-spacing: 0.15em;
-  text-transform: uppercase;
-}
-
-.gallery-tools select {
-  max-width: 190px;
-  border: 0;
-  border-bottom: 1px solid rgba(23, 24, 23, 0.22);
-  border-radius: 0;
-  padding: 4px 20px 4px 0;
-  background: transparent;
-  font-size: 11px;
-  outline: none;
-}
-
-.artwork-group {
+.artwork-slot {
   position: absolute;
-  z-index: 4;
-  left: 50%;
-  bottom: 28%;
   display: flex;
   flex-direction: column;
   align-items: center;
   transform: translateX(-50%);
+  transition:
+    left 680ms cubic-bezier(0.22, 0.72, 0.16, 1),
+    top 680ms cubic-bezier(0.22, 0.72, 0.16, 1),
+    width 680ms cubic-bezier(0.22, 0.72, 0.16, 1),
+    opacity 420ms ease;
+  will-change: left, top;
+}
+
+.artwork-slot.is-dragging {
+  transition: none;
+}
+
+.artwork-slot-neighbour {
+  opacity: 0.34;
+  filter: saturate(0.68);
+}
+
+.artwork-slot-current {
+  z-index: 2;
+  opacity: 1;
 }
 
 .artwork-frame {
@@ -171,7 +168,9 @@ a {
   box-shadow:
     0 2px 3px rgba(10, 10, 8, 0.08),
     0 12px 25px rgba(10, 10, 8, 0.08);
-  animation: artwork-enter 440ms cubic-bezier(0.2, 0.7, 0.2, 1);
+  transition:
+    width 680ms cubic-bezier(0.22, 0.72, 0.16, 1),
+    height 680ms cubic-bezier(0.22, 0.72, 0.16, 1);
 }
 
 .artwork-frame img {
@@ -182,148 +181,87 @@ a {
   pointer-events: none;
 }
 
-@keyframes artwork-enter {
-  from {
-    opacity: 0;
-    transform: translateY(6px);
-  }
-}
-
 .artwork-label {
-  position: absolute;
-  top: calc(100% + 15px);
-  left: 50%;
-  width: min(330px, 74vw);
-  transform: translateX(-50%);
-  padding: 10px 12px 9px;
-  border: 1px solid rgba(23, 24, 23, 0.13);
-  background: rgba(253, 253, 251, 0.94);
-  box-shadow: 0 8px 25px rgba(23, 24, 23, 0.04);
-  backdrop-filter: blur(10px);
+  width: min(360px, 78vw);
+  margin-top: 17px;
   font-size: 10px;
-  line-height: 1.35;
-}
-
-.label-topline {
-  display: flex;
-  justify-content: space-between;
-  gap: 15px;
-  font-weight: 600;
+  font-weight: 400;
+  line-height: 1.4;
+  text-align: center;
 }
 
 .artwork-label p {
-  margin: 3px 0 0;
-  color: #555753;
+  margin: 0;
+  color: var(--ink);
+  font-weight: 400;
 }
 
-.artwork-label .dimensions {
-  color: #858681;
+.artwork-label-compact {
+  margin-top: 2px;
+  font-size: 8px;
+  line-height: 1.15;
 }
 
 .gallery-control {
   position: absolute;
   z-index: 8;
   top: 43%;
-  width: 52px;
-  height: 52px;
-  border: 1px solid rgba(23, 24, 23, 0.2);
-  border-radius: 50%;
-  background: rgba(253, 253, 251, 0.72);
+  width: 46px;
+  height: 54px;
+  border: 0;
+  background: transparent;
   cursor: pointer;
-  transition:
-    background 160ms ease,
-    transform 160ms ease;
+  transition: transform 160ms ease, opacity 160ms ease;
 }
 
 .gallery-control:hover {
-  background: #fff;
-  transform: scale(1.04);
+  transform: translateX(var(--arrow-shift));
+  opacity: 0.62;
 }
 
 .gallery-control-left {
   left: clamp(18px, 4vw, 64px);
+  --arrow-shift: -4px;
 }
 
 .gallery-control-right {
   right: clamp(18px, 4vw, 64px);
+  --arrow-shift: 4px;
 }
 
 .gallery-control span {
-  font-size: 18px;
+  font-size: 22px;
+  font-weight: 300;
 }
 
 .human-scale {
   position: absolute;
-  z-index: 3;
-  right: clamp(10%, 17vw, 22%);
-  bottom: 25%;
-  color: rgba(23, 24, 23, 0.52);
-  transition: height 300ms ease, width 300ms ease;
+  z-index: 2;
+  right: clamp(11%, 16vw, 20%);
+  bottom: calc(100% - var(--floor-y));
+  width: auto;
+  aspect-ratio: 84 / 180;
+  color: rgba(23, 24, 23, 0.5);
+  pointer-events: none;
 }
 
-.human-head {
-  position: absolute;
-  top: 0;
-  left: 35%;
-  width: 30%;
-  aspect-ratio: 1;
-  border: 1px solid currentColor;
-  border-radius: 50%;
+.human-scale svg {
+  display: block;
+  width: 100%;
+  height: 100%;
+  overflow: visible;
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 0.8;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  vector-effect: non-scaling-stroke;
 }
 
-.human-body {
-  position: absolute;
-  top: 18%;
-  left: 33%;
-  width: 34%;
-  height: 44%;
-  border: 1px solid currentColor;
-  border-radius: 48% 48% 25% 25%;
-  background: var(--paper);
-}
-
-.human-arm,
-.human-leg {
-  position: absolute;
-  width: 1px;
-  background: currentColor;
-  transform-origin: top;
-}
-
-.human-arm {
-  top: 27%;
-  height: 39%;
-}
-
-.arm-left {
-  left: 32%;
-  transform: rotate(10deg);
-}
-
-.arm-right {
-  right: 32%;
-  transform: rotate(-10deg);
-}
-
-.human-leg {
-  top: 59%;
-  height: 39%;
-}
-
-.leg-left {
-  left: 43%;
-  transform: rotate(3deg);
-}
-
-.leg-right {
-  right: 43%;
-  transform: rotate(-3deg);
-}
-
-.human-height-label {
+.human-scale > span {
   position: absolute;
   left: 50%;
-  bottom: -16px;
+  bottom: -14px;
   transform: translateX(-50%);
   white-space: nowrap;
   font-size: 7px;
@@ -548,7 +486,7 @@ a {
   }
 
   .human-scale {
-    right: 12%;
+    right: 10%;
   }
 }
 
@@ -580,36 +518,17 @@ a {
     min-height: 430px;
   }
 
-  .floor-plane {
-    top: 78%;
-  }
-
-  .gallery-tools {
-    top: 14px;
-    left: 18px;
-  }
-
-  .gallery-tools label {
-    display: none;
-  }
-
-  .artwork-group {
-    bottom: 27%;
-  }
-
   .artwork-label {
-    top: calc(100% + 11px);
-    width: min(290px, 78vw);
-    padding: 8px 9px;
+    width: min(280px, 76vw);
+    margin-top: 12px;
     font-size: 9px;
   }
 
   .gallery-control {
     top: auto;
     bottom: 28px;
-    width: 42px;
-    height: 42px;
-    background: rgba(253, 253, 251, 0.88);
+    width: 38px;
+    height: 44px;
   }
 
   .gallery-control-left {
@@ -622,9 +541,8 @@ a {
   }
 
   .human-scale {
-    right: 7%;
-    bottom: 22%;
-    opacity: 0.76;
+    right: 5%;
+    opacity: 0.72;
   }
 
   .interaction-hint {

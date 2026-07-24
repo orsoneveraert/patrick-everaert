@@ -30,10 +30,12 @@ test("server-renders the virtual museum", async () => {
 
   const html = await response.text();
   assert.match(html, /Patrick Everaert/);
-  assert.match(html, /Curatorial sequence/);
+  assert.match(html, /Artwork gallery/);
+  assert.match(html, /gallery-track/);
   assert.match(html, /Previous artwork/);
   assert.match(html, /Next artwork/);
-  assert.match(html, /Human scale reference/);
+  assert.match(html, /Human scale reference, 180 centimetres/);
+  assert.doesNotMatch(html, /Curatorial sequence|collection-select/);
   assert.doesNotMatch(html, /codex-preview|react-loading-skeleton/);
 });
 

@@ -34,7 +34,6 @@ npm run build
 - The `/manage` view exposes ordering, collection counts, dimensions, materials,
   and attribution links.
 
-The display scale is calculated from the physical dimensions. A work and the
-human reference always share the same scene scale; exceptionally large works
-are reduced together to fit the available wall, and the legend identifies that
-reduced scene scale.
+The gallery uses one stable scene scale per viewport. The 180 cm architectural
+figure stays fixed while artworks change size from their physical dimensions.
+Every artwork is hung with its vertical centre 150 cm above the floor line.
