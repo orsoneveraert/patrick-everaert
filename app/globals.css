@@ -121,6 +121,27 @@ a {
   will-change: transform;
 }
 
+.person-camera {
+  position: absolute;
+  z-index: 7;
+  top: var(--scene-pan-y);
+  right: 0;
+  left: 0;
+  height: 100%;
+  pointer-events: none;
+  transition: top 720ms cubic-bezier(0.22, 0.72, 0.16, 1);
+  will-change: top;
+}
+
+.person-world {
+  position: absolute;
+  inset: 0;
+  transform: scale(var(--scene-zoom));
+  transform-origin: 50% var(--floor-y);
+  transition: transform 720ms cubic-bezier(0.22, 0.72, 0.16, 1);
+  will-change: transform;
+}
+
 .wall-depth {
   position: absolute;
   inset: 0;
@@ -251,7 +272,7 @@ a {
 
 .human-scale {
   position: absolute;
-  z-index: 2;
+  z-index: 7;
   bottom: calc(100% - var(--floor-y));
   width: auto;
   aspect-ratio: 235 / 1071;
@@ -271,7 +292,7 @@ a {
 
 .gallery-legend {
   position: absolute;
-  z-index: 9;
+  z-index: 6;
   left: clamp(22px, 4vw, 68px);
   bottom: 22px;
   width: min(440px, calc(100vw - 44px));

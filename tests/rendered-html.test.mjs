@@ -35,6 +35,8 @@ test("server-renders the virtual museum", async () => {
   assert.match(html, /Previous artwork/);
   assert.match(html, /Next artwork/);
   assert.match(html, /Human scale reference, 180 centimetres/);
+  assert.match(html, /scale-person-180\.svg/);
+  assert.doesNotMatch(html, /scale-person-180\.webp/);
   assert.doesNotMatch(html, />180 cm</);
   assert.doesNotMatch(html, /Curatorial sequence|collection-select/);
   assert.doesNotMatch(html, /codex-preview|react-loading-skeleton/);
@@ -73,4 +75,21 @@ test("server-renders the management index", async () => {
   assert.match(html, /26[\s\S]{0,40}works/);
   assert.match(html, /camera max ×[\s\S]{0,20}6/);
   assert.match(html, /camera max ×[\s\S]{0,20}2\.2/);
+});
+
+test("uses bounded original artwork loading and a true vector scale figure", async () => {
+  const gallerySource = await readFile(
+    new URL("../app/museum-gallery.tsx", import.meta.url),
+    "utf8",
+  );
+  const figureSvg = await readFile(
+    new URL("../public/scale-person-180.svg", import.meta.url),
+    "utf8",
+  );
+
+  assert.match(gallerySource, /preloadOffsets = \[-2, -1, 0, 1, 2\]/);
+  assert.match(gallerySource, /format=original/);
+  assert.match(gallerySource, /Accept: "image\/jpeg"/);
+  assert.match(figureSvg, /^<svg\b/);
+  assert.doesNotMatch(figureSvg, /<image\b|data:image\//);
 });

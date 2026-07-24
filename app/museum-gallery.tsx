@@ -20,7 +20,7 @@ function ScaleFigure({ height, left }: { height: number; left: number }) {
       role="img"
     >
       <img
-        src="/scale-person-180.webp"
+        src="/scale-person-180.svg"
         alt=""
         aria-hidden="true"
         draggable={false}
@@ -37,6 +37,7 @@ function GalleryArtwork({
   sceneScale,
   dragOffset,
   isDragging,
+  imageSrc,
 }: {
   work: Artwork;
   position: -1 | 0 | 1;
@@ -45,6 +46,7 @@ function GalleryArtwork({
   sceneScale: number;
   dragOffset: number;
   isDragging: boolean;
+  imageSrc: string;
 }) {
   const width = work.width * sceneScale;
   const height = work.height * sceneScale;
@@ -76,7 +78,7 @@ function GalleryArtwork({
         style={{ width: `${width}px`, height: `${height}px` }}
       >
         <img
-          src={work.image_url}
+          src={imageSrc}
           alt={isCurrent ? `${work.title}, ${work.year}` : ""}
           draggable={false}
           loading="eager"
@@ -99,6 +101,11 @@ export default function MuseumGallery() {
   const travelOffsetRef = useRef(0);
   const wheelMomentum = useRef(0);
   const wheelEndTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
+  const highQualityUrls = useRef(new Map<string, string>());
+  const highQualityPending = useRef(new Set<string>());
+  const desiredHighQualityIds = useRef(new Set<string>());
+  const galleryMounted = useRef(true);
+  const [, setQualityRevision] = useState(0);
 
   useEffect(() => {
     const update = () =>
@@ -132,14 +139,70 @@ export default function MuseumGallery() {
 
   useEffect(() => {
     const preloadOffsets = [-2, -1, 0, 1, 2];
-    preloadOffsets.forEach((offset) => {
-      const work =
-        artworks[(index + offset + artworks.length) % artworks.length];
-      const image = new Image();
-      image.decoding = "async";
-      image.src = work.image_url;
+    const desiredWorks = preloadOffsets.map(
+      (offset) =>
+        artworks[(index + offset + artworks.length) % artworks.length],
+    );
+    const desiredIds = new Set(desiredWorks.map((work) => work.id));
+    desiredHighQualityIds.current = desiredIds;
+
+    for (const [id, objectUrl] of highQualityUrls.current) {
+      if (!desiredIds.has(id)) {
+        URL.revokeObjectURL(objectUrl);
+        highQualityUrls.current.delete(id);
+      }
+    }
+
+    desiredWorks.forEach((work) => {
+      if (
+        highQualityUrls.current.has(work.id) ||
+        highQualityPending.current.has(work.id)
+      ) {
+        return;
+      }
+
+      highQualityPending.current.add(work.id);
+      const separator = work.image_url.includes("?") ? "&" : "?";
+      fetch(`${work.image_url}${separator}format=original`, {
+        cache: "force-cache",
+        headers: { Accept: "image/jpeg" },
+        mode: "cors",
+      })
+        .then((response) => {
+          if (!response.ok) throw new Error("Original artwork image unavailable");
+          return response.blob();
+        })
+        .then((blob) => {
+          if (
+            !galleryMounted.current ||
+            !desiredHighQualityIds.current.has(work.id) ||
+            blob.type !== "image/jpeg"
+          ) {
+            return;
+          }
+          const objectUrl = URL.createObjectURL(blob);
+          highQualityUrls.current.set(work.id, objectUrl);
+          setQualityRevision((revision) => revision + 1);
+        })
+        .catch(() => {
+          // The original CDN URL remains the safe fallback.
+        })
+        .finally(() => {
+          highQualityPending.current.delete(work.id);
+        });
     });
   }, [index]);
+
+  useEffect(() => {
+    galleryMounted.current = true;
+    return () => {
+      galleryMounted.current = false;
+      highQualityUrls.current.forEach((objectUrl) =>
+        URL.revokeObjectURL(objectUrl),
+      );
+      highQualityUrls.current.clear();
+    };
+  }, []);
 
   const isMobile = viewport.width < 680;
   const headerHeight = isMobile ? 70 : 86;
@@ -345,12 +408,20 @@ export default function MuseumGallery() {
                   sceneScale={sceneScale}
                   dragOffset={travelOffset}
                   isDragging={isInteracting}
+                  imageSrc={
+                    highQualityUrls.current.get(work.id) ?? work.image_url
+                  }
                 />
               ))}
             </div>
 
-            <ScaleFigure height={personHeight} left={personLeft} />
             <div className="floor-line" aria-hidden="true" />
+          </div>
+        </div>
+
+        <div className="person-camera">
+          <div className="person-world">
+            <ScaleFigure height={personHeight} left={personLeft} />
           </div>
         </div>
 

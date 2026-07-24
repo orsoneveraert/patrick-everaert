@@ -44,3 +44,8 @@ focused work fills a responsive viewing frame, capped at `6×`, `3.8×`, or
 geometry always zoom together; neighbouring works keep their true relative
 size. The human reference is compositionally retained at the right edge in
 every close view.
+
+Artwork images are requested from the source CDN as the original JPEG rather
+than its more compressed automatic WebP response. Loading remains bounded to
+the current work and its two nearest neighbours on each side. The 180 cm human
+reference is a true vector SVG so it stays crisp at the closest camera scales.
