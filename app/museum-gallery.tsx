@@ -10,15 +10,12 @@ import {
 const HUMAN_HEIGHT_CM = 180;
 const HANGING_CENTRE_CM = 150;
 const LARGE_BOTTOM_EDGE_CM = 120;
-const MIN_ZOOM = 0.7;
-const MAX_ZOOM = 1.3;
-const ZOOM_STEP = 0.05;
 
-function ScaleFigure({ height }: { height: number }) {
+function ScaleFigure({ height, left }: { height: number; left: number }) {
   return (
     <div
       className="human-scale"
-      style={{ height: `${height}px` }}
+      style={{ height: `${height}px`, left: `${left}px` }}
       aria-label="Human scale reference, 180 centimetres"
       role="img"
     >
@@ -57,11 +54,6 @@ function GalleryArtwork({
       : floorY - HANGING_CENTRE_CM * sceneScale;
   const top = centerY - height / 2;
   const isCurrent = position === 0;
-  const floorClearance =
-    work.sizeCategory === "large"
-      ? LARGE_BOTTOM_EDGE_CM * sceneScale
-      : (HANGING_CENTRE_CM - work.height / 2) * sceneScale;
-  const compactLegend = floorClearance < 58;
 
   return (
     <article
@@ -92,33 +84,6 @@ function GalleryArtwork({
           fetchPriority={isCurrent ? "high" : "auto"}
         />
       </div>
-      {isCurrent && (
-        <div
-          className={
-            compactLegend
-              ? "artwork-label artwork-label-compact"
-              : "artwork-label"
-          }
-          aria-live="polite"
-        >
-          {compactLegend ? (
-            <>
-              <p>
-                {work.title}, {work.year} · {work.physical_dimensions}
-              </p>
-              <p>{work.material}</p>
-            </>
-          ) : (
-            <>
-              <p>
-                {work.title}, {work.year}
-              </p>
-              <p>{work.material}</p>
-              <p>{work.physical_dimensions}</p>
-            </>
-          )}
-        </div>
-      )}
     </article>
   );
 }
@@ -129,7 +94,6 @@ export default function MuseumGallery() {
   const [contactOpen, setContactOpen] = useState(false);
   const [travelOffset, setTravelOffset] = useState(0);
   const [isInteracting, setIsInteracting] = useState(false);
-  const [zoom, setZoom] = useState(1);
   const pointerStart = useRef<number | null>(null);
   const pointerLast = useRef({ x: 0, time: 0, velocity: 0 });
   const travelOffsetRef = useRef(0);
@@ -185,28 +149,38 @@ export default function MuseumGallery() {
   const glimpse = isMobile ? 34 : 64;
   const focusedWork = artworks[index];
   const focusedCategory = focusedWork.sizeCategory;
-  const mobileCameraMultiplier = isMobile
-    ? sizeCategoryConfig.mobileCameraMultiplier[focusedCategory]
-    : 1;
-  const categoryCameraTarget =
-    sizeCategoryConfig.cameraBaseline[focusedCategory] *
-    mobileCameraMultiplier;
-  const focusedTopDistanceCm =
-    focusedCategory === "large"
-      ? LARGE_BOTTOM_EDGE_CM + focusedWork.height
-      : HANGING_CENTRE_CM + focusedWork.height / 2;
-  const verticalFit =
-    (floorY - (isMobile ? 12 : 18)) /
-    (focusedTopDistanceCm * sceneScale);
-  const horizontalFit =
-    (viewport.width * (isMobile ? 0.88 : 0.8)) /
-    (focusedWork.width * sceneScale);
-  const categoryCameraBaseline = Math.min(
-    categoryCameraTarget,
-    verticalFit,
-    horizontalFit,
+  const framingWidth =
+    viewport.width *
+    (isMobile
+      ? sizeCategoryConfig.cameraFrame.mobileWidth
+      : sizeCategoryConfig.cameraFrame.desktopWidth);
+  const framingHeight =
+    stageHeight *
+    (isMobile
+      ? sizeCategoryConfig.cameraFrame.mobileHeight
+      : sizeCategoryConfig.cameraFrame.desktopHeight);
+  const cameraZoom = Math.min(
+    framingWidth / (focusedWork.width * sceneScale),
+    framingHeight / (focusedWork.height * sceneScale),
+    sizeCategoryConfig.cameraMaxZoom[focusedCategory],
   );
-  const cameraZoom = categoryCameraBaseline * zoom;
+  const focusedCenterY =
+    focusedCategory === "large"
+      ? floorY -
+        (LARGE_BOTTOM_EDGE_CM + focusedWork.height / 2) * sceneScale
+      : floorY - HANGING_CENTRE_CM * sceneScale;
+  const focusedScreenCenterY =
+    floorY + (focusedCenterY - floorY) * cameraZoom;
+  const cameraPanY =
+    stageHeight * (isMobile ? 0.43 : 0.44) - focusedScreenCenterY;
+  const personHeight = HUMAN_HEIGHT_CM * sceneScale;
+  const personWidth = personHeight * (235 / 1071);
+  const personScreenWidth = personWidth * cameraZoom;
+  const desiredPersonScreenLeft =
+    viewport.width - Math.max(isMobile ? 72 : 90, personScreenWidth * 0.72);
+  const personLeft =
+    viewport.width / 2 +
+    (desiredPersonScreenLeft - viewport.width / 2) / cameraZoom;
 
   const galleryWindow = useMemo(() => {
     return ([-1, 0, 1] as const).map((position) => {
@@ -263,13 +237,6 @@ export default function MuseumGallery() {
     pointerStart.current = null;
   };
 
-  const adjustZoom = (amount: number) => {
-    setZoom((current) => {
-      const next = Math.round((current + amount) * 100) / 100;
-      return Math.max(MIN_ZOOM, Math.min(MAX_ZOOM, next));
-    });
-  };
-
   return (
     <main className="museum-shell">
       <header className="site-header">
@@ -293,6 +260,7 @@ export default function MuseumGallery() {
           {
             "--floor-y": `${floorY}px`,
             "--scene-zoom": cameraZoom,
+            "--scene-pan-y": `${cameraPanY}px`,
           } as React.CSSProperties
         }
         onPointerDown={(event) => {
@@ -361,27 +329,29 @@ export default function MuseumGallery() {
           }, 120);
         }}
       >
-        <div className="scene-world">
-          <div className="wall-depth" aria-hidden="true" />
-          <div className="floor-plane" aria-hidden="true" />
+        <div className="scene-camera">
+          <div className="scene-world">
+            <div className="wall-depth" aria-hidden="true" />
+            <div className="floor-plane" aria-hidden="true" />
 
-          <div className="gallery-track">
-            {galleryWindow.map(({ position, work, centerX }) => (
-              <GalleryArtwork
-                key={work.id}
-                work={work}
-                position={position}
-                centerX={centerX}
-                floorY={floorY}
-                sceneScale={sceneScale}
-                dragOffset={travelOffset}
-                isDragging={isInteracting}
-              />
-            ))}
+            <div className="gallery-track">
+              {galleryWindow.map(({ position, work, centerX }) => (
+                <GalleryArtwork
+                  key={work.id}
+                  work={work}
+                  position={position}
+                  centerX={centerX}
+                  floorY={floorY}
+                  sceneScale={sceneScale}
+                  dragOffset={travelOffset}
+                  isDragging={isInteracting}
+                />
+              ))}
+            </div>
+
+            <ScaleFigure height={personHeight} left={personLeft} />
+            <div className="floor-line" aria-hidden="true" />
           </div>
-
-          <ScaleFigure height={HUMAN_HEIGHT_CM * sceneScale} />
-          <div className="floor-line" aria-hidden="true" />
         </div>
 
         <button
@@ -389,8 +359,13 @@ export default function MuseumGallery() {
           type="button"
           aria-label="Previous artwork"
           onPointerDown={(event) => event.stopPropagation()}
-          onPointerUp={(event) => event.stopPropagation()}
-          onClick={() => move(-1)}
+          onPointerUp={(event) => {
+            event.stopPropagation();
+            move(-1);
+          }}
+          onClick={(event) => {
+            if (event.detail === 0) move(-1);
+          }}
         >
           <span aria-hidden="true">←</span>
         </button>
@@ -399,42 +374,23 @@ export default function MuseumGallery() {
           type="button"
           aria-label="Next artwork"
           onPointerDown={(event) => event.stopPropagation()}
-          onPointerUp={(event) => event.stopPropagation()}
-          onClick={() => move(1)}
+          onPointerUp={(event) => {
+            event.stopPropagation();
+            move(1);
+          }}
+          onClick={(event) => {
+            if (event.detail === 0) move(1);
+          }}
         >
           <span aria-hidden="true">→</span>
         </button>
 
-        <div
-          className="scene-zoom-controls"
-          aria-label="Temporary scene scale controls"
-          onPointerDown={(event) => event.stopPropagation()}
-          onPointerUp={(event) => event.stopPropagation()}
-        >
-          <button
-            type="button"
-            aria-label="Zoom scene out"
-            onClick={() => adjustZoom(-ZOOM_STEP)}
-            disabled={zoom <= MIN_ZOOM}
-          >
-            −
-          </button>
-          <output
-            aria-live="polite"
-            aria-label={`${focusedCategory} camera, ${Math.round(
-              zoom * 100,
-            )} percent debug offset`}
-          >
-            {Math.round(zoom * 100)}%
-          </output>
-          <button
-            type="button"
-            aria-label="Zoom scene in"
-            onClick={() => adjustZoom(ZOOM_STEP)}
-            disabled={zoom >= MAX_ZOOM}
-          >
-            +
-          </button>
+        <div className="gallery-legend" aria-live="polite">
+          <p>
+            {focusedWork.title}, {focusedWork.year}
+          </p>
+          <p>{focusedWork.material}</p>
+          <p>{focusedWork.physical_dimensions}</p>
         </div>
       </section>
 

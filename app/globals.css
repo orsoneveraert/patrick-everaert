@@ -94,17 +94,27 @@ a {
   position: relative;
   height: calc(100svh - 86px);
   min-height: 474px;
-  overflow: hidden;
+  overflow: clip;
   touch-action: pan-y;
   user-select: none;
   background: var(--paper);
 }
 
-.scene-world {
+.scene-camera {
   position: absolute;
   z-index: 1;
+  top: var(--scene-pan-y);
+  right: 0;
+  left: 0;
+  height: 100%;
+  transition: top 720ms cubic-bezier(0.22, 0.72, 0.16, 1);
+  will-change: top;
+}
+
+.scene-world {
+  position: absolute;
   inset: 0;
-  overflow: hidden;
+  overflow: clip;
   transform: scale(var(--scene-zoom));
   transform-origin: 50% var(--floor-y);
   transition: transform 720ms cubic-bezier(0.22, 0.72, 0.16, 1);
@@ -207,27 +217,6 @@ a {
   pointer-events: none;
 }
 
-.artwork-label {
-  width: min(360px, 78vw);
-  margin-top: 17px;
-  font-size: 10px;
-  font-weight: 400;
-  line-height: 1.4;
-  text-align: center;
-}
-
-.artwork-label p {
-  margin: 0;
-  color: var(--ink);
-  font-weight: 400;
-}
-
-.artwork-label-compact {
-  margin-top: 2px;
-  font-size: 8px;
-  line-height: 1.15;
-}
-
 .gallery-control {
   position: absolute;
   z-index: 8;
@@ -263,7 +252,6 @@ a {
 .human-scale {
   position: absolute;
   z-index: 2;
-  right: clamp(11%, 16vw, 20%);
   bottom: calc(100% - var(--floor-y));
   width: auto;
   aspect-ratio: 235 / 1071;
@@ -281,41 +269,25 @@ a {
   object-fit: fill;
 }
 
-.scene-zoom-controls {
+.gallery-legend {
   position: absolute;
   z-index: 9;
   left: clamp(22px, 4vw, 68px);
-  bottom: 18px;
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  color: rgba(23, 24, 23, 0.64);
+  bottom: 22px;
+  width: min(440px, calc(100vw - 44px));
+  color: #4b4c49;
+  font-family: "SFMono-Regular", Consolas, "Liberation Mono", monospace;
+  font-size: 9px;
+  font-weight: 400;
+  line-height: 1.45;
+  letter-spacing: 0.045em;
+  text-align: left;
+  text-transform: uppercase;
+  pointer-events: none;
 }
 
-.scene-zoom-controls button {
-  display: grid;
-  place-items: center;
-  width: 28px;
-  height: 28px;
-  padding: 0;
-  border: 1px solid rgba(23, 24, 23, 0.22);
-  border-radius: 0;
-  background: rgba(253, 253, 251, 0.82);
-  cursor: pointer;
-  font-size: 17px;
-  font-weight: 300;
-}
-
-.scene-zoom-controls button:disabled {
-  cursor: default;
-  opacity: 0.28;
-}
-
-.scene-zoom-controls output {
-  min-width: 35px;
-  font-size: 8px;
-  letter-spacing: 0.07em;
-  text-align: center;
+.gallery-legend p {
+  margin: 0;
 }
 
 .contact-panel {
@@ -599,10 +571,6 @@ a {
   .collection-cards {
     grid-template-columns: repeat(2, 1fr);
   }
-
-  .human-scale {
-    right: 10%;
-  }
 }
 
 @media (max-width: 680px) {
@@ -637,12 +605,6 @@ a {
     min-height: 430px;
   }
 
-  .artwork-label {
-    width: min(280px, 76vw);
-    margin-top: 12px;
-    font-size: 9px;
-  }
-
   .gallery-control {
     top: auto;
     bottom: 28px;
@@ -660,7 +622,6 @@ a {
   }
 
   .human-scale {
-    right: 5%;
     opacity: 0.72;
   }
 

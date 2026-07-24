@@ -57,8 +57,8 @@ export default function ManagePage() {
             <h2 id="size-band-title">Artwork size bands</h2>
           </div>
           <p>
-            Metric: longest physical edge. Thresholds and camera baselines are
-            editable in <code>lib/artworks.ts</code>.
+            Metric: longest physical edge. Thresholds and close-view camera
+            limits are editable in <code>lib/artworks.ts</code>.
           </p>
         </div>
         <div className="size-band-cards">
@@ -80,10 +80,7 @@ export default function ManagePage() {
                     : `> ${sizeCategoryConfig.smallMaxCm} and < ${sizeCategoryConfig.largeMinCm} cm`}
               </p>
               <code>
-                camera target ×{sizeCategoryConfig.cameraBaseline[category]}
-                {sizeCategoryConfig.mobileCameraMultiplier[category] !== 1
-                  ? ` · mobile ×${sizeCategoryConfig.mobileCameraMultiplier[category]}`
-                  : ""}
+                camera max ×{sizeCategoryConfig.cameraMaxZoom[category]}
               </code>
             </article>
           ))}

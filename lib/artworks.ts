@@ -27,20 +27,21 @@ export type ArtworkSizeCategory = "small" | "medium" | "large";
 
 // Dataset-derived bands using the longest physical edge:
 // 65 cm is approximately the 30th percentile; 150 cm is the 75th percentile.
-// Edit these values and baselines to tune the gallery camera globally.
+// Edit these values and framing limits to tune the gallery camera globally.
 export const sizeCategoryConfig = {
   metric: "maximum physical dimension",
   smallMaxCm: 65,
   largeMinCm: 150,
-  cameraBaseline: {
-    small: 2.4,
-    medium: 1.95,
-    large: 0.95,
+  cameraMaxZoom: {
+    small: 6,
+    medium: 3.8,
+    large: 2.2,
   },
-  mobileCameraMultiplier: {
-    small: 1.3,
-    medium: 1.25,
-    large: 1,
+  cameraFrame: {
+    desktopWidth: 0.78,
+    desktopHeight: 0.7,
+    mobileWidth: 1.05,
+    mobileHeight: 0.66,
   },
 } as const;
 

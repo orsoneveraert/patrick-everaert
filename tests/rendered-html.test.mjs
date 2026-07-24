@@ -34,8 +34,6 @@ test("server-renders the virtual museum", async () => {
   assert.match(html, /gallery-track/);
   assert.match(html, /Previous artwork/);
   assert.match(html, /Next artwork/);
-  assert.match(html, /Zoom scene out/);
-  assert.match(html, /Zoom scene in/);
   assert.match(html, /Human scale reference, 180 centimetres/);
   assert.doesNotMatch(html, />180 cm</);
   assert.doesNotMatch(html, /Curatorial sequence|collection-select/);
@@ -73,6 +71,6 @@ test("server-renders the management index", async () => {
   assert.match(html, /32[\s\S]{0,40}works/);
   assert.match(html, /43[\s\S]{0,40}works/);
   assert.match(html, /26[\s\S]{0,40}works/);
-  assert.match(html, /camera target ×[\s\S]{0,20}2\.4/);
-  assert.match(html, /camera target ×[\s\S]{0,20}0\.95/);
+  assert.match(html, /camera max ×[\s\S]{0,20}6/);
+  assert.match(html, /camera max ×[\s\S]{0,20}2\.2/);
 });

@@ -38,9 +38,9 @@ npm run build
 Small and medium artworks are hung with their vertical centre 150 cm above the
 floor line. Large works use a separate museum datum: their lower frame edge is
 120 cm above the floor. Dataset-derived size bands use the longest physical edge
-(`≤65 cm`, `66–149 cm`, `≥150 cm`) and smooth whole-scene camera targets
-(`2.4×`, `1.95×`, `0.95×`) with responsive fit limits. Small and medium
-targets receive an additional mobile multiplier. Artwork, 180 cm figure,
-floor, wall depth, and hanging geometry always zoom together; neighbouring
-works keep their true relative size. Temporary lower-left controls add a
-bounded 70–130% offset around the focused work's fitted camera baseline.
+(`≤65 cm`, `66–149 cm`, `≥150 cm`) and an immersive close-view camera. Each
+focused work fills a responsive viewing frame, capped at `6×`, `3.8×`, or
+`2.2×` by category. Artwork, 180 cm figure, floor, wall depth, and hanging
+geometry always zoom together; neighbouring works keep their true relative
+size. The human reference is compositionally retained at the right edge in
+every close view.
