@@ -2,8 +2,9 @@
 
 A deliberately minimal, responsive portfolio for Patrick Everaert. The main
 gallery displays 101 works at a consistent physical scale against a white
-museum wall, with a 175 cm human reference, keyboard controls, touch/swipe
-browsing, named collections, and a developer-facing artwork index.
+museum wall, with a 180 cm human reference, keyboard controls, continuous
+trackpad movement, touch/swipe browsing, named collections, and a
+developer-facing artwork index.
 
 ## Run locally
 
@@ -37,3 +38,5 @@ npm run build
 The gallery uses one stable scene scale per viewport. The 180 cm architectural
 figure stays fixed while artworks change size from their physical dimensions.
 Every artwork is hung with its vertical centre 150 cm above the floor line.
+Temporary lower-left controls adjust the whole scene from 70% to 130% while
+preserving every artwork, figure, hanging-height, and floor proportion.

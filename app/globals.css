@@ -96,6 +96,23 @@ a {
   overflow: hidden;
   touch-action: pan-y;
   user-select: none;
+  background: var(--paper);
+}
+
+.scene-world {
+  position: absolute;
+  z-index: 1;
+  inset: 0;
+  overflow: hidden;
+  transform: scale(var(--scene-zoom));
+  transform-origin: 50% var(--floor-y);
+  transition: transform 360ms cubic-bezier(0.22, 0.72, 0.16, 1);
+  will-change: transform;
+}
+
+.wall-depth {
+  position: absolute;
+  inset: 0;
   background:
     linear-gradient(
       to bottom,
@@ -238,47 +255,54 @@ a {
   position: absolute;
   z-index: 2;
   right: clamp(11%, 16vw, 20%);
-  bottom: calc(100% - var(--floor-y));
+  bottom: calc(100% - var(--floor-y) - 3px);
   width: auto;
-  aspect-ratio: 84 / 180;
-  color: rgba(23, 24, 23, 0.5);
+  aspect-ratio: 235 / 1071;
   pointer-events: none;
 }
 
-.human-scale svg {
+.human-scale img {
   display: block;
   width: 100%;
   height: 100%;
-  overflow: visible;
-  fill: none;
-  stroke: currentColor;
-  stroke-width: 0.8;
-  stroke-linecap: round;
-  stroke-linejoin: round;
-  vector-effect: non-scaling-stroke;
+  object-fit: fill;
 }
 
-.human-scale > span {
+.scene-zoom-controls {
   position: absolute;
-  left: 50%;
-  bottom: -14px;
-  transform: translateX(-50%);
-  white-space: nowrap;
-  font-size: 7px;
-  letter-spacing: 0.08em;
-}
-
-.interaction-hint {
-  position: absolute;
-  z-index: 4;
+  z-index: 9;
   left: clamp(22px, 4vw, 68px);
   bottom: 18px;
   display: flex;
-  gap: 10px;
-  color: rgba(23, 24, 23, 0.48);
-  font-size: 9px;
-  letter-spacing: 0.09em;
-  text-transform: uppercase;
+  align-items: center;
+  gap: 8px;
+  color: rgba(23, 24, 23, 0.64);
+}
+
+.scene-zoom-controls button {
+  display: grid;
+  place-items: center;
+  width: 28px;
+  height: 28px;
+  padding: 0;
+  border: 1px solid rgba(23, 24, 23, 0.22);
+  border-radius: 0;
+  background: rgba(253, 253, 251, 0.82);
+  cursor: pointer;
+  font-size: 17px;
+  font-weight: 300;
+}
+
+.scene-zoom-controls button:disabled {
+  cursor: default;
+  opacity: 0.28;
+}
+
+.scene-zoom-controls output {
+  min-width: 35px;
+  font-size: 8px;
+  letter-spacing: 0.07em;
+  text-align: center;
 }
 
 .contact-panel {

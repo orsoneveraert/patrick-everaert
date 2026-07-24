@@ -5,7 +5,9 @@ import { artworks, type Artwork } from "../lib/artworks";
 
 const HUMAN_HEIGHT_CM = 180;
 const HANGING_CENTRE_CM = 150;
-const SWIPE_THRESHOLD_PX = 46;
+const MIN_ZOOM = 0.7;
+const MAX_ZOOM = 1.3;
+const ZOOM_STEP = 0.05;
 
 function ScaleFigure({ height }: { height: number }) {
   return (
@@ -15,26 +17,12 @@ function ScaleFigure({ height }: { height: number }) {
       aria-label="Human scale reference, 180 centimetres"
       role="img"
     >
-      <svg
-        viewBox="0 0 84 180"
+      <img
+        src="/scale-person-180.webp"
+        alt=""
         aria-hidden="true"
-        focusable="false"
-        preserveAspectRatio="xMidYMax meet"
-      >
-        <circle cx="43" cy="15" r="8.5" />
-        <path d="M39.5 23.5v7l-9 5.5-5 29 6 43" />
-        <path d="M47 23.5v7l8.5 5.5 5.5 29-5 38" />
-        <path d="M31 36c2 19 3 38 4 57l-2 23" />
-        <path d="M55.5 36c-1 19-2 38-3.5 57l2 23" />
-        <path d="M35 92c1 10 2 18 1 27l-3 50" />
-        <path d="M52 92c-1 10-2 18-1 27l4 50" />
-        <path d="M36 118l9 1 6-1" />
-        <path d="M33 169h-9c-3 0-4 4-1 5h13" />
-        <path d="M55 169h8c3 0 5 4 1 5H52" />
-        <path d="M25.5 65l-3 36 7 7" />
-        <path d="M61 65l3 34-8 4" />
-      </svg>
-      <span>180 cm</span>
+        draggable={false}
+      />
     </div>
   );
 }
@@ -128,9 +116,14 @@ export default function MuseumGallery() {
   const [index, setIndex] = useState(0);
   const [viewport, setViewport] = useState({ width: 1200, height: 800 });
   const [contactOpen, setContactOpen] = useState(false);
-  const [dragOffset, setDragOffset] = useState(0);
-  const [isDragging, setIsDragging] = useState(false);
+  const [travelOffset, setTravelOffset] = useState(0);
+  const [isInteracting, setIsInteracting] = useState(false);
+  const [zoom, setZoom] = useState(1);
   const pointerStart = useRef<number | null>(null);
+  const pointerLast = useRef({ x: 0, time: 0, velocity: 0 });
+  const travelOffsetRef = useRef(0);
+  const wheelMomentum = useRef(0);
+  const wheelEndTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
 
   useEffect(() => {
     const update = () =>
@@ -138,6 +131,12 @@ export default function MuseumGallery() {
     update();
     window.addEventListener("resize", update);
     return () => window.removeEventListener("resize", update);
+  }, []);
+
+  useEffect(() => {
+    return () => {
+      if (wheelEndTimer.current) clearTimeout(wheelEndTimer.current);
+    };
   }, []);
 
   const move = (amount: number) => {
@@ -191,15 +190,46 @@ export default function MuseumGallery() {
     });
   }, [glimpse, index, sceneScale, viewport.width]);
 
-  const finishGesture = (clientX: number) => {
-    if (pointerStart.current === null) return;
-    const delta = clientX - pointerStart.current;
-    setIsDragging(false);
-    setDragOffset(0);
-    if (Math.abs(delta) >= SWIPE_THRESHOLD_PX) {
-      move(delta < 0 ? 1 : -1);
+  const previousTravel =
+    viewport.width / 2 - galleryWindow.find((item) => item.position === -1)!.centerX;
+  const nextTravel =
+    galleryWindow.find((item) => item.position === 1)!.centerX -
+    viewport.width / 2;
+
+  const updateTravel = (value: number) => {
+    travelOffsetRef.current = value;
+    setTravelOffset(value);
+  };
+
+  const resistedTravel = (rawValue: number) => {
+    const limit = rawValue < 0 ? nextTravel : previousTravel;
+    const direction = rawValue < 0 ? -1 : 1;
+    const magnitude = Math.abs(rawValue);
+    const resistanceStart = limit * 0.68;
+    const resisted =
+      magnitude <= resistanceStart
+        ? magnitude
+        : resistanceStart + (magnitude - resistanceStart) * 0.24;
+    return direction * Math.min(resisted, limit * 0.94);
+  };
+
+  const settleTrack = (momentum = 0) => {
+    const projected = resistedTravel(travelOffsetRef.current + momentum);
+    setIsInteracting(false);
+    updateTravel(0);
+    if (projected <= -nextTravel * 0.5) {
+      move(1);
+    } else if (projected >= previousTravel * 0.5) {
+      move(-1);
     }
     pointerStart.current = null;
+  };
+
+  const adjustZoom = (amount: number) => {
+    setZoom((current) => {
+      const next = Math.round((current + amount) * 100) / 100;
+      return Math.max(MIN_ZOOM, Math.min(MAX_ZOOM, next));
+    });
   };
 
   return (
@@ -221,47 +251,104 @@ export default function MuseumGallery() {
         id="gallery"
         className="gallery-stage"
         aria-label="Artwork gallery"
-        style={{ "--floor-y": `${floorY}px` } as React.CSSProperties}
+        style={
+          {
+            "--floor-y": `${floorY}px`,
+            "--scene-zoom": zoom,
+          } as React.CSSProperties
+        }
         onPointerDown={(event) => {
+          if ((event.target as HTMLElement).closest("button, a")) return;
           pointerStart.current = event.clientX;
-          setIsDragging(true);
+          pointerLast.current = {
+            x: event.clientX,
+            time: event.timeStamp,
+            velocity: 0,
+          };
+          setIsInteracting(true);
           event.currentTarget.setPointerCapture(event.pointerId);
         }}
         onPointerMove={(event) => {
           if (pointerStart.current === null) return;
-          const delta = event.clientX - pointerStart.current;
-          setDragOffset(
-            Math.max(-viewport.width * 0.42, Math.min(viewport.width * 0.42, delta)),
-          );
+          const delta = (event.clientX - pointerStart.current) / zoom;
+          const elapsed = Math.max(1, event.timeStamp - pointerLast.current.time);
+          pointerLast.current = {
+            x: event.clientX,
+            time: event.timeStamp,
+            velocity:
+              (event.clientX - pointerLast.current.x) / elapsed / zoom,
+          };
+          updateTravel(resistedTravel(delta));
         }}
-        onPointerUp={(event) => finishGesture(event.clientX)}
+        onPointerUp={() => settleTrack(pointerLast.current.velocity * 90)}
         onPointerCancel={() => {
           pointerStart.current = null;
-          setDragOffset(0);
-          setIsDragging(false);
+          setIsInteracting(false);
+          updateTravel(0);
+        }}
+        onWheel={(event) => {
+          const horizontalDelta =
+            Math.abs(event.deltaX) > 0
+              ? event.deltaX
+              : event.shiftKey
+                ? event.deltaY
+                : 0;
+          if (
+            horizontalDelta === 0 ||
+            (!event.shiftKey &&
+              Math.abs(event.deltaX) < Math.abs(event.deltaY) * 0.72)
+          ) {
+            return;
+          }
+          event.preventDefault();
+          const deltaModeFactor =
+            event.deltaMode === 1
+              ? 16
+              : event.deltaMode === 2
+                ? viewport.width
+                : 1;
+          const controlledDelta =
+            (-horizontalDelta * deltaModeFactor * 0.78) / zoom;
+          wheelMomentum.current = controlledDelta;
+          setIsInteracting(true);
+          updateTravel(
+            resistedTravel(travelOffsetRef.current + controlledDelta),
+          );
+          if (wheelEndTimer.current) clearTimeout(wheelEndTimer.current);
+          wheelEndTimer.current = setTimeout(() => {
+            settleTrack(wheelMomentum.current * 0.85);
+            wheelEndTimer.current = null;
+          }, 120);
         }}
       >
-        <div className="floor-plane" aria-hidden="true" />
+        <div className="scene-world">
+          <div className="wall-depth" aria-hidden="true" />
+          <div className="floor-plane" aria-hidden="true" />
 
-        <div className="gallery-track">
-          {galleryWindow.map(({ position, work, centerX }) => (
-            <GalleryArtwork
-              key={work.id}
-              work={work}
-              position={position}
-              centerX={centerX}
-              centerY={hangingCenterY}
-              sceneScale={sceneScale}
-              dragOffset={dragOffset}
-              isDragging={isDragging}
-            />
-          ))}
+          <div className="gallery-track">
+            {galleryWindow.map(({ position, work, centerX }) => (
+              <GalleryArtwork
+                key={work.id}
+                work={work}
+                position={position}
+                centerX={centerX}
+                centerY={hangingCenterY}
+                sceneScale={sceneScale}
+                dragOffset={travelOffset}
+                isDragging={isInteracting}
+              />
+            ))}
+          </div>
+
+          <ScaleFigure height={HUMAN_HEIGHT_CM * sceneScale} />
         </div>
 
         <button
           className="gallery-control gallery-control-left"
           type="button"
           aria-label="Previous artwork"
+          onPointerDown={(event) => event.stopPropagation()}
+          onPointerUp={(event) => event.stopPropagation()}
           onClick={() => move(-1)}
         >
           <span aria-hidden="true">←</span>
@@ -270,16 +357,36 @@ export default function MuseumGallery() {
           className="gallery-control gallery-control-right"
           type="button"
           aria-label="Next artwork"
+          onPointerDown={(event) => event.stopPropagation()}
+          onPointerUp={(event) => event.stopPropagation()}
           onClick={() => move(1)}
         >
           <span aria-hidden="true">→</span>
         </button>
 
-        <ScaleFigure height={HUMAN_HEIGHT_CM * sceneScale} />
-
-        <div className="interaction-hint" aria-hidden="true">
-          <span>← →</span>
-          <span>{isMobile ? "Swipe to walk" : "Arrow keys to walk"}</span>
+        <div
+          className="scene-zoom-controls"
+          aria-label="Temporary scene scale controls"
+          onPointerDown={(event) => event.stopPropagation()}
+          onPointerUp={(event) => event.stopPropagation()}
+        >
+          <button
+            type="button"
+            aria-label="Zoom scene out"
+            onClick={() => adjustZoom(-ZOOM_STEP)}
+            disabled={zoom <= MIN_ZOOM}
+          >
+            −
+          </button>
+          <output aria-live="polite">{Math.round(zoom * 100)}%</output>
+          <button
+            type="button"
+            aria-label="Zoom scene in"
+            onClick={() => adjustZoom(ZOOM_STEP)}
+            disabled={zoom >= MAX_ZOOM}
+          >
+            +
+          </button>
         </div>
       </section>
 
