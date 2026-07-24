@@ -35,8 +35,12 @@ npm run build
 - The `/manage` view exposes ordering, collection counts, dimensions, materials,
   and attribution links.
 
-The gallery uses one stable scene scale per viewport. The 180 cm architectural
-figure stays fixed while artworks change size from their physical dimensions.
-Every artwork is hung with its vertical centre 150 cm above the floor line.
-Temporary lower-left controls adjust the whole scene from 70% to 130% while
-preserving every artwork, figure, hanging-height, and floor proportion.
+Small and medium artworks are hung with their vertical centre 150 cm above the
+floor line. Large works use a separate museum datum: their lower frame edge is
+120 cm above the floor. Dataset-derived size bands use the longest physical edge
+(`≤65 cm`, `66–149 cm`, `≥150 cm`) and smooth whole-scene camera targets
+(`2.4×`, `1.95×`, `0.95×`) with responsive fit limits. Small and medium
+targets receive an additional mobile multiplier. Artwork, 180 cm figure,
+floor, wall depth, and hanging geometry always zoom together; neighbouring
+works keep their true relative size. Temporary lower-left controls add a
+bounded 70–130% offset around the focused work's fitted camera baseline.

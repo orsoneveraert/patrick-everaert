@@ -1,4 +1,12 @@
-import { artworks, collections, getCollectionWorks } from "../../lib/artworks";
+import {
+  artworks,
+  collections,
+  getCollectionWorks,
+  sizeCategoryConfig,
+  type ArtworkSizeCategory,
+} from "../../lib/artworks";
+
+const sizeCategories: ArtworkSizeCategory[] = ["small", "medium", "large"];
 
 export default function ManagePage() {
   return (
@@ -42,6 +50,46 @@ export default function ManagePage() {
         ))}
       </section>
 
+      <section className="size-band-section" aria-labelledby="size-band-title">
+        <div className="size-band-heading">
+          <div>
+            <p className="manage-kicker">Camera framing model</p>
+            <h2 id="size-band-title">Artwork size bands</h2>
+          </div>
+          <p>
+            Metric: longest physical edge. Thresholds and camera baselines are
+            editable in <code>lib/artworks.ts</code>.
+          </p>
+        </div>
+        <div className="size-band-cards">
+          {sizeCategories.map((category) => (
+            <article key={category}>
+              <span>
+                {
+                  artworks.filter((work) => work.sizeCategory === category)
+                    .length
+                }{" "}
+                works
+              </span>
+              <h3>{category}</h3>
+              <p>
+                {category === "small"
+                  ? `≤ ${sizeCategoryConfig.smallMaxCm} cm`
+                  : category === "large"
+                    ? `≥ ${sizeCategoryConfig.largeMinCm} cm`
+                    : `> ${sizeCategoryConfig.smallMaxCm} and < ${sizeCategoryConfig.largeMinCm} cm`}
+              </p>
+              <code>
+                camera target ×{sizeCategoryConfig.cameraBaseline[category]}
+                {sizeCategoryConfig.mobileCameraMultiplier[category] !== 1
+                  ? ` · mobile ×${sizeCategoryConfig.mobileCameraMultiplier[category]}`
+                  : ""}
+              </code>
+            </article>
+          ))}
+        </div>
+      </section>
+
       <section className="manage-table-wrap">
         <table>
           <thead>
@@ -51,6 +99,7 @@ export default function ManagePage() {
               <th>Work</th>
               <th>Year</th>
               <th>Dimensions</th>
+              <th>Size band</th>
               <th>Material</th>
               <th>Source</th>
             </tr>
@@ -65,6 +114,12 @@ export default function ManagePage() {
                 <td>{work.title}</td>
                 <td>{work.year}</td>
                 <td>{work.physical_dimensions}</td>
+                <td>
+                  <span className={`size-pill size-pill-${work.sizeCategory}`}>
+                    {work.sizeCategory}
+                  </span>
+                  <small>{work.maxDimensionCm} cm max</small>
+                </td>
                 <td>{work.material}</td>
                 <td>
                   <a href={work.source_url} target="_blank" rel="noreferrer">

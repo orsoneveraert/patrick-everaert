@@ -1,10 +1,15 @@
 "use client";
 
 import { useEffect, useMemo, useRef, useState } from "react";
-import { artworks, type Artwork } from "../lib/artworks";
+import {
+  artworks,
+  sizeCategoryConfig,
+  type Artwork,
+} from "../lib/artworks";
 
 const HUMAN_HEIGHT_CM = 180;
 const HANGING_CENTRE_CM = 150;
+const LARGE_BOTTOM_EDGE_CM = 120;
 const MIN_ZOOM = 0.7;
 const MAX_ZOOM = 1.3;
 const ZOOM_STEP = 0.05;
@@ -31,7 +36,7 @@ function GalleryArtwork({
   work,
   position,
   centerX,
-  centerY,
+  floorY,
   sceneScale,
   dragOffset,
   isDragging,
@@ -39,17 +44,23 @@ function GalleryArtwork({
   work: Artwork;
   position: -1 | 0 | 1;
   centerX: number;
-  centerY: number;
+  floorY: number;
   sceneScale: number;
   dragOffset: number;
   isDragging: boolean;
 }) {
   const width = work.width * sceneScale;
   const height = work.height * sceneScale;
+  const centerY =
+    work.sizeCategory === "large"
+      ? floorY - (LARGE_BOTTOM_EDGE_CM + work.height / 2) * sceneScale
+      : floorY - HANGING_CENTRE_CM * sceneScale;
   const top = centerY - height / 2;
   const isCurrent = position === 0;
   const floorClearance =
-    (HANGING_CENTRE_CM - work.height / 2) * sceneScale;
+    work.sizeCategory === "large"
+      ? LARGE_BOTTOM_EDGE_CM * sceneScale
+      : (HANGING_CENTRE_CM - work.height / 2) * sceneScale;
   const compactLegend = floorClearance < 58;
 
   return (
@@ -171,8 +182,31 @@ export default function MuseumGallery() {
   const stageHeight = viewport.height - headerHeight;
   const sceneScale = isMobile ? 1.08 : 1.48;
   const floorY = stageHeight * (isMobile ? 0.8 : 0.78);
-  const hangingCenterY = floorY - HANGING_CENTRE_CM * sceneScale;
   const glimpse = isMobile ? 34 : 64;
+  const focusedWork = artworks[index];
+  const focusedCategory = focusedWork.sizeCategory;
+  const mobileCameraMultiplier = isMobile
+    ? sizeCategoryConfig.mobileCameraMultiplier[focusedCategory]
+    : 1;
+  const categoryCameraTarget =
+    sizeCategoryConfig.cameraBaseline[focusedCategory] *
+    mobileCameraMultiplier;
+  const focusedTopDistanceCm =
+    focusedCategory === "large"
+      ? LARGE_BOTTOM_EDGE_CM + focusedWork.height
+      : HANGING_CENTRE_CM + focusedWork.height / 2;
+  const verticalFit =
+    (floorY - (isMobile ? 12 : 18)) /
+    (focusedTopDistanceCm * sceneScale);
+  const horizontalFit =
+    (viewport.width * (isMobile ? 0.88 : 0.8)) /
+    (focusedWork.width * sceneScale);
+  const categoryCameraBaseline = Math.min(
+    categoryCameraTarget,
+    verticalFit,
+    horizontalFit,
+  );
+  const cameraZoom = categoryCameraBaseline * zoom;
 
   const galleryWindow = useMemo(() => {
     return ([-1, 0, 1] as const).map((position) => {
@@ -184,11 +218,15 @@ export default function MuseumGallery() {
         position === 0
           ? viewport.width / 2
           : position < 0
-            ? glimpse - width / 2
-            : viewport.width - glimpse + width / 2;
+            ? viewport.width / 2 +
+              (glimpse - viewport.width / 2) / cameraZoom -
+              width / 2
+            : viewport.width / 2 +
+              (viewport.width - glimpse - viewport.width / 2) / cameraZoom +
+              width / 2;
       return { position, work, centerX };
     });
-  }, [glimpse, index, sceneScale, viewport.width]);
+  }, [cameraZoom, glimpse, index, sceneScale, viewport.width]);
 
   const previousTravel =
     viewport.width / 2 - galleryWindow.find((item) => item.position === -1)!.centerX;
@@ -254,7 +292,7 @@ export default function MuseumGallery() {
         style={
           {
             "--floor-y": `${floorY}px`,
-            "--scene-zoom": zoom,
+            "--scene-zoom": cameraZoom,
           } as React.CSSProperties
         }
         onPointerDown={(event) => {
@@ -270,13 +308,15 @@ export default function MuseumGallery() {
         }}
         onPointerMove={(event) => {
           if (pointerStart.current === null) return;
-          const delta = (event.clientX - pointerStart.current) / zoom;
+          const delta = (event.clientX - pointerStart.current) / cameraZoom;
           const elapsed = Math.max(1, event.timeStamp - pointerLast.current.time);
           pointerLast.current = {
             x: event.clientX,
             time: event.timeStamp,
             velocity:
-              (event.clientX - pointerLast.current.x) / elapsed / zoom,
+              (event.clientX - pointerLast.current.x) /
+              elapsed /
+              cameraZoom,
           };
           updateTravel(resistedTravel(delta));
         }}
@@ -308,7 +348,7 @@ export default function MuseumGallery() {
                 ? viewport.width
                 : 1;
           const controlledDelta =
-            (-horizontalDelta * deltaModeFactor * 0.78) / zoom;
+            (-horizontalDelta * deltaModeFactor * 0.78) / cameraZoom;
           wheelMomentum.current = controlledDelta;
           setIsInteracting(true);
           updateTravel(
@@ -332,7 +372,7 @@ export default function MuseumGallery() {
                 work={work}
                 position={position}
                 centerX={centerX}
-                centerY={hangingCenterY}
+                floorY={floorY}
                 sceneScale={sceneScale}
                 dragOffset={travelOffset}
                 isDragging={isInteracting}
@@ -341,6 +381,7 @@ export default function MuseumGallery() {
           </div>
 
           <ScaleFigure height={HUMAN_HEIGHT_CM * sceneScale} />
+          <div className="floor-line" aria-hidden="true" />
         </div>
 
         <button
@@ -378,7 +419,14 @@ export default function MuseumGallery() {
           >
             −
           </button>
-          <output aria-live="polite">{Math.round(zoom * 100)}%</output>
+          <output
+            aria-live="polite"
+            aria-label={`${focusedCategory} camera, ${Math.round(
+              zoom * 100,
+            )} percent debug offset`}
+          >
+            {Math.round(zoom * 100)}%
+          </output>
           <button
             type="button"
             aria-label="Zoom scene in"

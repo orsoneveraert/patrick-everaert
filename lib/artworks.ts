@@ -19,13 +19,47 @@ export type RawArtwork = {
 export type Artwork = RawArtwork & {
   id: string;
   sourceOrder: number;
+  maxDimensionCm: number;
+  sizeCategory: ArtworkSizeCategory;
 };
+
+export type ArtworkSizeCategory = "small" | "medium" | "large";
+
+// Dataset-derived bands using the longest physical edge:
+// 65 cm is approximately the 30th percentile; 150 cm is the 75th percentile.
+// Edit these values and baselines to tune the gallery camera globally.
+export const sizeCategoryConfig = {
+  metric: "maximum physical dimension",
+  smallMaxCm: 65,
+  largeMinCm: 150,
+  cameraBaseline: {
+    small: 2.4,
+    medium: 1.95,
+    large: 0.95,
+  },
+  mobileCameraMultiplier: {
+    small: 1.3,
+    medium: 1.25,
+    large: 1,
+  },
+} as const;
+
+export function classifyArtworkSize(
+  work: Pick<RawArtwork, "height" | "width">,
+): ArtworkSizeCategory {
+  const maximumDimension = Math.max(work.height, work.width);
+  if (maximumDimension <= sizeCategoryConfig.smallMaxCm) return "small";
+  if (maximumDimension >= sizeCategoryConfig.largeMinCm) return "large";
+  return "medium";
+}
 
 export const artworks: Artwork[] = (rawArtworks as RawArtwork[]).map(
   (work, index) => ({
     ...work,
     id: `pe-${String(index + 1).padStart(3, "0")}`,
     sourceOrder: index + 1,
+    maxDimensionCm: Math.max(work.height, work.width),
+    sizeCategory: classifyArtworkSize(work),
   }),
 );
 

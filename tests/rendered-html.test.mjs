@@ -69,4 +69,10 @@ test("server-renders the management index", async () => {
   assert.match(html, /101/);
   assert.match(html, /Chronological/);
   assert.match(html, /Photographic works/);
+  assert.match(html, /Artwork size bands/);
+  assert.match(html, /32[\s\S]{0,40}works/);
+  assert.match(html, /43[\s\S]{0,40}works/);
+  assert.match(html, /26[\s\S]{0,40}works/);
+  assert.match(html, /camera target ×[\s\S]{0,20}2\.4/);
+  assert.match(html, /camera target ×[\s\S]{0,20}0\.95/);
 });
