@@ -35,7 +35,7 @@ test("server-renders the virtual museum", async () => {
   assert.match(html, /Previous artwork/);
   assert.match(html, /Next artwork/);
   assert.match(html, /Human scale reference, 180 centimetres/);
-  assert.match(html, /scale-person-180\.svg/);
+  assert.match(html, /scale-person-180-v2\.png/);
   assert.doesNotMatch(html, /scale-person-180\.webp/);
   assert.doesNotMatch(html, />180 cm</);
   assert.doesNotMatch(html, /Curatorial sequence|collection-select/);
@@ -77,7 +77,7 @@ test("server-renders the management index", async () => {
   assert.match(html, /camera max ×[\s\S]{0,20}2\.2/);
 });
 
-test("uses local original artwork files and a true vector scale figure", async () => {
+test("uses local original artwork files and the calibrated scale figure", async () => {
   const gallerySource = await readFile(
     new URL("../app/museum-gallery.tsx", import.meta.url),
     "utf8",
@@ -86,9 +86,8 @@ test("uses local original artwork files and a true vector scale figure", async (
     new URL("../lib/artworks.ts", import.meta.url),
     "utf8",
   );
-  const figureSvg = await readFile(
-    new URL("../public/scale-person-180.svg", import.meta.url),
-    "utf8",
+  const figurePng = await readFile(
+    new URL("../public/scale-person-180-v2.png", import.meta.url),
   );
 
   assert.match(gallerySource, /imageSrc=\{work\.localImageUrl\}/);
@@ -98,6 +97,6 @@ test("uses local original artwork files and a true vector scale figure", async (
     new URL("../public/artworks/pe-001.jpg", import.meta.url),
   );
   assert.ok(localArtworkFiles.byteLength > 100_000);
-  assert.match(figureSvg, /^<svg\b/);
-  assert.doesNotMatch(figureSvg, /<image\b|data:image\//);
+  assert.ok(figurePng.byteLength > 100_000);
+  assert.equal(figurePng.subarray(1, 4).toString("ascii"), "PNG");
 });

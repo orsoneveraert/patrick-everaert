@@ -20,7 +20,7 @@ function ScaleFigure({ height, left }: { height: number; left: number }) {
       role="img"
     >
       <img
-        src="/scale-person-180.svg"
+        src="/scale-person-180-v2.png"
         alt=""
         aria-hidden="true"
         draggable={false}
