@@ -642,8 +642,8 @@ a {
     right: 18px;
   }
 
-  .human-scale {
-    opacity: 0.72;
+  .person-camera {
+    display: none;
   }
 
   .interaction-hint {

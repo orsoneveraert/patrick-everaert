@@ -82,6 +82,10 @@ test("uses local original artwork files and the calibrated scale figure", async 
     new URL("../app/museum-gallery.tsx", import.meta.url),
     "utf8",
   );
+  const galleryStyles = await readFile(
+    new URL("../app/globals.css", import.meta.url),
+    "utf8",
+  );
   const artworkSource = await readFile(
     new URL("../lib/artworks.ts", import.meta.url),
     "utf8",
@@ -99,4 +103,8 @@ test("uses local original artwork files and the calibrated scale figure", async 
   assert.ok(localArtworkFiles.byteLength > 100_000);
   assert.ok(figurePng.byteLength > 100_000);
   assert.equal(figurePng.subarray(1, 4).toString("ascii"), "PNG");
+  assert.match(
+    galleryStyles,
+    /@media \(max-width: 680px\)[\s\S]*?\.person-camera\s*\{\s*display: none;/,
+  );
 });
