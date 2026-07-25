@@ -18,6 +18,7 @@ export type RawArtwork = {
 
 export type Artwork = RawArtwork & {
   id: string;
+  localImageUrl: string;
   sourceOrder: number;
   maxDimensionCm: number;
   sizeCategory: ArtworkSizeCategory;
@@ -58,6 +59,7 @@ export const artworks: Artwork[] = (rawArtworks as RawArtwork[]).map(
   (work, index) => ({
     ...work,
     id: `pe-${String(index + 1).padStart(3, "0")}`,
+    localImageUrl: `/artworks/pe-${String(index + 1).padStart(3, "0")}.jpg`,
     sourceOrder: index + 1,
     maxDimensionCm: Math.max(work.height, work.width),
     sizeCategory: classifyArtworkSize(work),

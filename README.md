@@ -45,7 +45,9 @@ geometry always zoom together; neighbouring works keep their true relative
 size. The human reference is compositionally retained at the right edge in
 every close view.
 
-Artwork images are requested from the source CDN as the original JPEG rather
-than its more compressed automatic WebP response. Loading remains bounded to
-the current work and its two nearest neighbours on each side. The 180 cm human
-reference is a true vector SVG so it stays crisp at the closest camera scales.
+Artwork images are served locally from `public/artworks` as the 101 downloaded
+original JPEG files. Their scraped CDN and source-page URLs remain preserved in
+the data for attribution and future refreshes. Only the focused work and the
+small rendered neighbour window are mounted, so the browser does not eagerly
+load the complete 58 MB collection. The 180 cm human reference is a true vector
+SVG so it stays crisp at the closest camera scales.

@@ -77,9 +77,13 @@ test("server-renders the management index", async () => {
   assert.match(html, /camera max ×[\s\S]{0,20}2\.2/);
 });
 
-test("uses bounded original artwork loading and a true vector scale figure", async () => {
+test("uses local original artwork files and a true vector scale figure", async () => {
   const gallerySource = await readFile(
     new URL("../app/museum-gallery.tsx", import.meta.url),
+    "utf8",
+  );
+  const artworkSource = await readFile(
+    new URL("../lib/artworks.ts", import.meta.url),
     "utf8",
   );
   const figureSvg = await readFile(
@@ -87,9 +91,13 @@ test("uses bounded original artwork loading and a true vector scale figure", asy
     "utf8",
   );
 
-  assert.match(gallerySource, /preloadOffsets = \[-2, -1, 0, 1, 2\]/);
-  assert.match(gallerySource, /format=original/);
-  assert.match(gallerySource, /Accept: "image\/jpeg"/);
+  assert.match(gallerySource, /imageSrc=\{work\.localImageUrl\}/);
+  assert.doesNotMatch(gallerySource, /fetch\(`\$\{work\.image_url\}/);
+  assert.match(artworkSource, /localImageUrl: `\/artworks\/pe-/);
+  const localArtworkFiles = await readFile(
+    new URL("../public/artworks/pe-001.jpg", import.meta.url),
+  );
+  assert.ok(localArtworkFiles.byteLength > 100_000);
   assert.match(figureSvg, /^<svg\b/);
   assert.doesNotMatch(figureSvg, /<image\b|data:image\//);
 });

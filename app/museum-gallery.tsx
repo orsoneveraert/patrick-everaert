@@ -101,11 +101,6 @@ export default function MuseumGallery() {
   const travelOffsetRef = useRef(0);
   const wheelMomentum = useRef(0);
   const wheelEndTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
-  const highQualityUrls = useRef(new Map<string, string>());
-  const highQualityPending = useRef(new Set<string>());
-  const desiredHighQualityIds = useRef(new Set<string>());
-  const galleryMounted = useRef(true);
-  const [, setQualityRevision] = useState(0);
 
   useEffect(() => {
     const update = () =>
@@ -135,73 +130,6 @@ export default function MuseumGallery() {
     };
     window.addEventListener("keydown", onKeyDown);
     return () => window.removeEventListener("keydown", onKeyDown);
-  }, []);
-
-  useEffect(() => {
-    const preloadOffsets = [-2, -1, 0, 1, 2];
-    const desiredWorks = preloadOffsets.map(
-      (offset) =>
-        artworks[(index + offset + artworks.length) % artworks.length],
-    );
-    const desiredIds = new Set(desiredWorks.map((work) => work.id));
-    desiredHighQualityIds.current = desiredIds;
-
-    for (const [id, objectUrl] of highQualityUrls.current) {
-      if (!desiredIds.has(id)) {
-        URL.revokeObjectURL(objectUrl);
-        highQualityUrls.current.delete(id);
-      }
-    }
-
-    desiredWorks.forEach((work) => {
-      if (
-        highQualityUrls.current.has(work.id) ||
-        highQualityPending.current.has(work.id)
-      ) {
-        return;
-      }
-
-      highQualityPending.current.add(work.id);
-      const separator = work.image_url.includes("?") ? "&" : "?";
-      fetch(`${work.image_url}${separator}format=original`, {
-        cache: "force-cache",
-        headers: { Accept: "image/jpeg" },
-        mode: "cors",
-      })
-        .then((response) => {
-          if (!response.ok) throw new Error("Original artwork image unavailable");
-          return response.blob();
-        })
-        .then((blob) => {
-          if (
-            !galleryMounted.current ||
-            !desiredHighQualityIds.current.has(work.id) ||
-            blob.type !== "image/jpeg"
-          ) {
-            return;
-          }
-          const objectUrl = URL.createObjectURL(blob);
-          highQualityUrls.current.set(work.id, objectUrl);
-          setQualityRevision((revision) => revision + 1);
-        })
-        .catch(() => {
-          // The original CDN URL remains the safe fallback.
-        })
-        .finally(() => {
-          highQualityPending.current.delete(work.id);
-        });
-    });
-  }, [index]);
-
-  useEffect(() => {
-    galleryMounted.current = true;
-    return () => {
-      galleryMounted.current = false;
-      highQualityUrls.current.forEach((objectUrl) =>
-        URL.revokeObjectURL(objectUrl),
-      );
-      highQualityUrls.current.clear();
-    };
   }, []);
 
   const isMobile = viewport.width < 680;
@@ -408,9 +336,7 @@ export default function MuseumGallery() {
                   sceneScale={sceneScale}
                   dragOffset={travelOffset}
                   isDragging={isInteracting}
-                  imageSrc={
-                    highQualityUrls.current.get(work.id) ?? work.image_url
-                  }
+                  imageSrc={work.localImageUrl}
                 />
               ))}
             </div>
