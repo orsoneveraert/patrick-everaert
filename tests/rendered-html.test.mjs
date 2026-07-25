@@ -111,4 +111,10 @@ test("uses local original artwork files and the calibrated scale figure", async 
     galleryStyles,
     /\.artwork-frame\s*\{[\s\S]*?background: transparent;[\s\S]*?border: 0;/,
   );
+  assert.match(gallerySource, /translate3d\(\$\{travelOffset\}px, 0, 0\)/);
+  assert.match(gallerySource, /requestAnimationFrame/);
+  assert.match(
+    galleryStyles,
+    /\.gallery-track\.is-dragging\s*\{\s*transition: none;/,
+  );
 });

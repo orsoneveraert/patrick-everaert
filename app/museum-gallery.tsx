@@ -8,6 +8,7 @@ import {
 } from "../lib/artworks";
 
 const HUMAN_HEIGHT_CM = 180;
+const HUMAN_ASPECT_RATIO = 361 / 1392;
 const HANGING_CENTRE_CM = 150;
 const LARGE_BOTTOM_EDGE_CM = 120;
 
@@ -35,8 +36,6 @@ function GalleryArtwork({
   centerX,
   floorY,
   sceneScale,
-  dragOffset,
-  isDragging,
   imageSrc,
 }: {
   work: Artwork;
@@ -44,8 +43,6 @@ function GalleryArtwork({
   centerX: number;
   floorY: number;
   sceneScale: number;
-  dragOffset: number;
-  isDragging: boolean;
   imageSrc: string;
 }) {
   const width = work.width * sceneScale;
@@ -62,12 +59,11 @@ function GalleryArtwork({
       className={[
         "artwork-slot",
         isCurrent ? "artwork-slot-current" : "artwork-slot-neighbour",
-        isDragging ? "is-dragging" : "",
       ]
         .filter(Boolean)
         .join(" ")}
       style={{
-        left: `${centerX + dragOffset}px`,
+        left: `${centerX}px`,
         top: `${top}px`,
         width: `${width}px`,
       }}
@@ -99,6 +95,8 @@ export default function MuseumGallery() {
   const pointerStart = useRef<number | null>(null);
   const pointerLast = useRef({ x: 0, time: 0, velocity: 0 });
   const travelOffsetRef = useRef(0);
+  const pendingTravelRef = useRef(0);
+  const travelFrameRef = useRef<number | null>(null);
   const wheelMomentum = useRef(0);
   const wheelEndTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
 
@@ -113,6 +111,9 @@ export default function MuseumGallery() {
   useEffect(() => {
     return () => {
       if (wheelEndTimer.current) clearTimeout(wheelEndTimer.current);
+      if (travelFrameRef.current !== null) {
+        cancelAnimationFrame(travelFrameRef.current);
+      }
     };
   }, []);
 
@@ -165,7 +166,7 @@ export default function MuseumGallery() {
   const cameraPanY =
     stageHeight * (isMobile ? 0.43 : 0.44) - focusedScreenCenterY;
   const personHeight = HUMAN_HEIGHT_CM * sceneScale;
-  const personWidth = personHeight * (235 / 1071);
+  const personWidth = personHeight * HUMAN_ASPECT_RATIO;
   const personScreenWidth = personWidth * cameraZoom;
   const desiredPersonScreenLeft =
     viewport.width - Math.max(isMobile ? 72 : 90, personScreenWidth * 0.72);
@@ -199,9 +200,24 @@ export default function MuseumGallery() {
     galleryWindow.find((item) => item.position === 1)!.centerX -
     viewport.width / 2;
 
-  const updateTravel = (value: number) => {
+  const updateTravel = (value: number, immediate = false) => {
     travelOffsetRef.current = value;
-    setTravelOffset(value);
+    pendingTravelRef.current = value;
+
+    if (immediate) {
+      if (travelFrameRef.current !== null) {
+        cancelAnimationFrame(travelFrameRef.current);
+        travelFrameRef.current = null;
+      }
+      setTravelOffset(value);
+      return;
+    }
+
+    if (travelFrameRef.current !== null) return;
+    travelFrameRef.current = requestAnimationFrame(() => {
+      setTravelOffset(pendingTravelRef.current);
+      travelFrameRef.current = null;
+    });
   };
 
   const resistedTravel = (rawValue: number) => {
@@ -219,7 +235,7 @@ export default function MuseumGallery() {
   const settleTrack = (momentum = 0) => {
     const projected = resistedTravel(travelOffsetRef.current + momentum);
     setIsInteracting(false);
-    updateTravel(0);
+    updateTravel(0, true);
     if (projected <= -nextTravel * 0.5) {
       move(1);
     } else if (projected >= previousTravel * 0.5) {
@@ -325,7 +341,15 @@ export default function MuseumGallery() {
             <div className="wall-depth" aria-hidden="true" />
             <div className="floor-plane" aria-hidden="true" />
 
-            <div className="gallery-track">
+            <div
+              className={[
+                "gallery-track",
+                isInteracting ? "is-dragging" : "",
+              ]
+                .filter(Boolean)
+                .join(" ")}
+              style={{ transform: `translate3d(${travelOffset}px, 0, 0)` }}
+            >
               {galleryWindow.map(({ position, work, centerX }) => (
                 <GalleryArtwork
                   key={work.id}
@@ -334,8 +358,6 @@ export default function MuseumGallery() {
                   centerX={centerX}
                   floorY={floorY}
                   sceneScale={sceneScale}
-                  dragOffset={travelOffset}
-                  isDragging={isInteracting}
                   imageSrc={work.localImageUrl}
                 />
               ))}
