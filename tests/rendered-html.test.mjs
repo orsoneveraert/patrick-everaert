@@ -107,4 +107,8 @@ test("uses local original artwork files and the calibrated scale figure", async 
     galleryStyles,
     /@media \(max-width: 680px\)[\s\S]*?\.person-camera\s*\{\s*display: none;/,
   );
+  assert.match(
+    galleryStyles,
+    /\.artwork-frame\s*\{[\s\S]*?background: transparent;[\s\S]*?border: 0;/,
+  );
 });
