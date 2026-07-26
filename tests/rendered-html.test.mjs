@@ -129,6 +129,17 @@ test("uses local original artwork files and the calibrated scale figure", async 
     /\.scene-camera\s*\{[\s\S]*?translateY\(var\(--scene-pan-y\)\) scale\(var\(--scene-zoom\)\)/,
   );
   assert.match(gallerySource, /--screen-floor-y/);
+  assert.match(gallerySource, /suppressArtworkOpenRef/);
+  assert.match(gallerySource, /setFullscreenWork\(work\)/);
+  assert.match(gallerySource, /Close full screen artwork/);
+  assert.match(
+    galleryStyles,
+    /\.artwork-lightbox\s*\{[^}]*position:\s*fixed;[^}]*inset:\s*0;/,
+  );
+  assert.match(
+    galleryStyles,
+    /\.artwork-lightbox-image\s*\{[^}]*max-width:\s*100%;[^}]*max-height:/,
+  );
   assert.match(
     galleryStyles,
     /\.scene-environment\s*\{[^}]*inset:\s*0;[^}]*overflow:\s*hidden;/,

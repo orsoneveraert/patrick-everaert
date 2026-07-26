@@ -53,6 +53,7 @@ function GalleryArtwork({
   floorY,
   sceneScale,
   imageSrc,
+  onOpen,
 }: {
   work: Artwork;
   position: -1 | 0 | 1;
@@ -60,6 +61,7 @@ function GalleryArtwork({
   floorY: number;
   sceneScale: number;
   imageSrc: string;
+  onOpen: (work: Artwork) => void;
 }) {
   const width = work.width * sceneScale;
   const height = work.height * sceneScale;
@@ -88,6 +90,31 @@ function GalleryArtwork({
       <div
         className="artwork-frame"
         style={{ width: `${width}px`, height: `${height}px` }}
+        role={isCurrent ? "button" : undefined}
+        tabIndex={isCurrent ? 0 : -1}
+        aria-label={
+          isCurrent
+            ? `View ${work.title}, ${work.year} in full screen`
+            : undefined
+        }
+        onPointerUp={isCurrent ? () => onOpen(work) : undefined}
+        onClick={
+          isCurrent
+            ? (event) => {
+                if (event.detail === 0) onOpen(work);
+              }
+            : undefined
+        }
+        onKeyDown={
+          isCurrent
+            ? (event) => {
+                if (event.key === "Enter" || event.key === " ") {
+                  event.preventDefault();
+                  onOpen(work);
+                }
+              }
+            : undefined
+        }
       >
         <img
           src={imageSrc}
@@ -106,8 +133,10 @@ export default function MuseumGallery() {
   const [index, setIndex] = useState(0);
   const [viewport, setViewport] = useState({ width: 1200, height: 800 });
   const [contactOpen, setContactOpen] = useState(false);
+  const [fullscreenWork, setFullscreenWork] = useState<Artwork | null>(null);
   const trackRef = useRef<HTMLDivElement | null>(null);
   const trackPhaseRef = useRef<TrackPhase>("idle");
+  const suppressArtworkOpenRef = useRef(false);
   const pointerGesture = useRef({
     id: -1,
     axis: null as GestureAxis,
@@ -157,6 +186,10 @@ export default function MuseumGallery() {
 
   useEffect(() => {
     const onKeyDown = (event: KeyboardEvent) => {
+      if (fullscreenWork) {
+        if (event.key === "Escape") setFullscreenWork(null);
+        return;
+      }
       if (event.key === "ArrowRight") startSnapRef.current(1);
       if (event.key === "ArrowLeft") startSnapRef.current(-1);
       if (event.key === "Home" && trackPhaseRef.current === "idle") setIndex(0);
@@ -167,7 +200,7 @@ export default function MuseumGallery() {
     };
     window.addEventListener("keydown", onKeyDown);
     return () => window.removeEventListener("keydown", onKeyDown);
-  }, []);
+  }, [fullscreenWork]);
 
   const isMobile = viewport.width < 680;
   const headerHeight = isMobile ? 70 : 86;
@@ -361,6 +394,14 @@ export default function MuseumGallery() {
     startSnap(direction);
   };
 
+  const openArtwork = (work: Artwork) => {
+    if (suppressArtworkOpenRef.current) {
+      suppressArtworkOpenRef.current = false;
+      return;
+    }
+    if (trackPhaseRef.current === "idle") setFullscreenWork(work);
+  };
+
   return (
     <main className="museum-shell">
       <header className="site-header">
@@ -394,17 +435,17 @@ export default function MuseumGallery() {
 
           pointerGesture.current = {
             id: event.pointerId,
-            axis: event.pointerType === "mouse" ? "x" : null,
+            axis: null,
             startX: event.clientX,
             startY: event.clientY,
             lastX: event.clientX,
             lastTime: event.timeStamp,
             velocity: 0,
           };
+          suppressArtworkOpenRef.current = false;
           wheelMomentum.current = 0;
 
           if (event.pointerType === "mouse") {
-            setTrackPhase("dragging");
             event.currentTarget.setPointerCapture(event.pointerId);
           }
         }}
@@ -424,6 +465,7 @@ export default function MuseumGallery() {
               return;
             }
             gesture.axis = "x";
+            suppressArtworkOpenRef.current = true;
             setTrackPhase("dragging");
             event.currentTarget.setPointerCapture(event.pointerId);
           }
@@ -559,6 +601,7 @@ export default function MuseumGallery() {
                   floorY={floorY}
                   sceneScale={sceneScale}
                   imageSrc={work.localImageUrl}
+                  onOpen={openArtwork}
                 />
               ))}
             </div>
@@ -629,6 +672,35 @@ export default function MuseumGallery() {
             This space is prepared for representation, press and studio contact
             information.
           </p>
+        </div>
+      )}
+
+      {fullscreenWork && (
+        <div
+          className="artwork-lightbox"
+          role="dialog"
+          aria-modal="true"
+          aria-label={`${fullscreenWork.title}, ${fullscreenWork.year}, full screen view`}
+          onClick={() => setFullscreenWork(null)}
+        >
+          <button
+            className="artwork-lightbox-close"
+            type="button"
+            onClick={() => setFullscreenWork(null)}
+            aria-label="Close full screen artwork"
+            autoFocus
+          >
+            ×
+          </button>
+          <img
+            className="artwork-lightbox-image"
+            src={fullscreenWork.localImageUrl}
+            alt={`${fullscreenWork.title}, ${fullscreenWork.year}`}
+            draggable={false}
+            decoding="async"
+            fetchPriority="high"
+            onClick={(event) => event.stopPropagation()}
+          />
         </div>
       )}
     </main>
