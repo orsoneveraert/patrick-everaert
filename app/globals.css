@@ -103,43 +103,24 @@ a {
 .scene-camera {
   position: absolute;
   z-index: 1;
-  top: var(--scene-pan-y);
-  right: 0;
-  left: 0;
+  inset: 0;
   height: 100%;
-  transition: top 720ms cubic-bezier(0.22, 0.72, 0.16, 1);
-  will-change: top;
+  transform: translateY(var(--scene-pan-y)) scale(var(--scene-zoom));
+  transform-origin: 50% var(--floor-y);
+  transition: transform 720ms cubic-bezier(0.22, 0.72, 0.16, 1);
 }
 
 .scene-world {
   position: absolute;
   inset: 0;
   overflow: clip;
-  transform: scale(var(--scene-zoom));
-  transform-origin: 50% var(--floor-y);
-  transition: transform 720ms cubic-bezier(0.22, 0.72, 0.16, 1);
-  will-change: transform;
 }
 
 .person-camera {
   position: absolute;
   z-index: 7;
-  top: var(--scene-pan-y);
-  right: 0;
-  left: 0;
-  height: 100%;
-  pointer-events: none;
-  transition: top 720ms cubic-bezier(0.22, 0.72, 0.16, 1);
-  will-change: top;
-}
-
-.person-world {
-  position: absolute;
   inset: 0;
-  transform: scale(var(--scene-zoom));
-  transform-origin: 50% var(--floor-y);
-  transition: transform 720ms cubic-bezier(0.22, 0.72, 0.16, 1);
-  will-change: transform;
+  pointer-events: none;
 }
 
 .wall-depth {
@@ -188,18 +169,23 @@ a {
   pointer-events: none;
   transform: translate3d(var(--track-x, 0px), 0, 0);
   transition: none;
-  will-change: transform;
   backface-visibility: hidden;
   contain: layout paint;
 }
 
+.gallery-track[data-motion="idle"] {
+  transform: none;
+}
+
 .gallery-track[data-motion="snapping"] {
   transition: transform 540ms cubic-bezier(0.22, 0.72, 0.16, 1);
+  will-change: transform;
 }
 
 .gallery-track[data-motion="dragging"],
 .gallery-track[data-motion="rebasing"] {
   transition: none;
+  will-change: transform;
 }
 
 .artwork-slot {
@@ -209,7 +195,6 @@ a {
   align-items: center;
   transform: translateX(-50%);
   transition: opacity 320ms ease;
-  backface-visibility: hidden;
 }
 
 .artwork-slot-neighbour {
@@ -239,9 +224,6 @@ a {
   height: 100%;
   object-fit: contain;
   pointer-events: none;
-  transform: translateZ(0);
-  backface-visibility: hidden;
-  contain: paint;
 }
 
 .gallery-control {
@@ -279,7 +261,6 @@ a {
 .human-scale {
   position: absolute;
   z-index: 7;
-  bottom: calc(100% - var(--floor-y));
   width: auto;
   aspect-ratio: 364 / 1395;
   /* The highest shoe vector begins at 91.18% of the tight viewBox.
@@ -287,6 +268,10 @@ a {
      calibrated 180 cm head-to-toe height. */
   transform: translateY(9.35%);
   pointer-events: none;
+  transition:
+    left 720ms cubic-bezier(0.22, 0.72, 0.16, 1),
+    bottom 720ms cubic-bezier(0.22, 0.72, 0.16, 1),
+    height 720ms cubic-bezier(0.22, 0.72, 0.16, 1);
 }
 
 .human-scale img {

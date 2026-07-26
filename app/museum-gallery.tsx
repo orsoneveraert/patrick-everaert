@@ -16,11 +16,23 @@ const LARGE_BOTTOM_EDGE_CM = 120;
 type TrackPhase = "idle" | "dragging" | "snapping" | "rebasing";
 type GestureAxis = "x" | "y" | null;
 
-function ScaleFigure({ height, left }: { height: number; left: number }) {
+function ScaleFigure({
+  height,
+  left,
+  bottom,
+}: {
+  height: number;
+  left: number;
+  bottom: number;
+}) {
   return (
     <div
       className="human-scale"
-      style={{ height: `${height}px`, left: `${left}px` }}
+      style={{
+        height: `${height}px`,
+        left: `${left}px`,
+        bottom: `${bottom}px`,
+      }}
       aria-label="Human scale reference, 180 centimetres"
       role="img"
     >
@@ -193,12 +205,11 @@ export default function MuseumGallery() {
     stageHeight * (isMobile ? 0.43 : 0.44) - focusedScreenCenterY;
   const personHeight = HUMAN_HEIGHT_CM * sceneScale;
   const personWidth = personHeight * HUMAN_ASPECT_RATIO;
+  const personScreenHeight = personHeight * cameraZoom;
   const personScreenWidth = personWidth * cameraZoom;
   const desiredPersonScreenLeft =
     viewport.width - Math.max(isMobile ? 72 : 90, personScreenWidth * 0.72);
-  const personLeft =
-    viewport.width / 2 +
-    (desiredPersonScreenLeft - viewport.width / 2) / cameraZoom;
+  const screenFloorY = floorY + cameraPanY;
 
   const galleryWindow = useMemo(() => {
     return ([-1, 0, 1] as const).map((position) => {
@@ -553,9 +564,11 @@ export default function MuseumGallery() {
         </div>
 
         <div className="person-camera">
-          <div className="person-world">
-            <ScaleFigure height={personHeight} left={personLeft} />
-          </div>
+          <ScaleFigure
+            height={personScreenHeight}
+            left={desiredPersonScreenLeft}
+            bottom={stageHeight - screenFloorY}
+          />
         </div>
 
         <button

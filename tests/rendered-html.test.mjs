@@ -124,5 +124,14 @@ test("uses local original artwork files and the calibrated scale figure", async 
     galleryStyles,
     /\.gallery-track\[data-motion="snapping"\]\s*\{[\s\S]*?transition: transform/,
   );
-  assert.doesNotMatch(galleryStyles, /transition:\s*left/);
+  assert.match(
+    galleryStyles,
+    /\.scene-camera\s*\{[\s\S]*?translateY\(var\(--scene-pan-y\)\) scale\(var\(--scene-zoom\)\)/,
+  );
+  assert.doesNotMatch(galleryStyles, /\.artwork-frame img\s*\{[^}]*translateZ/);
+  assert.doesNotMatch(gallerySource, /person-world/);
+  assert.doesNotMatch(
+    galleryStyles,
+    /\.artwork-slot\s*\{[^}]*transition:\s*left/,
+  );
 });
