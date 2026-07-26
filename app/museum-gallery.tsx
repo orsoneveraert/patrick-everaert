@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useMemo, useRef, useState } from "react";
+import { flushSync } from "react-dom";
 import {
   artworks,
   sizeCategoryConfig,
@@ -8,9 +9,12 @@ import {
 } from "../lib/artworks";
 
 const HUMAN_HEIGHT_CM = 180;
-const HUMAN_ASPECT_RATIO = 361 / 1392;
+const HUMAN_ASPECT_RATIO = 364 / 1395;
 const HANGING_CENTRE_CM = 150;
 const LARGE_BOTTOM_EDGE_CM = 120;
+
+type TrackPhase = "idle" | "dragging" | "snapping" | "rebasing";
+type GestureAxis = "x" | "y" | null;
 
 function ScaleFigure({ height, left }: { height: number; left: number }) {
   return (
@@ -21,7 +25,7 @@ function ScaleFigure({ height, left }: { height: number; left: number }) {
       role="img"
     >
       <img
-        src="/scale-person-180-v2.png"
+        src="/scale-person-180-v3.svg"
         alt=""
         aria-hidden="true"
         draggable={false}
@@ -90,15 +94,30 @@ export default function MuseumGallery() {
   const [index, setIndex] = useState(0);
   const [viewport, setViewport] = useState({ width: 1200, height: 800 });
   const [contactOpen, setContactOpen] = useState(false);
-  const [travelOffset, setTravelOffset] = useState(0);
-  const [isInteracting, setIsInteracting] = useState(false);
-  const pointerStart = useRef<number | null>(null);
-  const pointerLast = useRef({ x: 0, time: 0, velocity: 0 });
+  const trackRef = useRef<HTMLDivElement | null>(null);
+  const trackPhaseRef = useRef<TrackPhase>("idle");
+  const pointerGesture = useRef({
+    id: -1,
+    axis: null as GestureAxis,
+    startX: 0,
+    startY: 0,
+    lastX: 0,
+    lastTime: 0,
+    velocity: 0,
+  });
   const travelOffsetRef = useRef(0);
   const pendingTravelRef = useRef(0);
   const travelFrameRef = useRef<number | null>(null);
   const wheelMomentum = useRef(0);
+  const wheelAxisRef = useRef<GestureAxis>(null);
+  const pendingDirectionRef = useRef<-1 | 0 | 1>(0);
+  const navigationDistanceRef = useRef({ previous: 0, next: 0 });
+  const motionScaleRef = useRef(1);
   const wheelEndTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
+  const snapTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
+  const snapFrameRef = useRef<number | null>(null);
+  const rebaseFrameRef = useRef<number | null>(null);
+  const startSnapRef = useRef<(direction: -1 | 0 | 1) => void>(() => {});
 
   useEffect(() => {
     const update = () =>
@@ -111,22 +130,27 @@ export default function MuseumGallery() {
   useEffect(() => {
     return () => {
       if (wheelEndTimer.current) clearTimeout(wheelEndTimer.current);
+      if (snapTimerRef.current) clearTimeout(snapTimerRef.current);
       if (travelFrameRef.current !== null) {
         cancelAnimationFrame(travelFrameRef.current);
+      }
+      if (snapFrameRef.current !== null) {
+        cancelAnimationFrame(snapFrameRef.current);
+      }
+      if (rebaseFrameRef.current !== null) {
+        cancelAnimationFrame(rebaseFrameRef.current);
       }
     };
   }, []);
 
-  const move = (amount: number) => {
-    setIndex((current) => (current + amount + artworks.length) % artworks.length);
-  };
-
   useEffect(() => {
     const onKeyDown = (event: KeyboardEvent) => {
-      if (event.key === "ArrowRight") move(1);
-      if (event.key === "ArrowLeft") move(-1);
-      if (event.key === "Home") setIndex(0);
-      if (event.key === "End") setIndex(artworks.length - 1);
+      if (event.key === "ArrowRight") startSnapRef.current(1);
+      if (event.key === "ArrowLeft") startSnapRef.current(-1);
+      if (event.key === "Home" && trackPhaseRef.current === "idle") setIndex(0);
+      if (event.key === "End" && trackPhaseRef.current === "idle") {
+        setIndex(artworks.length - 1);
+      }
       if (event.key === "Escape") setContactOpen(false);
     };
     window.addEventListener("keydown", onKeyDown);
@@ -156,6 +180,8 @@ export default function MuseumGallery() {
     framingHeight / (focusedWork.height * sceneScale),
     sizeCategoryConfig.cameraMaxZoom[focusedCategory],
   );
+  motionScaleRef.current =
+    cameraZoom * (typeof window === "undefined" ? 1 : window.devicePixelRatio);
   const focusedCenterY =
     focusedCategory === "large"
       ? floorY -
@@ -199,25 +225,43 @@ export default function MuseumGallery() {
   const nextTravel =
     galleryWindow.find((item) => item.position === 1)!.centerX -
     viewport.width / 2;
+  navigationDistanceRef.current = {
+    previous: previousTravel,
+    next: nextTravel,
+  };
 
   const updateTravel = (value: number, immediate = false) => {
-    travelOffsetRef.current = value;
-    pendingTravelRef.current = value;
+    const pixelScale = Math.max(1, motionScaleRef.current);
+    const stableValue = Math.round(value * pixelScale) / pixelScale;
+    travelOffsetRef.current = stableValue;
+    pendingTravelRef.current = stableValue;
+
+    const renderTravel = () => {
+      trackRef.current?.style.setProperty(
+        "--track-x",
+        `${pendingTravelRef.current}px`,
+      );
+    };
 
     if (immediate) {
       if (travelFrameRef.current !== null) {
         cancelAnimationFrame(travelFrameRef.current);
         travelFrameRef.current = null;
       }
-      setTravelOffset(value);
+      renderTravel();
       return;
     }
 
     if (travelFrameRef.current !== null) return;
     travelFrameRef.current = requestAnimationFrame(() => {
-      setTravelOffset(pendingTravelRef.current);
+      renderTravel();
       travelFrameRef.current = null;
     });
+  };
+
+  const setTrackPhase = (phase: TrackPhase) => {
+    trackPhaseRef.current = phase;
+    if (trackRef.current) trackRef.current.dataset.motion = phase;
   };
 
   const resistedTravel = (rawValue: number) => {
@@ -232,16 +276,78 @@ export default function MuseumGallery() {
     return direction * Math.min(resisted, limit * 0.94);
   };
 
+  const completeSnap = () => {
+    if (trackPhaseRef.current !== "snapping") return;
+    if (snapTimerRef.current) {
+      clearTimeout(snapTimerRef.current);
+      snapTimerRef.current = null;
+    }
+
+    const direction = pendingDirectionRef.current;
+    pendingDirectionRef.current = 0;
+    setTrackPhase("rebasing");
+
+    if (direction !== 0) {
+      flushSync(() => {
+        setIndex(
+          (current) =>
+            (current + direction + artworks.length) % artworks.length,
+        );
+      });
+    }
+    updateTravel(0, true);
+
+    rebaseFrameRef.current = requestAnimationFrame(() => {
+      rebaseFrameRef.current = requestAnimationFrame(() => {
+        setTrackPhase("idle");
+        rebaseFrameRef.current = null;
+      });
+    });
+  };
+
+  const startSnap = (direction: -1 | 0 | 1) => {
+    if (
+      trackPhaseRef.current === "snapping" ||
+      trackPhaseRef.current === "rebasing"
+    ) {
+      return;
+    }
+
+    if (travelFrameRef.current !== null) {
+      cancelAnimationFrame(travelFrameRef.current);
+      travelFrameRef.current = null;
+      updateTravel(pendingTravelRef.current, true);
+    }
+
+    pendingDirectionRef.current = direction;
+    setTrackPhase("snapping");
+    const distances = navigationDistanceRef.current;
+    const target =
+      direction === 1
+        ? -distances.next
+        : direction === -1
+          ? distances.previous
+          : 0;
+
+    snapFrameRef.current = requestAnimationFrame(() => {
+      updateTravel(target, true);
+      snapFrameRef.current = null;
+      snapTimerRef.current = setTimeout(completeSnap, 620);
+    });
+  };
+  startSnapRef.current = startSnap;
+
   const settleTrack = (momentum = 0) => {
     const projected = resistedTravel(travelOffsetRef.current + momentum);
-    setIsInteracting(false);
-    updateTravel(0, true);
+    let direction: -1 | 0 | 1 = 0;
     if (projected <= -nextTravel * 0.5) {
-      move(1);
+      direction = 1;
     } else if (projected >= previousTravel * 0.5) {
-      move(-1);
+      direction = -1;
     }
-    pointerStart.current = null;
+    pointerGesture.current.axis = null;
+    pointerGesture.current.id = -1;
+    startSnap(direction);
   };
 
   return (
@@ -272,68 +378,143 @@ export default function MuseumGallery() {
         }
         onPointerDown={(event) => {
           if ((event.target as HTMLElement).closest("button, a")) return;
-          pointerStart.current = event.clientX;
-          pointerLast.current = {
-            x: event.clientX,
-            time: event.timeStamp,
+          if (trackPhaseRef.current !== "idle") return;
+
+          pointerGesture.current = {
+            id: event.pointerId,
+            axis: event.pointerType === "mouse" ? "x" : null,
+            startX: event.clientX,
+            startY: event.clientY,
+            lastX: event.clientX,
+            lastTime: event.timeStamp,
             velocity: 0,
           };
-          setIsInteracting(true);
-          event.currentTarget.setPointerCapture(event.pointerId);
+          wheelMomentum.current = 0;
+
+          if (event.pointerType === "mouse") {
+            setTrackPhase("dragging");
+            event.currentTarget.setPointerCapture(event.pointerId);
+          }
         }}
         onPointerMove={(event) => {
-          if (pointerStart.current === null) return;
-          const delta = (event.clientX - pointerStart.current) / cameraZoom;
-          const elapsed = Math.max(1, event.timeStamp - pointerLast.current.time);
-          pointerLast.current = {
-            x: event.clientX,
-            time: event.timeStamp,
-            velocity:
-              (event.clientX - pointerLast.current.x) /
-              elapsed /
-              cameraZoom,
-          };
+          const gesture = pointerGesture.current;
+          if (gesture.id !== event.pointerId) return;
+
+          const screenDeltaX = event.clientX - gesture.startX;
+          const screenDeltaY = event.clientY - gesture.startY;
+
+          if (gesture.axis === null) {
+            if (Math.max(Math.abs(screenDeltaX), Math.abs(screenDeltaY)) < 6) {
+              return;
+            }
+            if (Math.abs(screenDeltaY) > Math.abs(screenDeltaX) * 1.1) {
+              gesture.axis = "y";
+              return;
+            }
+            gesture.axis = "x";
+            setTrackPhase("dragging");
+            event.currentTarget.setPointerCapture(event.pointerId);
+          }
+
+          if (gesture.axis !== "x") return;
+          event.preventDefault();
+          const elapsed = Math.max(1, event.timeStamp - gesture.lastTime);
+          gesture.velocity =
+            (event.clientX - gesture.lastX) / elapsed / cameraZoom;
+          gesture.lastX = event.clientX;
+          gesture.lastTime = event.timeStamp;
+          const delta = screenDeltaX / cameraZoom;
           updateTravel(resistedTravel(delta));
         }}
-        onPointerUp={() => settleTrack(pointerLast.current.velocity * 90)}
-        onPointerCancel={() => {
-          pointerStart.current = null;
-          setIsInteracting(false);
-          updateTravel(0);
+        onPointerUp={(event) => {
+          const gesture = pointerGesture.current;
+          if (gesture.id !== event.pointerId) return;
+          if (gesture.axis === "x") {
+            settleTrack(gesture.velocity * 90);
+          } else {
+            gesture.id = -1;
+            gesture.axis = null;
+            setTrackPhase("idle");
+          }
+        }}
+        onPointerCancel={(event) => {
+          if (pointerGesture.current.id !== event.pointerId) return;
+          pointerGesture.current.id = -1;
+          pointerGesture.current.axis = null;
+          if (trackPhaseRef.current === "dragging") startSnap(0);
         }}
         onWheel={(event) => {
-          const horizontalDelta =
-            Math.abs(event.deltaX) > 0
-              ? event.deltaX
-              : event.shiftKey
-                ? event.deltaY
-                : 0;
           if (
-            horizontalDelta === 0 ||
-            (!event.shiftKey &&
-              Math.abs(event.deltaX) < Math.abs(event.deltaY) * 0.72)
+            trackPhaseRef.current === "snapping" ||
+            trackPhaseRef.current === "rebasing"
           ) {
             return;
           }
-          event.preventDefault();
+
           const deltaModeFactor =
             event.deltaMode === 1
               ? 16
               : event.deltaMode === 2
                 ? viewport.width
                 : 1;
-          const controlledDelta =
-            (-horizontalDelta * deltaModeFactor * 0.78) / cameraZoom;
-          wheelMomentum.current = controlledDelta;
-          setIsInteracting(true);
+          const deltaX = event.deltaX * deltaModeFactor;
+          const deltaY = event.deltaY * deltaModeFactor;
+
+          if (wheelAxisRef.current === null) {
+            const horizontalIntent =
+              event.shiftKey ||
+              (Math.abs(deltaX) > 0.35 &&
+                Math.abs(deltaX) >= Math.abs(deltaY) * 1.05);
+            wheelAxisRef.current = horizontalIntent ? "x" : "y";
+          }
+
+          if (wheelEndTimer.current) clearTimeout(wheelEndTimer.current);
+          if (wheelAxisRef.current === "y") {
+            wheelEndTimer.current = setTimeout(() => {
+              wheelAxisRef.current = null;
+              wheelEndTimer.current = null;
+            }, 180);
+            return;
+          }
+
+          const horizontalDelta = event.shiftKey ? deltaY || deltaX : deltaX;
+          if (Math.abs(horizontalDelta) < 0.15) return;
+          event.preventDefault();
+
+          if (trackPhaseRef.current === "idle") setTrackPhase("dragging");
+          const rawControlledDelta =
+            (-horizontalDelta * 0.78) / cameraZoom;
+          const controlledDelta = Math.max(
+            -42,
+            Math.min(42, rawControlledDelta),
+          );
+
+          const previousMomentum = wheelMomentum.current;
+          if (
+            previousMomentum !== 0 &&
+            Math.sign(controlledDelta) !== Math.sign(previousMomentum) &&
+            Math.abs(controlledDelta) < 1.2
+          ) {
+            wheelEndTimer.current = setTimeout(() => {
+              wheelAxisRef.current = null;
+              settleTrack(wheelMomentum.current * 0.65);
+              wheelMomentum.current = 0;
+              wheelEndTimer.current = null;
+            }, 220);
+            return;
+          }
+
+          wheelMomentum.current =
+            previousMomentum * 0.64 + controlledDelta * 0.36;
           updateTravel(
             resistedTravel(travelOffsetRef.current + controlledDelta),
           );
-          if (wheelEndTimer.current) clearTimeout(wheelEndTimer.current);
           wheelEndTimer.current = setTimeout(() => {
-            settleTrack(wheelMomentum.current * 0.85);
+            wheelAxisRef.current = null;
+            settleTrack(wheelMomentum.current * 0.65);
+            wheelMomentum.current = 0;
             wheelEndTimer.current = null;
-          }, 120);
+          }, 220);
         }}
       >
         <div className="scene-camera">
@@ -342,13 +523,17 @@ export default function MuseumGallery() {
             <div className="floor-plane" aria-hidden="true" />
 
             <div
-              className={[
-                "gallery-track",
-                isInteracting ? "is-dragging" : "",
-              ]
-                .filter(Boolean)
-                .join(" ")}
-              style={{ transform: `translate3d(${travelOffset}px, 0, 0)` }}
+              ref={trackRef}
+              className="gallery-track"
+              data-motion="idle"
+              onTransitionEnd={(event) => {
+                if (
+                  event.propertyName === "transform" &&
+                  event.currentTarget === event.target
+                ) {
+                  completeSnap();
+                }
+              }}
             >
               {galleryWindow.map(({ position, work, centerX }) => (
                 <GalleryArtwork
@@ -380,10 +565,10 @@ export default function MuseumGallery() {
           onPointerDown={(event) => event.stopPropagation()}
           onPointerUp={(event) => {
             event.stopPropagation();
-            move(-1);
+            startSnap(-1);
           }}
           onClick={(event) => {
-            if (event.detail === 0) move(-1);
+            if (event.detail === 0) startSnap(-1);
           }}
         >
           <span aria-hidden="true">←</span>
@@ -395,10 +580,10 @@ export default function MuseumGallery() {
           onPointerDown={(event) => event.stopPropagation()}
           onPointerUp={(event) => {
             event.stopPropagation();
-            move(1);
+            startSnap(1);
           }}
           onClick={(event) => {
-            if (event.detail === 0) move(1);
+            if (event.detail === 0) startSnap(1);
           }}
         >
           <span aria-hidden="true">→</span>

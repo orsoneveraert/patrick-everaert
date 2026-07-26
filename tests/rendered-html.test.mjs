@@ -35,7 +35,7 @@ test("server-renders the virtual museum", async () => {
   assert.match(html, /Previous artwork/);
   assert.match(html, /Next artwork/);
   assert.match(html, /Human scale reference, 180 centimetres/);
-  assert.match(html, /scale-person-180-v2\.png/);
+  assert.match(html, /scale-person-180-v3\.svg/);
   assert.doesNotMatch(html, /scale-person-180\.webp/);
   assert.doesNotMatch(html, />180 cm</);
   assert.doesNotMatch(html, /Curatorial sequence|collection-select/);
@@ -90,8 +90,9 @@ test("uses local original artwork files and the calibrated scale figure", async 
     new URL("../lib/artworks.ts", import.meta.url),
     "utf8",
   );
-  const figurePng = await readFile(
-    new URL("../public/scale-person-180-v2.png", import.meta.url),
+  const figureSvg = await readFile(
+    new URL("../public/scale-person-180-v3.svg", import.meta.url),
+    "utf8",
   );
 
   assert.match(gallerySource, /imageSrc=\{work\.localImageUrl\}/);
@@ -101,8 +102,12 @@ test("uses local original artwork files and the calibrated scale figure", async 
     new URL("../public/artworks/pe-001.jpg", import.meta.url),
   );
   assert.ok(localArtworkFiles.byteLength > 100_000);
-  assert.ok(figurePng.byteLength > 100_000);
-  assert.equal(figurePng.subarray(1, 4).toString("ascii"), "PNG");
+  assert.match(figureSvg, /^<svg\b/);
+  assert.match(figureSvg, /viewBox="353 66 364 1395"/);
+  assert.doesNotMatch(
+    figureSvg,
+    /<(?:script|foreignObject|image|use)\b|on[a-z]+=/i,
+  );
   assert.match(
     galleryStyles,
     /@media \(max-width: 680px\)[\s\S]*?\.person-camera\s*\{\s*display: none;/,
@@ -111,10 +116,13 @@ test("uses local original artwork files and the calibrated scale figure", async 
     galleryStyles,
     /\.artwork-frame\s*\{[\s\S]*?background: transparent;[\s\S]*?border: 0;/,
   );
-  assert.match(gallerySource, /translate3d\(\$\{travelOffset\}px, 0, 0\)/);
+  assert.doesNotMatch(gallerySource, /setTravelOffset/);
+  assert.match(gallerySource, /--track-x/);
+  assert.match(gallerySource, /flushSync/);
   assert.match(gallerySource, /requestAnimationFrame/);
   assert.match(
     galleryStyles,
-    /\.gallery-track\.is-dragging\s*\{\s*transition: none;/,
+    /\.gallery-track\[data-motion="snapping"\]\s*\{[\s\S]*?transition: transform/,
   );
+  assert.doesNotMatch(galleryStyles, /transition:\s*left/);
 });

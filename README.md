@@ -49,6 +49,6 @@ Artwork images are served locally from `public/artworks` as the 101 downloaded
 original JPEG files. Their scraped CDN and source-page URLs remain preserved in
 the data for attribution and future refreshes. Only the focused work and the
 small rendered neighbour window are mounted, so the browser does not eagerly
-load the complete 58 MB collection. The 180 cm human reference uses a tightly
-alpha-cropped high-resolution PNG; its exact head-to-toe crop maps to 180 cm,
-and the floor line passes just above both shoes.
+load the complete 58 MB collection. The 180 cm human reference uses the
+user-provided vector SVG with a sanitized, tightly cropped head-to-toe viewBox;
+the floor line passes just above both shoes.

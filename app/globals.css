@@ -186,13 +186,19 @@ a {
   inset: 0;
   overflow: hidden;
   pointer-events: none;
-  transition: transform 540ms cubic-bezier(0.22, 0.72, 0.16, 1);
+  transform: translate3d(var(--track-x, 0px), 0, 0);
+  transition: none;
   will-change: transform;
   backface-visibility: hidden;
   contain: layout paint;
 }
 
-.gallery-track.is-dragging {
+.gallery-track[data-motion="snapping"] {
+  transition: transform 540ms cubic-bezier(0.22, 0.72, 0.16, 1);
+}
+
+.gallery-track[data-motion="dragging"],
+.gallery-track[data-motion="rebasing"] {
   transition: none;
 }
 
@@ -202,12 +208,7 @@ a {
   flex-direction: column;
   align-items: center;
   transform: translateX(-50%);
-  transition:
-    left 680ms cubic-bezier(0.22, 0.72, 0.16, 1),
-    top 680ms cubic-bezier(0.22, 0.72, 0.16, 1),
-    width 680ms cubic-bezier(0.22, 0.72, 0.16, 1),
-    opacity 420ms ease;
-  will-change: left, top;
+  transition: opacity 320ms ease;
   backface-visibility: hidden;
 }
 
@@ -230,9 +231,6 @@ a {
   box-shadow:
     0 2px 3px rgba(10, 10, 8, 0.08),
     0 12px 25px rgba(10, 10, 8, 0.08);
-  transition:
-    width 680ms cubic-bezier(0.22, 0.72, 0.16, 1),
-    height 680ms cubic-bezier(0.22, 0.72, 0.16, 1);
 }
 
 .artwork-frame img {
@@ -243,6 +241,7 @@ a {
   pointer-events: none;
   transform: translateZ(0);
   backface-visibility: hidden;
+  contain: paint;
 }
 
 .gallery-control {
@@ -282,8 +281,8 @@ a {
   z-index: 7;
   bottom: calc(100% - var(--floor-y));
   width: auto;
-  aspect-ratio: 361 / 1392;
-  /* The highest shoe pixel begins at 91.38% of the alpha crop.
+  aspect-ratio: 364 / 1395;
+  /* The highest shoe vector begins at 91.18% of the tight viewBox.
      Put the ground line just above both shoes while preserving the
      calibrated 180 cm head-to-toe height. */
   transform: translateY(9.35%);
