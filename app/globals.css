@@ -102,12 +102,20 @@ a {
 
 .scene-camera {
   position: absolute;
-  z-index: 1;
+  z-index: 2;
   inset: 0;
   height: 100%;
   transform: translateY(var(--scene-pan-y)) scale(var(--scene-zoom));
   transform-origin: 50% var(--floor-y);
   transition: transform 720ms cubic-bezier(0.22, 0.72, 0.16, 1);
+}
+
+.scene-environment {
+  position: absolute;
+  z-index: 1;
+  inset: 0;
+  overflow: hidden;
+  pointer-events: none;
 }
 
 .scene-world {
@@ -139,7 +147,7 @@ a {
 .floor-plane {
   position: absolute;
   z-index: 1;
-  top: var(--floor-y);
+  top: var(--screen-floor-y);
   inset-inline: 0;
   bottom: 0;
   background:
@@ -150,15 +158,17 @@ a {
       transparent 62%
     );
   box-shadow: 0 -14px 35px rgba(20, 20, 18, 0.018);
+  transition: top 720ms cubic-bezier(0.22, 0.72, 0.16, 1);
 }
 
 .floor-line {
   position: absolute;
   z-index: 4;
-  top: var(--floor-y);
+  top: var(--screen-floor-y);
   inset-inline: 0;
   border-top: 1px solid var(--line);
   pointer-events: none;
+  transition: top 720ms cubic-bezier(0.22, 0.72, 0.16, 1);
 }
 
 .gallery-track {

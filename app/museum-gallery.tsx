@@ -383,6 +383,7 @@ export default function MuseumGallery() {
         style={
           {
             "--floor-y": `${floorY}px`,
+            "--screen-floor-y": `${screenFloorY}px`,
             "--scene-zoom": cameraZoom,
             "--scene-pan-y": `${cameraPanY}px`,
           } as React.CSSProperties
@@ -528,11 +529,14 @@ export default function MuseumGallery() {
           }, 220);
         }}
       >
+        <div className="scene-environment" aria-hidden="true">
+          <div className="wall-depth" />
+          <div className="floor-plane" />
+          <div className="floor-line" />
+        </div>
+
         <div className="scene-camera">
           <div className="scene-world">
-            <div className="wall-depth" aria-hidden="true" />
-            <div className="floor-plane" aria-hidden="true" />
-
             <div
               ref={trackRef}
               className="gallery-track"
@@ -558,8 +562,6 @@ export default function MuseumGallery() {
                 />
               ))}
             </div>
-
-            <div className="floor-line" aria-hidden="true" />
           </div>
         </div>
 

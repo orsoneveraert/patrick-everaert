@@ -128,6 +128,15 @@ test("uses local original artwork files and the calibrated scale figure", async 
     galleryStyles,
     /\.scene-camera\s*\{[\s\S]*?translateY\(var\(--scene-pan-y\)\) scale\(var\(--scene-zoom\)\)/,
   );
+  assert.match(gallerySource, /--screen-floor-y/);
+  assert.match(
+    galleryStyles,
+    /\.scene-environment\s*\{[^}]*inset:\s*0;[^}]*overflow:\s*hidden;/,
+  );
+  assert.match(
+    galleryStyles,
+    /\.floor-line\s*\{[^}]*top:\s*var\(--screen-floor-y\);[^}]*inset-inline:\s*0;/,
+  );
   assert.doesNotMatch(galleryStyles, /\.artwork-frame img\s*\{[^}]*translateZ/);
   assert.doesNotMatch(gallerySource, /person-world/);
   assert.doesNotMatch(
