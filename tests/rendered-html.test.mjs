@@ -140,6 +140,10 @@ test("uses local original artwork files and the calibrated scale figure", async 
     galleryStyles,
     /\.artwork-lightbox-image\s*\{[^}]*max-width:\s*100%;[^}]*max-height:/,
   );
+  assert.doesNotMatch(
+    galleryStyles,
+    /\.site-header\s*\{[^}]*border-bottom:/,
+  );
   assert.match(
     galleryStyles,
     /\.scene-environment\s*\{[^}]*inset:\s*0;[^}]*overflow:\s*hidden;/,

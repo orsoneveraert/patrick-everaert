@@ -50,7 +50,6 @@ a {
   align-items: center;
   justify-content: space-between;
   padding: 0 clamp(22px, 4vw, 68px);
-  border-bottom: 1px solid rgba(23, 24, 23, 0.08);
   background: rgba(253, 253, 251, 0.92);
   backdrop-filter: blur(12px);
 }
