@@ -1,7 +1,7 @@
 @import "tailwindcss";
 
 :root {
-  --paper: #f2f1ec;
+  --paper: #ffffff;
   --ink: #11110f;
   --muted: #66655f;
   --hairline: rgba(17, 17, 15, 0.22);
@@ -342,7 +342,7 @@ img {
   place-items: center;
   padding: clamp(48px, 7vw, 110px) clamp(20px, 6vw, 96px) 24px;
   overflow: auto;
-  background: rgba(242, 241, 236, 0.99);
+  background: rgba(255, 255, 255, 0.99);
   cursor: zoom-out;
 }
 
