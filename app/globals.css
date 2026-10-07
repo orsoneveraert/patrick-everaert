@@ -126,7 +126,7 @@ img {
   transform: translateX(-50%);
 }
 
-.portfolio-nav-menu button:first-child {
+.portfolio-nav-menu a:first-child {
   margin-right: 12px;
 }
 
@@ -139,7 +139,7 @@ img {
   gap: 16px;
 }
 
-.portfolio-nav button,
+.portfolio-nav-menu > a,
 .about-jump,
 .language-switcher {
   position: relative;
@@ -154,7 +154,7 @@ img {
   cursor: pointer;
 }
 
-.portfolio-nav-menu > button,
+.portfolio-nav-menu > a,
 .about-jump {
   border-bottom: 1px solid transparent;
 }
@@ -181,14 +181,14 @@ img {
   border-bottom-color: #000;
 }
 
-.portfolio-nav-menu > button:hover,
-.portfolio-nav-menu > button:focus-visible,
+.portfolio-nav-menu > a:hover,
+.portfolio-nav-menu > a:focus-visible,
 .about-jump:hover,
 .about-jump:focus-visible {
   border-bottom-color: rgba(0, 0, 0, 0.35);
 }
 
-.portfolio-nav-menu > button.is-active {
+.portfolio-nav-menu > a.is-active {
   border-bottom-color: #000;
 }
 

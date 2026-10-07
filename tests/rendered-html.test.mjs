@@ -38,9 +38,13 @@ test("server-renders the editorial portfolio", async () => {
 
   const html = await response.text();
   assert.match(html, /Patrick Everaert/);
+  assert.match(html, /Artiste belge contemporain/);
+  assert.match(html, /rel="canonical" href="https:\/\/patrickeveraert\.info\/?"/);
+  assert.match(html, /application\/ld\+json/);
   assert.match(html, /Œuvres sélectionnées/);
   assert.match(html, />Œuvres</);
   assert.match(html, />Archive</);
+  assert.match(html, /href="\/archive"/);
   assert.match(html, /À propos/);
   assert.match(html, /né en 1962 à Charleroi/);
   assert.match(html, /peintre sans pinceau et photographe sans appareil/);
@@ -88,6 +92,17 @@ test("server-renders the management index", async () => {
   assert.match(html, /Photographic works/);
   assert.match(html, /Artwork size bands/);
   assert.match(html, /Return to portfolio/);
+  assert.match(html, /name="robots" content="noindex, nofollow"/);
+});
+
+test("server-renders the crawlable archive route", async () => {
+  const response = await render("/archive");
+  assert.equal(response.status, 200);
+  const html = await response.text();
+  assert.match(html, /Archives complètes des œuvres/);
+  assert.match(html, /Archive chronologique complète/);
+  assert.match(html, /rel="canonical" href="https:\/\/patrickeveraert\.info\/archive"/);
+  assert.match(html, /58 x 46 cm/);
 });
 
 test("uses local original artwork files in both portfolio views", async () => {
@@ -128,6 +143,8 @@ test("uses local original artwork files in both portfolio views", async () => {
   assert.match(source, /onLanguage\("en"\)/);
   assert.doesNotMatch(source, /String\(index \+ 1\)\.padStart/);
   assert.doesNotMatch(source, /scale-person|scene-camera|gallery-track/);
+  assert.match(source, /window\.history\.pushState/);
+  assert.match(source, /window\.addEventListener\("popstate"/);
   assert.match(artworkSource, /localImageUrl: `\/artworks\/pe-/);
   assert.ok(firstArtwork.byteLength > 100_000);
   assert.match(styles, /\.archive-sequence\s*\{[\s\S]*?scroll-snap-type: y mandatory/);

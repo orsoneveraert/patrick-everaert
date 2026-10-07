@@ -1,5 +1,6 @@
 "use client";
 
+import Link from "next/link";
 import { useEffect, useMemo, useState, type CSSProperties } from "react";
 import { artworks, type Artwork } from "../lib/artworks";
 import {
@@ -106,7 +107,7 @@ function ArtworkDialog({
       <figure className="dialog-figure" onClick={(event) => event.stopPropagation()}>
         <img
           src={artwork.localImageUrl}
-          alt={`${artwork.title}, ${artwork.year}`}
+          alt={`${artwork.title}, ${artwork.year} — ${artwork.material}, ${artwork.physical_dimensions}`}
           draggable={false}
           decoding="async"
           fetchPriority="high"
@@ -149,20 +150,28 @@ function SiteHeader({
         aria-label={language === "fr" ? "Vues du portfolio" : "Portfolio views"}
       >
         <div className="portfolio-nav-menu">
-          <button
+          <Link
             className={view === "work" ? "is-active" : ""}
-            type="button"
-            onClick={() => onView("work")}
+            href="/"
+            aria-current={view === "work" ? "page" : undefined}
+            onClick={(event) => {
+              event.preventDefault();
+              onView("work");
+            }}
           >
             {text.work}
-          </button>
-          <button
+          </Link>
+          <Link
             className={view === "archive" ? "is-active" : ""}
-            type="button"
-            onClick={() => onView("archive")}
+            href="/archive"
+            aria-current={view === "archive" ? "page" : undefined}
+            onClick={(event) => {
+              event.preventDefault();
+              onView("archive");
+            }}
           >
             {text.archive}
-          </button>
+          </Link>
         </div>
         <div className="header-right">
           <button className="about-jump" type="button" onClick={goToAbout}>
@@ -231,7 +240,7 @@ function WorkView({
               >
                 <img
                   src={work.localImageUrl}
-                  alt={`${work.title}, ${work.year}`}
+                  alt={`${work.title}, ${work.year} — ${work.material}, ${work.physical_dimensions}`}
                   loading={index < 2 ? "eager" : "lazy"}
                   decoding="async"
                   fetchPriority={index === 0 ? "high" : "auto"}
@@ -281,7 +290,7 @@ function ArchiveView({
             >
               <img
                 src={work.localImageUrl}
-                alt={`${work.title}, ${work.year}`}
+                alt={`${work.title}, ${work.year} — ${work.material}, ${work.physical_dimensions}`}
                 loading={index < 2 ? "eager" : "lazy"}
                 decoding="async"
                 fetchPriority={index === 0 ? "high" : "auto"}
@@ -369,8 +378,12 @@ function AboutFooter({ language }: { language: Language }) {
   );
 }
 
-export default function MuseumGallery() {
-  const [view, setView] = useState<View>("work");
+export default function MuseumGallery({
+  initialView = "work",
+}: {
+  initialView?: View;
+}) {
+  const [view, setView] = useState<View>(initialView);
   const [language, setLanguage] = useState<Language>("fr");
   const [openWork, setOpenWork] = useState<Artwork | null>(null);
 
@@ -378,7 +391,22 @@ export default function MuseumGallery() {
     document.documentElement.lang = language;
   }, [language]);
 
+  useEffect(() => {
+    const syncViewToPath = () => {
+      setView(window.location.pathname === "/archive" ? "archive" : "work");
+    };
+    window.addEventListener("popstate", syncViewToPath);
+    return () => window.removeEventListener("popstate", syncViewToPath);
+  }, []);
+
   const changeView = (nextView: View) => {
+    if (nextView !== view) {
+      window.history.pushState(
+        { view: nextView },
+        "",
+        nextView === "archive" ? "/archive" : "/",
+      );
+    }
     setView(nextView);
     window.scrollTo({ top: 0, behavior: "auto" });
   };

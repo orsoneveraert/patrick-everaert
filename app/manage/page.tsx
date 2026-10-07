@@ -1,3 +1,4 @@
+import type { Metadata } from "next";
 import Link from "next/link";
 import {
   artworks,
@@ -8,6 +9,14 @@ import {
 } from "../../lib/artworks";
 
 const sizeCategories: ArtworkSizeCategory[] = ["small", "medium", "large"];
+
+export const metadata: Metadata = {
+  title: "Gestion du contenu",
+  robots: {
+    index: false,
+    follow: false,
+  },
+};
 
 export default function ManagePage() {
   return (
