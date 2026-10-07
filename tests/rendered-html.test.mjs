@@ -30,11 +30,13 @@ test("server-renders the editorial portfolio", async () => {
 
   const html = await response.text();
   assert.match(html, /Patrick Everaert/);
-  assert.match(html, /Selected works/);
-  assert.match(html, />Work</);
+  assert.match(html, /Œuvres sélectionnées/);
+  assert.match(html, />Œuvres</);
   assert.match(html, />Archive</);
-  assert.match(html, /About/);
-  assert.match(html, /101 works dated from 1989/);
+  assert.match(html, /À propos/);
+  assert.match(html, /101 œuvres réalisées entre 1989/);
+  assert.match(html, />FR</);
+  assert.match(html, />EN</);
   assert.match(html, /\/artworks\/pe-001\.jpg/);
   assert.doesNotMatch(html, /Human scale reference|gallery-track|floor-line/);
 });
@@ -92,6 +94,9 @@ test("uses local original artwork files in both portfolio views", async () => {
   assert.match(source, /loading="lazy"/);
   assert.match(source, /Complete artwork archive/);
   assert.match(source, /portfolio-dialog/);
+  assert.match(source, /type Language = "fr" \| "en"/);
+  assert.match(source, /onLanguage\("fr"\)/);
+  assert.match(source, /onLanguage\("en"\)/);
   assert.doesNotMatch(source, /scale-person|scene-camera|gallery-track/);
   assert.match(artworkSource, /localImageUrl: `\/artworks\/pe-/);
   assert.ok(firstArtwork.byteLength > 100_000);

@@ -84,8 +84,14 @@ img {
 }
 
 .portfolio-nav,
-.about-jump {
+.header-right {
   pointer-events: auto;
+}
+
+.header-right {
+  display: flex;
+  align-items: flex-start;
+  gap: 22px;
 }
 
 .portfolio-nav {
@@ -94,7 +100,8 @@ img {
 }
 
 .portfolio-nav button,
-.about-jump {
+.about-jump,
+.language-switcher {
   position: relative;
   padding: 0 0 4px;
   background: transparent;
@@ -104,6 +111,28 @@ img {
   letter-spacing: -0.015em;
   text-transform: uppercase;
   cursor: pointer;
+}
+
+.language-switcher {
+  display: flex;
+  align-items: baseline;
+  gap: 3px;
+}
+
+.language-switcher button {
+  padding: 0;
+  background: transparent;
+  font: inherit;
+  text-transform: uppercase;
+  cursor: pointer;
+  opacity: 0.42;
+  transition: opacity 160ms ease;
+}
+
+.language-switcher button:hover,
+.language-switcher button:focus-visible,
+.language-switcher button.is-active {
+  opacity: 1;
 }
 
 .portfolio-nav button::after,
@@ -609,8 +638,13 @@ img {
   }
 
   .portfolio-nav button,
-  .about-jump {
+  .about-jump,
+  .language-switcher {
     font-size: 10px;
+  }
+
+  .header-right {
+    gap: 12px;
   }
 
   .portfolio-intro {
