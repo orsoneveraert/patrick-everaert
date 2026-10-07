@@ -558,6 +558,7 @@ img {
 .mobile-menu-languages {
   display: flex;
   gap: 12px;
+  font-size: clamp(17px, 4.8vw, 22px);
 }
 
 .portfolio-dialog > img {
