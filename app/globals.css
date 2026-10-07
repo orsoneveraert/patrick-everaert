@@ -79,7 +79,7 @@ img {
 }
 
 .header-title {
-  position: fixed;
+  position: absolute;
   z-index: 30;
   top: 20px;
   left: 20px;
@@ -221,34 +221,44 @@ img {
 
 .portfolio-intro {
   display: grid;
-  min-height: 62svh;
+  min-height: 100svh;
   place-items: end center;
-  padding: 0 20px 12svh;
+  padding: 0;
 }
 
 .work-sequence {
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: clamp(140px, 23vh, 290px);
-  padding: 0 0 clamp(180px, 28vh, 340px);
+  gap: 0;
+  padding: 0 0 18svh;
 }
 
 .work-entry {
-  width: min(70vw, 1060px);
+  --work-max-width: min(70vw, 1060px);
+
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  width: min(
+    var(--work-max-width),
+    calc((100svh - 112px) * var(--work-aspect))
+  );
+  max-width: calc(100vw - 40px);
+  min-height: 100svh;
   margin: 0;
 }
 
 .work-entry:first-child {
-  width: min(78vw, 1180px);
+  --work-max-width: min(78vw, 1180px);
 }
 
 .work-entry-wide {
-  width: min(82vw, 1240px);
+  --work-max-width: min(82vw, 1240px);
 }
 
 .work-entry-tall {
-  width: min(54vw, 760px);
+  --work-max-width: min(54vw, 760px);
 }
 
 .work-image-button,
@@ -264,6 +274,8 @@ img {
   display: block;
   width: 100%;
   height: auto;
+  max-height: calc(100svh - 112px);
+  object-fit: contain;
   transition: opacity 180ms ease;
 }
 
@@ -689,23 +701,29 @@ img {
 
 @media (max-width: 680px) {
   .portfolio-intro {
-    min-height: 57svh;
-    padding-bottom: 11svh;
+    min-height: 100svh;
+    padding: 0;
   }
 
   .work-sequence {
-    gap: 22vh;
-    padding-bottom: 25vh;
+    gap: 0;
+    padding-bottom: 15svh;
   }
 
   .work-entry,
   .work-entry:first-child,
   .work-entry-wide {
-    width: calc(100vw - 32px);
+    --work-max-width: calc(100vw - 32px);
+
+    width: min(
+      var(--work-max-width),
+      calc((100svh - 104px) * var(--work-aspect))
+    );
+    max-width: calc(100vw - 32px);
   }
 
   .work-entry-tall {
-    width: 72vw;
+    --work-max-width: 72vw;
   }
 
   .work-entry figcaption {
@@ -815,6 +833,7 @@ img {
   }
 
   .header-title {
+    position: fixed;
     right: auto;
     width: auto;
     padding: 0;
@@ -825,6 +844,10 @@ img {
 
   .portfolio-header.is-archive .header-title {
     display: block;
+  }
+
+  .portfolio-intro {
+    display: none;
   }
 
   .portfolio-nav {

@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useMemo, useState, type CSSProperties } from "react";
 import { artworks, type Artwork } from "../lib/artworks";
 
 type View = "work" | "archive";
@@ -244,6 +244,11 @@ function WorkView({
             <figure
               className={`work-entry work-entry-${format}`}
               key={work.id}
+              style={
+                {
+                  "--work-aspect": aspect,
+                } as CSSProperties & { "--work-aspect": number }
+              }
             >
               <button
                 className="work-image-button"

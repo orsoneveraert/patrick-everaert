@@ -99,6 +99,7 @@ test("uses local original artwork files in both portfolio views", async () => {
 
   assert.match(source, /src=\{work\.localImageUrl\}/);
   assert.match(source, /chronologicalWorks\.map\(\(work, index\)/);
+  assert.match(source, /"--work-aspect": aspect/);
   assert.match(source, /Number\(a\.year\) - Number\(b\.year\)/);
   assert.match(source, /loading=\{index < 2 \? "eager" : "lazy"\}/);
   assert.match(source, /Complete artwork archive/);
@@ -118,7 +119,9 @@ test("uses local original artwork files in both portfolio views", async () => {
   assert.match(styles, /\.portfolio-nav\s*\{[\s\S]*?top: 20px/);
   assert.match(styles, /left: calc\(50% - 20px\)/);
   assert.match(styles, /\.header-right\s*\{[\s\S]*?gap: 16px/);
-  assert.match(styles, /\.portfolio-intro\s*\{[\s\S]*?min-height: 62svh/);
+  assert.match(styles, /\.portfolio-intro\s*\{[\s\S]*?min-height: 100svh/);
+  assert.match(styles, /calc\(\(100svh - 112px\) \* var\(--work-aspect\)\)/);
+  assert.match(styles, /\.work-entry\s*\{[\s\S]*?min-height: 100svh/);
   assert.match(
     styles,
     /\.portfolio-footer\s*\{[\s\S]*?grid-template-columns: repeat\(3/,
