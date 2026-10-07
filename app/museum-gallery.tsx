@@ -17,8 +17,8 @@ const copy = {
     selectedWorks: "Œuvres sélectionnées",
     completeArchive: "Archives complètes des œuvres",
     aboutParagraphs: [
-      "Les archives de Patrick Everaert rassemblent 101 œuvres réalisées entre 1989 et 2022. Le corpus traverse le tirage photographique et Lambda, les œuvres montées sur Forex et Dibond, la lithographie, la toile et l’impression giclée.",
-      "Ce portfolio numérique conserve pour chaque œuvre l’ordre original, les dimensions physiques, les matériaux et l’attribution de la source.",
+      "Patrick Everaert, né en 1962 à Charleroi, est un artiste belge dont la pratique interroge la fabrication et l’autorité des images. Depuis le début des années 1990, il travaille à partir de photographies puisées dans des fonds d’archives documentaires, qu’il transforme longuement par montage, collage et superposition.",
+      "Ces manipulations produisent des scènes plausibles mais impossibles, ouvertes à plusieurs récits, qui invitent le regardeur à ralentir et à douter de ce qu’il voit. Se décrivant comme un « peintre sans pinceau et photographe sans appareil », il a présenté son travail en Belgique et à l’étranger, notamment au BPS22, au FRAC Provence-Alpes-Côte d’Azur, au Jeu de Paume et dans le cadre de la 49e Biennale de Venise.",
     ],
     worksCount: "101 œuvres",
     dimensions: "Toutes les dimensions sont en centimètres",
@@ -67,8 +67,8 @@ const copy = {
     selectedWorks: "Selected works",
     completeArchive: "Complete artwork archive",
     aboutParagraphs: [
-      "Patrick Everaert’s archive brings together 101 works dated from 1989 to 2022. The corpus moves across photographic and Lambda prints, works mounted on Forex and Dibond, lithography, canvas, and giclée.",
-      "This digital portfolio preserves the original sequence, physical dimensions, materials, and source attribution for every work.",
+      "Patrick Everaert, born in Charleroi in 1962, is a Belgian artist whose practice questions how images are constructed and how they exert authority. Since the early 1990s, he has worked with photographs drawn from documentary archives, transforming them over long periods through montage, collage, and superimposition.",
+      "The resulting scenes feel plausible yet impossible, opening onto multiple narratives and asking viewers to slow down and doubt what they see. Describing himself as a ‘painter without a brush and a photographer without a camera,’ he has exhibited in Belgium and internationally, including at BPS22, FRAC Provence-Alpes-Côte d’Azur, the Jeu de Paume, and in the context of the 49th Venice Biennale.",
     ],
     worksCount: "101 works",
     dimensions: "All dimensions in centimetres",

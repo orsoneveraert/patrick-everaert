@@ -34,7 +34,8 @@ test("server-renders the editorial portfolio", async () => {
   assert.match(html, />Œuvres</);
   assert.match(html, />Archive</);
   assert.match(html, /À propos/);
-  assert.match(html, /101 œuvres réalisées entre 1989/);
+  assert.match(html, /né en 1962 à Charleroi/);
+  assert.match(html, /peintre sans pinceau et photographe sans appareil/);
   assert.match(html, /Techniques/);
   assert.match(html, /Chronologie/);
   assert.match(html, /Archive numérique/);
