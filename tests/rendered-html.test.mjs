@@ -127,6 +127,7 @@ test("uses local original artwork files in both portfolio views", async () => {
   assert.match(styles, /left: calc\(50% - 20px\)/);
   assert.match(styles, /\.header-right\s*\{[\s\S]*?gap: 16px/);
   assert.match(styles, /\.portfolio-intro\s*\{[\s\S]*?display: none/);
+  assert.match(styles, /\.work-entry:first-child\s*\{[\s\S]*?padding-top: 64px/);
   assert.match(styles, /calc\(\(100svh - 112px\) \* var\(--work-aspect\)\)/);
   assert.match(styles, /\.work-entry\s*\{[\s\S]*?min-height: 100svh/);
   assert.match(

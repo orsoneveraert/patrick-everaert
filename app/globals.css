@@ -869,6 +869,10 @@ img {
     position: static;
     transform: none;
   }
+
+  .work-entry:first-child {
+    padding-top: 64px;
+  }
 }
 
 @media (prefers-reduced-motion: reduce) {
