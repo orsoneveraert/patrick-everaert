@@ -375,12 +375,14 @@ img {
 
 .footer-about,
 .footer-contact,
-.footer-books {
+.footer-personal-publications {
   min-height: 522px;
 }
 
 .footer-personal-exhibition,
-.footer-collective-exhibition {
+.footer-collective-exhibition,
+.footer-collective-publications {
+  grid-row: 2;
   min-height: 0;
 }
 
@@ -389,7 +391,11 @@ img {
 }
 
 .footer-collective-exhibition {
-  grid-column: 2 / -1;
+  grid-column: 2;
+}
+
+.footer-collective-publications {
+  grid-column: 3;
 }
 
 .footer-block {
@@ -413,9 +419,12 @@ img {
   margin-bottom: 22px;
 }
 
-.exhibition-list-collective {
-  columns: 2;
-  column-gap: clamp(28px, 5vw, 80px);
+.publication-entry {
+  margin-bottom: 21px;
+}
+
+.publication-detail {
+  color: var(--muted);
 }
 
 .exhibition-list p {
@@ -767,19 +776,18 @@ img {
 
   .footer-about,
   .footer-contact,
-  .footer-books,
+  .footer-personal-publications,
   .footer-personal-exhibition,
-  .footer-collective-exhibition {
+  .footer-collective-exhibition,
+  .footer-collective-publications {
     min-height: 0;
   }
 
   .footer-personal-exhibition,
-  .footer-collective-exhibition {
+  .footer-collective-exhibition,
+  .footer-collective-publications {
     grid-column: 1;
-  }
-
-  .exhibition-list-collective {
-    columns: 1;
+    grid-row: auto;
   }
 
   .footer-block {

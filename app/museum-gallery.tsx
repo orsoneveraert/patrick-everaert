@@ -6,6 +6,11 @@ import {
   collectiveExhibitions,
   personalExhibitions,
 } from "../lib/exhibitions";
+import {
+  collectivePublications,
+  personalPublications,
+  type Publication,
+} from "../lib/publications";
 
 type View = "work" | "archive";
 type Language = "fr" | "en";
@@ -28,13 +33,10 @@ const copy = {
     contact: "Contact",
     contactEmail: "patrickeveraert@mac.com",
     toTop: "Haut de page",
-    books: "Books",
+    personalPublication: "Publications personnelles",
+    collectivePublication: "Publications collectives",
     personalExhibition: "Personal exhibition",
     collectiveExhibition: "Collective exhibition",
-    bookLines: [
-      "2015 — Trous noirs, trous blancs — Monographie, BPS22",
-      "2015 — Tuer le Temps — Catalogue d’exposition, BPS22",
-    ],
   },
   en: {
     work: "Work",
@@ -53,13 +55,10 @@ const copy = {
     contact: "Contact",
     contactEmail: "patrickeveraert@mac.com",
     toTop: "To top",
-    books: "Books",
+    personalPublication: "Personal publications",
+    collectivePublication: "Collective publications",
     personalExhibition: "Personal exhibition",
     collectiveExhibition: "Collective exhibition",
-    bookLines: [
-      "2015 — Trous noirs, trous blancs — Monograph, BPS22",
-      "2015 — Tuer le Temps — Exhibition catalogue, BPS22",
-    ],
   },
 } as const;
 
@@ -310,6 +309,22 @@ function ArchiveView({
 
 function AboutFooter({ language }: { language: Language }) {
   const text = copy[language];
+  const publicationList = (items: readonly Publication[]) => (
+    <div className="publication-list">
+      {items.map((publication) => (
+        <article className="publication-entry" key={publication.title}>
+          <p>{publication.title}</p>
+          <p>{publication.meta}</p>
+          {publication.details?.map((detail) => (
+            <p className="publication-detail" key={detail}>
+              {detail}
+            </p>
+          ))}
+        </article>
+      ))}
+    </div>
+  );
+
   return (
     <footer className="portfolio-footer" id="about">
       <section className="footer-block footer-about">
@@ -323,11 +338,13 @@ function AboutFooter({ language }: { language: Language }) {
           <a href={`mailto:${text.contactEmail}`}>{text.contactEmail}</a>
         </p>
       </section>
-      <section className="footer-block footer-books">
-        <h2>{text.books}</h2>
-        {text.bookLines.map((line) => (
-          <p key={line}>{line}</p>
-        ))}
+      <section className="footer-block footer-personal-publications">
+        <h2>{text.personalPublication}</h2>
+        {publicationList(personalPublications)}
+      </section>
+      <section className="footer-block footer-collective-publications">
+        <h2>{text.collectivePublication}</h2>
+        {publicationList(collectivePublications)}
       </section>
       <section className="footer-block footer-personal-exhibition">
         <h2>{text.personalExhibition}</h2>

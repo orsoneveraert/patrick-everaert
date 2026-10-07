@@ -5,6 +5,10 @@ import {
   collectiveExhibitions,
   personalExhibitions,
 } from "../lib/exhibitions.ts";
+import {
+  collectivePublications,
+  personalPublications,
+} from "../lib/publications.ts";
 
 async function render(path = "/") {
   const workerUrl = new URL("../dist/server/index.js", import.meta.url);
@@ -41,10 +45,12 @@ test("server-renders the editorial portfolio", async () => {
   assert.match(html, /né en 1962 à Charleroi/);
   assert.match(html, /peintre sans pinceau et photographe sans appareil/);
   assert.match(html, /mailto:patrickeveraert@mac\.com/);
-  assert.match(html, /Books/);
+  assert.match(html, /Publications personnelles/);
+  assert.match(html, /Publications collectives/);
   assert.match(html, /Personal exhibition/);
   assert.match(html, /Collective exhibition/);
-  assert.match(html, /Trous noirs, trous blancs/);
+  assert.match(html, /Trous Noirs, Trous Blancs/);
+  assert.match(html, /Architectures Wallonie-Bruxelles/);
   assert.doesNotMatch(html, /Archive numérique/);
   assert.doesNotMatch(html, /MATÉRIAUX/);
   assert.match(html, />FR</);
@@ -110,6 +116,8 @@ test("uses local original artwork files in both portfolio views", async () => {
   assert.match(source, /"--work-aspect": aspect/);
   assert.equal(personalExhibitions.length, 19);
   assert.equal(collectiveExhibitions.length, 69);
+  assert.equal(personalPublications.length, 3);
+  assert.equal(collectivePublications.length, 28);
   assert.match(source, /loading=\{index < 2 \? "eager" : "lazy"\}/);
   assert.match(source, /work\.caption_remainder/);
   assert.match(source, /archive-caption-collection/);
