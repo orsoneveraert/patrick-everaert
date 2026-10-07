@@ -479,6 +479,11 @@ img {
   text-transform: uppercase;
 }
 
+.mobile-menu-toggle {
+  display: none;
+}
+
+.mobile-menu,
 .portfolio-dialog {
   position: fixed;
   z-index: 2000;
@@ -495,8 +500,63 @@ img {
   background: #fff;
 }
 
+.mobile-menu::backdrop,
 .portfolio-dialog::backdrop {
   background: #fff;
+}
+
+.mobile-menu {
+  overflow-y: auto;
+  padding: max(96px, env(safe-area-inset-top)) 28px 40px;
+  color: var(--ink);
+  font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+  font-size: clamp(32px, 9vw, 42px);
+  font-weight: 400;
+  line-height: 1.1;
+  text-transform: uppercase;
+}
+
+.mobile-menu nav {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 32px;
+}
+
+.mobile-menu nav button {
+  padding: 0;
+  background: transparent;
+  text-transform: inherit;
+  cursor: pointer;
+}
+
+.mobile-menu nav a[aria-current],
+.mobile-menu nav button[aria-current],
+.mobile-menu nav a:hover {
+  text-decoration: underline;
+  text-decoration-thickness: 1px;
+  text-underline-offset: 6px;
+}
+
+.mobile-menu-decades {
+  margin-top: 14px;
+  font-size: clamp(17px, 4.8vw, 22px);
+  line-height: 1.8;
+  letter-spacing: -0.025em;
+  font-style: italic;
+}
+
+.mobile-menu-decades > span {
+  display: inline-block;
+}
+
+.mobile-menu-decades span[aria-hidden] {
+  margin: 0 0.25em;
+}
+
+.mobile-menu-languages {
+  display: flex;
+  gap: 12px;
 }
 
 .portfolio-dialog > img {
@@ -757,6 +817,37 @@ img {
 }
 
 @media (max-width: 680px) {
+  .portfolio-header {
+    height: 56px;
+  }
+
+  .portfolio-nav {
+    display: none;
+  }
+
+  .mobile-menu-toggle {
+    position: absolute;
+    top: max(6px, env(safe-area-inset-top));
+    right: max(6px, env(safe-area-inset-right));
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 5px;
+    width: 44px;
+    height: 44px;
+    padding: 0;
+    background: transparent;
+    pointer-events: auto;
+    cursor: pointer;
+  }
+
+  .mobile-menu-toggle span {
+    width: 20px;
+    height: 1px;
+    background: currentColor;
+  }
+
   /* One document scroll avoids fighting touch momentum at snap boundaries. */
   .archive-view,
   .archive-sequence {

@@ -95,15 +95,7 @@ const copy = {
 
 const selectedOrders = [1, 15, 21, 43, 53, 67, 72, 77, 87, 95, 99, 101];
 
-function ArtworkDialog({
-  artwork,
-  language,
-  onClose,
-}: {
-  artwork: Artwork;
-  language: Language;
-  onClose: () => void;
-}) {
+function usePortfolioDialog() {
   const dialogRef = useRef<HTMLDialogElement>(null);
   useEffect(() => {
     const dialog = dialogRef.current;
@@ -134,6 +126,19 @@ function ArtworkDialog({
       previousFocus?.focus({ preventScroll: true });
     };
   }, []);
+  return dialogRef;
+}
+
+function ArtworkDialog({
+  artwork,
+  language,
+  onClose,
+}: {
+  artwork: Artwork;
+  language: Language;
+  onClose: () => void;
+}) {
+  const dialogRef = usePortfolioDialog();
 
   return (
     <dialog
@@ -171,6 +176,64 @@ function ArtworkDialog({
   );
 }
 
+
+const archiveDecades = [...new Set(artworks.map((work) => Math.floor(Number(work.year) / 10) * 10))].sort((a, b) => b - a);
+
+function MobileMenu({ view, language, aboutActive, onClose }: {
+  view: View;
+  language: Language;
+  aboutActive: boolean;
+  onClose: () => void;
+}) {
+  const dialogRef = usePortfolioDialog();
+  const text = copy[language];
+  useEffect(() => {
+    const breakpoint = window.matchMedia("(max-width: 680px)");
+    const closeOnDesktop = () => { if (!breakpoint.matches) onClose(); };
+    breakpoint.addEventListener("change", closeOnDesktop);
+    return () => breakpoint.removeEventListener("change", closeOnDesktop);
+  }, [onClose]);
+  return (
+    <dialog ref={dialogRef} id="mobile-navigation" className="mobile-menu" tabIndex={-1}
+      aria-label={language === "fr" ? "Menu de navigation" : "Navigation menu"}
+      onCancel={(event) => { event.preventDefault(); onClose(); }}>
+      <button className="dialog-close" type="button" onClick={onClose}
+        aria-label={language === "fr" ? "Fermer le menu" : "Close menu"}>×</button>
+      <nav aria-label={language === "fr" ? "Vues du portfolio" : "Portfolio views"}>
+        <Link href={portfolioPath(language)} onClick={onClose} aria-current={view === "work" && !aboutActive ? "page" : undefined}>{text.work}</Link>
+        <div className="mobile-menu-archive">
+          <Link href={portfolioPath(language, "archive")} onClick={onClose} aria-current={view === "archive" && !aboutActive ? "page" : undefined}>{text.archive}</Link>
+          <div className="mobile-menu-decades" aria-label={language === "fr" ? "Parcourir par décennie" : "Browse by decade"}>
+            {archiveDecades.map((decade, index) => (
+              <span key={decade}>
+                {index > 0 && <span aria-hidden="true"> · </span>}
+                <Link href={`${portfolioPath(language, "archive")}#decade-${decade}`}
+                  onClick={(event) => {
+                    if (event.metaKey || event.ctrlKey || event.shiftKey || event.altKey) return;
+                    onClose();
+                    if (view === "archive") {
+                      event.preventDefault();
+                      requestAnimationFrame(() => scrollToSection(event, `decade-${decade}`));
+                    }
+                  }} aria-label={language === "fr" ? `Années ${decade}` : `${decade}s`}>{decade}</Link>
+              </span>
+            ))}
+          </div>
+        </div>
+        <button type="button" aria-current={aboutActive ? "location" : undefined} onClick={() => {
+          onClose();
+          requestAnimationFrame(() => document.getElementById("about")?.scrollIntoView({ behavior: "smooth" }));
+        }}>{text.about}</button>
+        <div className="mobile-menu-languages" aria-label="Language / Langue">
+          <Link href={portfolioPath("fr", view)} hrefLang="fr" onClick={onClose} aria-current={language === "fr" ? "page" : undefined}>FR</Link>
+          <span aria-hidden="true">/</span>
+          <Link href={portfolioPath("en", view)} hrefLang="en" onClick={onClose} aria-current={language === "en" ? "page" : undefined}>EN</Link>
+        </div>
+      </nav>
+    </dialog>
+  );
+}
+
 function SiteHeader({
   view,
   language,
@@ -182,13 +245,15 @@ function SiteHeader({
 }) {
   const text = copy[language];
   const [aboutActive, setAboutActive] = useState(false);
+  const [menuOpen, setMenuOpen] = useState(false);
+  const closeMenu = useCallback(() => setMenuOpen(false), []);
   useEffect(() => {
     const footer = document.getElementById("about");
     if (!footer) return;
     let observer: IntersectionObserver;
     const observeFooter = () => {
       observer?.disconnect();
-      const line = window.innerWidth < 640 ? 96 : 56;
+      const line = 56;
       observer = new IntersectionObserver(([entry]) => {
         setAboutActive(entry.isIntersecting);
       }, {
@@ -204,18 +269,24 @@ function SiteHeader({
       window.removeEventListener("resize", observeFooter);
     };
   }, [view]);
-  const decades = [...new Set(artworks.map((work) => Math.floor(Number(work.year) / 10) * 10))].sort((a, b) => b - a);
+  const decades = archiveDecades;
   const goToAbout = () => {
     document.getElementById("about")?.scrollIntoView({ behavior: "smooth" });
   };
 
   return (
+    <>
     <header
       className={`portfolio-header${view === "archive" ? " is-archive" : ""}`}
     >
       <h1 className="header-title">
         <Link href={portfolioPath(language)}>Patrick Everaert</Link>
       </h1>
+      <button className="mobile-menu-toggle" type="button" onClick={() => setMenuOpen(true)}
+        aria-label={language === "fr" ? "Ouvrir le menu" : "Open menu"}
+        aria-expanded={menuOpen} aria-controls="mobile-navigation">
+        <span aria-hidden="true" /><span aria-hidden="true" /><span aria-hidden="true" />
+      </button>
       <nav
         className="portfolio-nav"
         aria-label={language === "fr" ? "Vues du portfolio" : "Portfolio views"}
@@ -275,6 +346,8 @@ function SiteHeader({
         </div>
       </nav>
     </header>
+    {menuOpen && <MobileMenu view={view} language={language} aboutActive={aboutActive} onClose={closeMenu} />}
+    </>
   );
 }
 
