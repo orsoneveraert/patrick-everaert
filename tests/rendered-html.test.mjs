@@ -143,6 +143,8 @@ test("uses local original artwork files in both portfolio views", async () => {
   assert.match(styles, /\.work-entry:first-child\s*\{[\s\S]*?padding-top: 64px/);
   assert.match(styles, /calc\(\(100svh - 112px\) \* var\(--work-aspect\)\)/);
   assert.match(styles, /\.work-entry\s*\{[\s\S]*?min-height: 100svh/);
+  assert.doesNotMatch(styles, /\.work-image-button:hover img/);
+  assert.doesNotMatch(styles, /\.archive-image-button:hover img/);
   assert.match(
     styles,
     /\.portfolio-footer\s*\{[\s\S]*?grid-template-columns: repeat\(3/,

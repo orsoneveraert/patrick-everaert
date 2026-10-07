@@ -277,11 +277,6 @@ img {
   height: auto;
   max-height: calc(100svh - 112px);
   object-fit: contain;
-  transition: opacity 180ms ease;
-}
-
-.work-image-button:hover img {
-  opacity: 0.93;
 }
 
 .work-entry figcaption {
@@ -338,11 +333,6 @@ img {
   max-height: 74svh;
   margin: 0 auto;
   object-fit: contain;
-  transition: opacity 180ms ease;
-}
-
-.archive-image-button:hover img {
-  opacity: 0.93;
 }
 
 .archive-entry figcaption {
