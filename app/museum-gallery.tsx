@@ -29,8 +29,6 @@ const copy = {
     books: "Books",
     personalExhibition: "Personal exhibition",
     collectiveExhibition: "Collective exhibition",
-    digitalArchive: "Archive numérique",
-    materials: "Matériaux",
     bookLines: [
       "2015 — Trous noirs, trous blancs — Monographie, BPS22",
       "2015 — Tuer le Temps — Catalogue d’exposition, BPS22",
@@ -50,14 +48,6 @@ const copy = {
       "2004 — Éblouissement — Jeu de Paume, Paris",
       "2001 — La trahison des images — 49e Biennale de Venise",
     ],
-    archiveLines: [
-      "101 œuvres",
-      "23 années représentées",
-      "1989—2022",
-      "Ordre, dimensions et attribution source conservés",
-    ],
-    materialsText:
-      "33 tirages Lambda collés sur Dibond, 33 tirages photographiques collés sur Dibond, 15 tirages photographiques collés sur Forex, 13 impressions giclées sur papier chiffon, 6 impressions sur toile et 1 lithographie.",
   },
   en: {
     work: "Work",
@@ -80,8 +70,6 @@ const copy = {
     books: "Books",
     personalExhibition: "Personal exhibition",
     collectiveExhibition: "Collective exhibition",
-    digitalArchive: "Digital archive",
-    materials: "Materials",
     bookLines: [
       "2015 — Trous noirs, trous blancs — Monograph, BPS22",
       "2015 — Tuer le Temps — Exhibition catalogue, BPS22",
@@ -101,14 +89,6 @@ const copy = {
       "2004 — Éblouissement — Jeu de Paume, Paris",
       "2001 — La trahison des images — 49th Venice Biennale",
     ],
-    archiveLines: [
-      "101 works",
-      "23 years represented",
-      "1989—2022",
-      "Source order, dimensions and attribution preserved",
-    ],
-    materialsText:
-      "33 Lambda prints mounted on Dibond, 33 photographic prints mounted on Dibond, 15 photographic prints mounted on Forex, 13 giclée prints on rag paper, 6 prints on canvas and 1 lithograph.",
   },
 } as const;
 
@@ -377,16 +357,6 @@ function AboutFooter({ language }: { language: Language }) {
         {text.collectiveExhibitionLines.map((line) => (
           <p key={line}>{line}</p>
         ))}
-      </section>
-      <section className="footer-block footer-archive">
-        <h2>{text.digitalArchive}</h2>
-        {text.archiveLines.map((line) => (
-          <p key={line}>{line}</p>
-        ))}
-      </section>
-      <section className="footer-block footer-materials">
-        <h2>{text.materials}</h2>
-        <p>{text.materialsText}</p>
       </section>
       <a className="to-top" href="#top">
         {text.toTop} <span aria-hidden="true">↑</span>

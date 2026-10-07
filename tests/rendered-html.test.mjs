@@ -41,8 +41,8 @@ test("server-renders the editorial portfolio", async () => {
   assert.match(html, /Personal exhibition/);
   assert.match(html, /Collective exhibition/);
   assert.match(html, /Trous noirs, trous blancs/);
-  assert.match(html, /Archive numérique/);
-  assert.match(html, /33 tirages Lambda/);
+  assert.doesNotMatch(html, /Archive numérique/);
+  assert.doesNotMatch(html, /MATÉRIAUX/);
   assert.match(html, />FR</);
   assert.match(html, />EN</);
   assert.match(html, /\/artworks\/pe-001\.jpg/);

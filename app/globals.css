@@ -315,8 +315,7 @@ img {
 }
 
 .footer-personal-exhibition,
-.footer-collective-exhibition,
-.footer-archive {
+.footer-collective-exhibition {
   min-height: 353px;
 }
 
@@ -347,11 +346,6 @@ img {
 
 .footer-block a {
   border-bottom: 1px solid currentColor;
-}
-
-.footer-materials {
-  grid-column: 1;
-  min-height: 374px;
 }
 
 .to-top {
@@ -718,8 +712,7 @@ img {
   .footer-contact,
   .footer-books,
   .footer-personal-exhibition,
-  .footer-collective-exhibition,
-  .footer-archive {
+  .footer-collective-exhibition {
     min-height: 0;
   }
 
@@ -733,11 +726,6 @@ img {
     line-height: 18px;
   }
 
-  .footer-materials {
-    min-height: 0;
-  }
-
-  .footer-materials,
   .to-top {
     grid-column: 1;
   }
