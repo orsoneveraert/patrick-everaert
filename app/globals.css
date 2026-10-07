@@ -507,7 +507,7 @@ img {
 
 .mobile-menu {
   overflow-y: auto;
-  padding: max(96px, env(safe-area-inset-top)) 28px 40px;
+  padding: max(64px, env(safe-area-inset-top)) 28px max(64px, env(safe-area-inset-bottom));
   color: var(--ink);
   font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
   font-size: clamp(32px, 9vw, 42px);
@@ -516,12 +516,19 @@ img {
   text-transform: uppercase;
 }
 
+.mobile-menu[open] {
+  display: flex;
+  flex-direction: column;
+}
+
 .mobile-menu nav {
   display: flex;
   flex-direction: column;
   align-items: center;
   gap: 32px;
   text-align: center;
+  flex-shrink: 0;
+  margin: auto 0;
 }
 
 .mobile-menu nav button {
