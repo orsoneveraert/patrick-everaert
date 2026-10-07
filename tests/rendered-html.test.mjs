@@ -102,11 +102,14 @@ test("uses local original artwork files in both portfolio views", async () => {
   );
 
   assert.match(source, /src=\{work\.localImageUrl\}/);
-  assert.match(source, /chronologicalWorks\.map\(\(work, index\)/);
+  assert.match(source, /archiveWorks\.map\(\(work, index\)/);
+  assert.match(
+    source,
+    /Number\(b\.year\) - Number\(a\.year\) \|\| a\.sourceOrder - b\.sourceOrder/,
+  );
   assert.match(source, /"--work-aspect": aspect/);
   assert.equal(personalExhibitions.length, 19);
   assert.equal(collectiveExhibitions.length, 69);
-  assert.match(source, /Number\(a\.year\) - Number\(b\.year\)/);
   assert.match(source, /loading=\{index < 2 \? "eager" : "lazy"\}/);
   assert.match(source, /Complete artwork archive/);
   assert.match(source, /portfolio-dialog/);

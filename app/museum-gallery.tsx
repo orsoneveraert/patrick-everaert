@@ -259,11 +259,11 @@ function ArchiveView({
   onOpen: (work: Artwork) => void;
 }) {
   const text = copy[language];
-  const chronologicalWorks = useMemo(
+  const archiveWorks = useMemo(
     () =>
       [...artworks].sort(
         (a, b) =>
-          Number(a.year) - Number(b.year) || a.sourceOrder - b.sourceOrder,
+          Number(b.year) - Number(a.year) || a.sourceOrder - b.sourceOrder,
       ),
     [],
   );
@@ -272,7 +272,7 @@ function ArchiveView({
     <section className="archive-view" aria-label={text.completeArchive}>
       <h1 className="sr-only">Patrick Everaert — {text.completeArchive}</h1>
       <div className="archive-sequence">
-        {chronologicalWorks.map((work, index) => (
+        {archiveWorks.map((work, index) => (
           <figure className="archive-entry" key={work.id}>
             <button
               className="archive-image-button"
