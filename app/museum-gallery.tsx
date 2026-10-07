@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import { useRouter } from "next/navigation";
-import { useEffect, useMemo, useState, useRef, useCallback, type CSSProperties } from "react";
+import { useEffect, useLayoutEffect, useMemo, useState, useRef, useCallback, type CSSProperties, type RefObject } from "react";
 import { artworks, type Artwork } from "../lib/artworks";
 import {
   collectiveExhibitions,
@@ -33,7 +33,7 @@ function workImageSizes(work: Artwork, index: number) {
   return `(max-width: 680px) min(${mobileMaximum}, calc((100svh - 104px) * ${aspect})), min(${maximum}, calc((100svh - 112px) * ${aspect}), calc(100vw - 40px))`;
 }
 
-function scrollToSection(event: React.MouseEvent<HTMLAnchorElement>, id: string) {
+function scrollToSection(event: React.MouseEvent<HTMLAnchorElement>, id: string, behavior: ScrollBehavior = "smooth") {
   if (event.metaKey || event.ctrlKey || event.shiftKey || event.altKey) return;
   const section = document.getElementById(id);
   if (!section) return;
@@ -43,7 +43,7 @@ function scrollToSection(event: React.MouseEvent<HTMLAnchorElement>, id: string)
   const state = { ...window.history.state, portfolioGallery: window.location.pathname.replace(/\/?$/, "/") };
   window.history.replaceState(state, "", window.location.href);
   window.history.pushState(state, "", `#${id}`);
-  section.scrollIntoView({ behavior: "smooth" });
+  section.scrollIntoView({ behavior });
 }
 
 const copy = {
@@ -95,9 +95,9 @@ const copy = {
 
 const selectedOrders = [1, 15, 21, 43, 53, 67, 72, 77, 87, 95, 99, 101];
 
-function usePortfolioDialog() {
+function usePortfolioDialog(afterClose?: RefObject<(() => void) | null>) {
   const dialogRef = useRef<HTMLDialogElement>(null);
-  useEffect(() => {
+  useLayoutEffect(() => {
     const dialog = dialogRef.current;
     const previousFocus = document.activeElement as HTMLElement | null;
     const scrollX = window.scrollX;
@@ -124,8 +124,11 @@ function usePortfolioDialog() {
       else body.setAttribute("style", previousStyle);
       window.scrollTo({ left: scrollX, top: scrollY, behavior: "instant" });
       previousFocus?.focus({ preventScroll: true });
+      // Finish navigation only once the fixed body and modal have been removed.
+      // A queued animation frame can otherwise race the passive effect cleanup.
+      afterClose?.current?.();
     };
-  }, []);
+  }, [afterClose]);
   return dialogRef;
 }
 
@@ -185,7 +188,8 @@ function MobileMenu({ view, language, aboutActive, onClose }: {
   aboutActive: boolean;
   onClose: () => void;
 }) {
-  const dialogRef = usePortfolioDialog();
+  const afterClose = useRef<(() => void) | null>(null);
+  const dialogRef = usePortfolioDialog(afterClose);
   const text = copy[language];
   useEffect(() => {
     const breakpoint = window.matchMedia("(max-width: 680px)");
@@ -210,19 +214,19 @@ function MobileMenu({ view, language, aboutActive, onClose }: {
                 <Link href={`${portfolioPath(language, "archive")}#decade-${decade}`}
                   onClick={(event) => {
                     if (event.metaKey || event.ctrlKey || event.shiftKey || event.altKey) return;
-                    onClose();
                     if (view === "archive") {
                       event.preventDefault();
-                      requestAnimationFrame(() => scrollToSection(event, `decade-${decade}`));
+                      afterClose.current = () => scrollToSection(event, `decade-${decade}`, "instant");
                     }
+                    onClose();
                   }} aria-label={language === "fr" ? `Années ${decade}` : `${decade}s`}>{decade}</Link>
               </span>
             ))}
           </div>
         </div>
         <button type="button" aria-current={aboutActive ? "location" : undefined} onClick={() => {
+          afterClose.current = () => document.getElementById("about")?.scrollIntoView({ behavior: "instant" });
           onClose();
-          requestAnimationFrame(() => document.getElementById("about")?.scrollIntoView({ behavior: "smooth" }));
         }}>{text.about}</button>
         <div className="mobile-menu-languages" aria-label="Language / Langue">
           <Link href={portfolioPath("fr", view)} hrefLang="fr" onClick={onClose} aria-current={language === "fr" ? "page" : undefined}>FR</Link>
