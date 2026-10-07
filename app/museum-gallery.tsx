@@ -167,50 +167,56 @@ function SiteHeader({
   };
 
   return (
-    <header className="portfolio-header">
+    <header
+      className={`portfolio-header${view === "archive" ? " is-archive" : ""}`}
+    >
+      <h1 className="header-title">Patrick Everaert</h1>
       <nav
-        className="portfolio-nav portfolio-nav-left"
+        className="portfolio-nav"
         aria-label={language === "fr" ? "Vues du portfolio" : "Portfolio views"}
       >
-        <button
-          className={view === "work" ? "is-active" : ""}
-          type="button"
-          onClick={() => onView("work")}
-        >
-          {text.work}
-        </button>
-        <button
-          className={view === "archive" ? "is-active" : ""}
-          type="button"
-          onClick={() => onView("archive")}
-        >
-          {text.archive}
-        </button>
-      </nav>
-      <div className="header-right">
-        <button className="about-jump" type="button" onClick={goToAbout}>
-          {text.about} <span aria-hidden="true">↓</span>
-        </button>
-        <div className="language-switcher" aria-label="Language / Langue">
+        <div className="portfolio-nav-menu">
           <button
-            className={language === "fr" ? "is-active" : ""}
+            className={view === "work" ? "is-active" : ""}
             type="button"
-            aria-pressed={language === "fr"}
-            onClick={() => onLanguage("fr")}
+            onClick={() => onView("work")}
           >
-            FR
+            {text.work}
           </button>
-          <span aria-hidden="true">/</span>
           <button
-            className={language === "en" ? "is-active" : ""}
+            className={view === "archive" ? "is-active" : ""}
             type="button"
-            aria-pressed={language === "en"}
-            onClick={() => onLanguage("en")}
+            onClick={() => onView("archive")}
           >
-            EN
+            {text.archive}
           </button>
         </div>
-      </div>
+        <div className="header-right">
+          <button className="about-jump" type="button" onClick={goToAbout}>
+            <span className="about-label">{text.about}</span>
+            <span className="about-arrow" aria-hidden="true">↓</span>
+          </button>
+          <div className="language-switcher" aria-label="Language / Langue">
+            <button
+              className={language === "fr" ? "is-active" : ""}
+              type="button"
+              aria-pressed={language === "fr"}
+              onClick={() => onLanguage("fr")}
+            >
+              FR
+            </button>
+            <span aria-hidden="true">/</span>
+            <button
+              className={language === "en" ? "is-active" : ""}
+              type="button"
+              aria-pressed={language === "en"}
+              onClick={() => onLanguage("en")}
+            >
+              EN
+            </button>
+          </div>
+        </div>
+      </nav>
     </header>
   );
 }
@@ -229,9 +235,7 @@ function WorkView({
 
   return (
     <section className="work-view" aria-label={copy[language].selectedWorks}>
-      <div className="portfolio-intro">
-        <h1>Patrick Everaert</h1>
-      </div>
+      <div className="portfolio-intro" aria-hidden="true" />
       <div className="work-sequence">
         {selectedWorks.map((work, index) => {
           const aspect = work.width / work.height;

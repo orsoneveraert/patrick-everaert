@@ -71,31 +71,67 @@ img {
 }
 
 .portfolio-header {
-  position: absolute;
+  position: relative;
   z-index: 30;
-  top: 0;
-  left: 0;
-  right: 0;
   display: flex;
-  align-items: flex-start;
-  justify-content: space-between;
-  padding: 20px;
+  height: 0;
   pointer-events: none;
 }
 
-.portfolio-nav,
-.header-right {
-  pointer-events: auto;
+.header-title {
+  position: fixed;
+  z-index: 30;
+  top: 20px;
+  left: 20px;
+  right: 20px;
+  width: auto;
+  margin: 0;
+  padding: 0 40px;
+  color: var(--ink);
+  font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+  font-size: 14px;
+  font-weight: 400;
+  line-height: 1.1;
+  text-align: center;
+  text-transform: uppercase;
+  transform: translateY(calc(40vh - 50%));
+  pointer-events: none;
 }
 
-.header-right {
-  display: flex;
-  align-items: flex-start;
-  gap: 22px;
+.portfolio-header.is-archive .header-title {
+  display: none;
 }
 
 .portfolio-nav {
+  position: absolute;
+  z-index: 30;
+  top: 20px;
+  left: 0;
+  width: 100%;
+  padding: 0 20px;
+  font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+  font-size: 14px;
+  font-weight: 400;
+  line-height: 1.1;
+  text-transform: uppercase;
+  pointer-events: auto;
+}
+
+.portfolio-nav-menu {
+  margin: 0;
+  padding: 0;
+}
+
+.portfolio-nav-menu button:first-child {
+  margin-right: 12px;
+}
+
+.header-right {
+  position: absolute;
+  top: 0;
+  right: 20px;
   display: flex;
+  align-items: flex-start;
   gap: 16px;
 }
 
@@ -103,14 +139,20 @@ img {
 .about-jump,
 .language-switcher {
   position: relative;
-  padding: 0 0 4px;
+  padding: 0 0 3px;
   background: transparent;
-  font-size: 11px;
+  font-family: inherit;
+  font-size: 14px;
   font-weight: 400;
-  line-height: 1;
-  letter-spacing: -0.015em;
+  line-height: 1.1;
+  letter-spacing: normal;
   text-transform: uppercase;
   cursor: pointer;
+}
+
+.portfolio-nav-menu > button,
+.about-jump {
+  border-bottom: 1px solid transparent;
 }
 
 .language-switcher {
@@ -121,41 +163,60 @@ img {
 
 .language-switcher button {
   padding: 0;
+  border-bottom: 1px solid transparent;
   background: transparent;
   font: inherit;
   text-transform: uppercase;
   cursor: pointer;
-  opacity: 0.42;
-  transition: opacity 160ms ease;
+  opacity: 1;
 }
 
 .language-switcher button:hover,
 .language-switcher button:focus-visible,
 .language-switcher button.is-active {
-  opacity: 1;
+  border-bottom-color: #000;
 }
 
-.portfolio-nav button::after,
-.about-jump::after {
-  content: "";
+.portfolio-nav-menu > button:hover,
+.portfolio-nav-menu > button:focus-visible,
+.about-jump:hover,
+.about-jump:focus-visible {
+  border-bottom-color: rgba(0, 0, 0, 0.35);
+}
+
+.portfolio-nav-menu > button.is-active {
+  border-bottom-color: #000;
+}
+
+.about-label {
+  display: inline-block;
+  transition: transform 150ms ease-out;
+}
+
+.about-arrow {
   position: absolute;
+  z-index: -1;
+  top: 0;
   left: 0;
-  right: 0;
-  bottom: 0;
-  height: 1px;
-  background: currentColor;
-  transform: scaleX(0);
-  transform-origin: right;
-  transition: transform 180ms ease;
+  width: 100%;
+  text-align: right;
+  opacity: 0;
+  transition: opacity 150ms ease-out, transform 150ms ease-out;
 }
 
-.portfolio-nav button:hover::after,
-.portfolio-nav button:focus-visible::after,
-.portfolio-nav button.is-active::after,
-.about-jump:hover::after,
-.about-jump:focus-visible::after {
-  transform: scaleX(1);
-  transform-origin: left;
+@media (hover: hover) {
+  .about-jump:hover {
+    border-bottom-color: transparent;
+  }
+
+  .about-jump:hover .about-label {
+    transform: translateX(-0.6em);
+  }
+
+  .about-jump:hover .about-arrow {
+    opacity: 1;
+    transform: translateX(0.4em);
+  }
 }
 
 .portfolio-intro {
@@ -163,15 +224,6 @@ img {
   min-height: 62svh;
   place-items: end center;
   padding: 0 20px 12svh;
-}
-
-.portfolio-intro h1 {
-  margin: 0;
-  font-size: clamp(14px, 1.2vw, 19px);
-  font-weight: 400;
-  line-height: 1;
-  letter-spacing: -0.035em;
-  text-transform: uppercase;
 }
 
 .work-sequence {
@@ -636,31 +688,9 @@ img {
 }
 
 @media (max-width: 680px) {
-  .portfolio-header {
-    padding: 16px;
-  }
-
-  .portfolio-nav {
-    gap: 13px;
-  }
-
-  .portfolio-nav button,
-  .about-jump,
-  .language-switcher {
-    font-size: 10px;
-  }
-
-  .header-right {
-    gap: 12px;
-  }
-
   .portfolio-intro {
     min-height: 57svh;
     padding-bottom: 11svh;
-  }
-
-  .portfolio-intro h1 {
-    font-size: 13px;
   }
 
   .work-sequence {
@@ -775,6 +805,32 @@ img {
 
   .manage-summary div:last-child {
     border-bottom: 0;
+  }
+}
+
+@media (min-width: 65rem) {
+  .portfolio-header {
+    position: fixed;
+    z-index: 1000;
+  }
+
+  .header-title {
+    right: auto;
+    width: auto;
+    padding: 0;
+    text-align: left;
+    white-space: nowrap;
+    transform: none;
+  }
+
+  .portfolio-header.is-archive .header-title {
+    display: block;
+  }
+
+  .portfolio-nav {
+    position: fixed;
+    left: calc(50% - 20px);
+    width: 50%;
   }
 }
 

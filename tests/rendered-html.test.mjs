@@ -114,6 +114,10 @@ test("uses local original artwork files in both portfolio views", async () => {
   assert.match(styles, /\.archive-entry\s*\{[\s\S]*?min-height: 100svh/);
   assert.match(styles, /grid-template-columns: minmax\(0, 1fr\)/);
   assert.match(styles, /\.portfolio-header\s*\{[\s\S]*?position: fixed/);
+  assert.match(styles, /\.header-title\s*\{[\s\S]*?font-size: 14px/);
+  assert.match(styles, /\.portfolio-nav\s*\{[\s\S]*?top: 20px/);
+  assert.match(styles, /left: calc\(50% - 20px\)/);
+  assert.match(styles, /\.header-right\s*\{[\s\S]*?gap: 16px/);
   assert.match(styles, /\.portfolio-intro\s*\{[\s\S]*?min-height: 62svh/);
   assert.match(
     styles,
