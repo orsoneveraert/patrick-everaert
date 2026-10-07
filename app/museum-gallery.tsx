@@ -23,7 +23,7 @@ const copy = {
     worksCount: "101 œuvres",
     dimensions: "Toutes les dimensions sont en centimètres",
     contact: "Contact",
-    contactPending: "Coordonnées de l’atelier à venir.",
+    contactEmail: "patrickeveraert@mac.com",
     artworkIndex: "Index des œuvres ↗",
     toTop: "Haut de page",
     techniques: "Techniques",
@@ -73,7 +73,7 @@ const copy = {
     worksCount: "101 works",
     dimensions: "All dimensions in centimetres",
     contact: "Contact",
-    contactPending: "Studio details forthcoming.",
+    contactEmail: "patrickeveraert@mac.com",
     artworkIndex: "Artwork index ↗",
     toTop: "To top",
     techniques: "Techniques",
@@ -340,7 +340,9 @@ function AboutFooter({ language }: { language: Language }) {
       </section>
       <section className="footer-block footer-contact">
         <h2>{text.contact}</h2>
-        <p>{text.contactPending}</p>
+        <p>
+          <a href={`mailto:${text.contactEmail}`}>{text.contactEmail}</a>
+        </p>
         <Link href="/manage">{text.artworkIndex}</Link>
       </section>
       <section className="footer-block footer-techniques">
