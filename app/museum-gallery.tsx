@@ -35,8 +35,8 @@ const copy = {
     toTop: "Haut de page",
     personalPublication: "Publications personnelles",
     collectivePublication: "Publications collectives",
-    personalExhibition: "Personal exhibition",
-    collectiveExhibition: "Collective exhibition",
+    personalExhibition: "Expositions personnelles",
+    collectiveExhibition: "Expositions collectives",
   },
   en: {
     work: "Work",

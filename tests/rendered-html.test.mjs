@@ -47,8 +47,8 @@ test("server-renders the editorial portfolio", async () => {
   assert.match(html, /mailto:patrickeveraert@mac\.com/);
   assert.match(html, /Publications personnelles/);
   assert.match(html, /Publications collectives/);
-  assert.match(html, /Personal exhibition/);
-  assert.match(html, /Collective exhibition/);
+  assert.match(html, /Expositions personnelles/);
+  assert.match(html, /Expositions collectives/);
   assert.match(html, /Trous Noirs, Trous Blancs/);
   assert.match(html, /Architectures Wallonie-Bruxelles/);
   assert.doesNotMatch(html, /Archive numérique/);
