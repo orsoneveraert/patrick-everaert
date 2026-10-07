@@ -83,7 +83,7 @@ test("keeps all scraped physical dimensions and attribution fields", async () =>
 });
 
 test("server-renders the management index", async () => {
-  const response = await render("/manage");
+  const response = await render("/manage/");
   assert.equal(response.status, 200);
   const html = await response.text();
   assert.match(html, /Artwork index/);
@@ -96,7 +96,7 @@ test("server-renders the management index", async () => {
 });
 
 test("server-renders the crawlable archive route", async () => {
-  const response = await render("/archive");
+  const response = await render("/archive/");
   assert.equal(response.status, 200);
   const html = await response.text();
   assert.match(html, /Archives complètes des œuvres/);

@@ -24,6 +24,15 @@ To verify the production build:
 npm run build
 ```
 
+To generate the static GitHub Pages site:
+
+```bash
+npm run build:pages
+```
+
+The export is written to `out/`. Pushes to `main` are deployed by
+`.github/workflows/pages.yml`.
+
 ## Content management
 
 - `data/artworks.json` is the editable source of truth used by the website.
