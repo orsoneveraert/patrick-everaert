@@ -33,6 +33,19 @@ function workImageSizes(work: Artwork, index: number) {
   return `(max-width: 680px) min(${mobileMaximum}, calc((100svh - 104px) * ${aspect})), min(${maximum}, calc((100svh - 112px) * ${aspect}), calc(100vw - 40px))`;
 }
 
+function scrollToSection(event: React.MouseEvent<HTMLAnchorElement>, id: string) {
+  if (event.metaKey || event.ctrlKey || event.shiftKey || event.altKey) return;
+  const section = document.getElementById(id);
+  if (!section) return;
+  event.preventDefault();
+  // A native hash navigation also fires popstate in Safari. Keep this local
+  // scroll from triggering a delayed route render over an opened artwork.
+  const state = { ...window.history.state, portfolioGallery: window.location.pathname.replace(/\/?$/, "/") };
+  window.history.replaceState(state, "", window.location.href);
+  window.history.pushState(state, "", `#${id}`);
+  section.scrollIntoView({ behavior: "smooth" });
+}
+
 const copy = {
   fr: {
     work: "Œuvres",
@@ -227,7 +240,7 @@ function SiteHeader({
               {decades.map((decade, index) => (
                 <span key={decade}>
                   {index > 0 && <span aria-hidden="true"> · </span>}
-                  <a href={`#decade-${decade}`} aria-label={language === "fr" ? `Années ${decade}` : `${decade}s`}>
+                  <a href={`#decade-${decade}`} onClick={(event) => scrollToSection(event, `decade-${decade}`)} aria-label={language === "fr" ? `Années ${decade}` : `${decade}s`}>
                     {decade}
                   </a>
                 </span>
@@ -446,7 +459,7 @@ function AboutFooter({ language }: { language: Language }) {
           ))}
         </div>
       </section>
-      <a className="to-top" href="#top">
+      <a className="to-top" href="#top" onClick={(event) => scrollToSection(event, "top")}>
         <span className="to-top-content">
           <span className="about-label">{text.toTop}</span>
           <span className="about-arrow" aria-hidden="true">↑</span>
@@ -476,19 +489,28 @@ export default function MuseumGallery({
   }, [language]);
 
   useEffect(() => {
-    const syncLocation = () => {
+    const syncLocation = (event: PopStateEvent) => {
+      const galleryPath = portfolioPath(language, view);
+      if (event.state?.portfolioGallery === galleryPath) {
+        // Artwork history belongs to this mounted gallery. A route fetch here
+        // could finish late and reset the viewer or its restored scroll.
+        event.stopImmediatePropagation();
+        window.history.replaceState(event.state, "", window.location.href);
+      }
       const path = window.location.pathname.replace(/\/$/, "");
       const nextLanguage = path.startsWith("/en") ? "en" : "fr";
       const id = path.match(/\/(?:oeuvres|works)\/(pe-\d+)$/)?.[1];
+      openedHere.current = Boolean(id && event.state?.portfolioGallery === galleryPath);
       setLanguage(nextLanguage);
       if (!id) setView(path.endsWith("/archive") ? "archive" : "work");
       setOpenWork(artworks.find((work) => work.id === id) ?? null);
     };
-    window.addEventListener("popstate", syncLocation);
-    return () => window.removeEventListener("popstate", syncLocation);
-  }, []);
+    window.addEventListener("popstate", syncLocation, true);
+    return () => window.removeEventListener("popstate", syncLocation, true);
+  }, [language, view]);
 
   const openArtwork = (work: Artwork) => {
+    window.history.replaceState({ ...window.history.state, portfolioGallery: portfolioPath(language, view) }, "", window.location.href);
     window.history.pushState({ ...window.history.state }, "", portfolioPath(language, view, work.id));
     openedHere.current = true;
     setOpenWork(work);
