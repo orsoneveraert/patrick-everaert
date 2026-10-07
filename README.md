@@ -72,3 +72,8 @@ in another tab. Direct links open the white, full-window image viewer with only
 a close cross. Escape, keyboard focus containment and focus restoration are
 handled by a native modal dialog. Closing returns to the gallery; opening and
 closing in the gallery preserves the current scroll position.
+
+On phones, the archive uses the document's natural scroll rather than a nested
+mandatory snap scroller. Image space is reserved before lazy loading, and the
+viewer freezes and restores the page position for iOS Safari. The fixed header
+uses one fixed container while retaining its contrast over the images.

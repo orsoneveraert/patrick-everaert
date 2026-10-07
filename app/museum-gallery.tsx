@@ -95,12 +95,29 @@ function ArtworkDialog({
   useEffect(() => {
     const dialog = dialogRef.current;
     const previousFocus = document.activeElement as HTMLElement | null;
+    const scrollX = window.scrollX;
+    const scrollY = window.scrollY;
+    const body = document.body;
+    const previousStyle = body.getAttribute("style");
+    // overflow:hidden alone does not reliably lock the page in iOS Safari.
+    const scrollbarWidth = window.innerWidth - document.documentElement.clientWidth;
+    const paddingRight = parseFloat(getComputedStyle(body).paddingRight) || 0;
+    Object.assign(body.style, {
+      position: "fixed",
+      top: `${-scrollY}px`,
+      left: `${-scrollX}px`,
+      width: "100%",
+      paddingRight: `${paddingRight + scrollbarWidth}px`,
+    });
     dialog?.showModal();
     dialog?.focus({ preventScroll: true });
     document.body.classList.add("dialog-open");
     return () => {
       dialog?.close();
       document.body.classList.remove("dialog-open");
+      if (previousStyle === null) body.removeAttribute("style");
+      else body.setAttribute("style", previousStyle);
+      window.scrollTo({ left: scrollX, top: scrollY, behavior: "instant" });
       previousFocus?.focus({ preventScroll: true });
     };
   }, []);
@@ -339,6 +356,7 @@ function ArchiveView({
           >
             <a
               className="archive-image-button"
+              style={{ "--image-aspect": responsiveImage(work).width / responsiveImage(work).height } as CSSProperties}
               href={portfolioPath(language, "archive", work.id)}
               onClick={(event) => { if (!event.metaKey && !event.ctrlKey && !event.shiftKey && !event.altKey) { event.preventDefault(); onOpen(work); } }}
               aria-label={`${text.open} ${work.title}, ${work.year}, ${work.physical_dimensions}`}
