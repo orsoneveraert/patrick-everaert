@@ -11,7 +11,7 @@ import {
 const sizeCategories: ArtworkSizeCategory[] = ["small", "medium", "large"];
 
 export const metadata: Metadata = {
-  title: "Gestion du contenu",
+  title: "Patrick Everaert",
   robots: {
     index: false,
     follow: false,

@@ -5,10 +5,7 @@ const siteUrl = new URL("https://patrickeveraert.info");
 
 export const metadata: Metadata = {
   metadataBase: siteUrl,
-  title: {
-    default: "Patrick Everaert — Artiste belge contemporain",
-    template: "%s | Patrick Everaert",
-  },
+  title: "Patrick Everaert",
   description:
     "Œuvres, archives, expositions et publications de Patrick Everaert, artiste belge né à Charleroi, actif depuis les années 1990.",
   keywords: [
