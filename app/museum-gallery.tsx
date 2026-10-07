@@ -619,6 +619,7 @@ export default function MuseumGallery({
   }, [language, view]);
 
   const openArtwork = (work: Artwork) => {
+    rememberScroll();
     window.history.replaceState({ ...window.history.state, portfolioGallery: portfolioPath(language, view) }, "", window.location.href);
     window.history.pushState({ ...window.history.state }, "", portfolioPath(language, view, work.id));
     openedHere.current = true;

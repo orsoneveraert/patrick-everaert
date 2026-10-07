@@ -1,0 +1,8 @@
+# Cache content-hashed assets immutably (vinext writes this rule only when no _headers file exists)
+/assets/*
+  Cache-Control: public, max-age=31536000, immutable
+
+# Static prerendered RSC payloads. Without this type vinext treats the response
+# as invalid and falls back to a full page load on every client navigation.
+/*.rsc
+  Content-Type: text/x-component

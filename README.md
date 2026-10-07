@@ -34,6 +34,10 @@ through `.github/workflows/pages.yml`.
 
 Production is the existing Cloudflare Worker `patrick-everaert`, serving
 `https://patrickeveraert.info/` and redirecting `www` to the primary domain.
+`public/_headers` must keep serving `/*.rsc` as `text/x-component`: Cloudflare sends
+these static payloads without a type, and vinext then falls back to a full page
+load on every link, back/forward and viewer close. It also holds the immutable
+cache rule for `/assets/*`, which vinext only writes when that file is absent.
 Publish with `npm run deploy` using the existing Wrangler login. This builds
 the Vinext Worker and uploads `dist/server` with its assets from `dist/client`.
 GitHub Pages is not enabled; the old `.openai/hosting.json` Site identifier is

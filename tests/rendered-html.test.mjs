@@ -181,3 +181,15 @@ test("uses local original artwork files in both portfolio views", async () => {
     /\.portfolio-footer\s*\{[\s\S]*?font-family: Arial/,
   );
 });
+
+test("serves prerendered RSC payloads as RSC so client navigation stays in the page", async () => {
+  // Cloudflare sends .rsc assets without a content type. vinext then treats the
+  // payload as invalid and reloads the whole page on every navigation.
+  const headers = await readFile(new URL("../public/_headers", import.meta.url), "utf8");
+  const built = await readFile(new URL("../dist/client/_headers", import.meta.url), "utf8");
+
+  for (const source of [headers, built]) {
+    assert.match(source, /^\/\*\.rsc\n\s+Content-Type: text\/x-component$/m);
+    assert.match(source, /^\/assets\/\*\n\s+Cache-Control: public, max-age=31536000, immutable$/m);
+  }
+});
