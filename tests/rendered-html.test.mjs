@@ -1,6 +1,10 @@
 import assert from "node:assert/strict";
 import { readFile } from "node:fs/promises";
 import test from "node:test";
+import {
+  collectiveExhibitions,
+  personalExhibitions,
+} from "../lib/exhibitions.ts";
 
 async function render(path = "/") {
   const workerUrl = new URL("../dist/server/index.js", import.meta.url);
@@ -100,6 +104,8 @@ test("uses local original artwork files in both portfolio views", async () => {
   assert.match(source, /src=\{work\.localImageUrl\}/);
   assert.match(source, /chronologicalWorks\.map\(\(work, index\)/);
   assert.match(source, /"--work-aspect": aspect/);
+  assert.equal(personalExhibitions.length, 19);
+  assert.equal(collectiveExhibitions.length, 69);
   assert.match(source, /Number\(a\.year\) - Number\(b\.year\)/);
   assert.match(source, /loading=\{index < 2 \? "eager" : "lazy"\}/);
   assert.match(source, /Complete artwork archive/);

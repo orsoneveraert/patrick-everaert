@@ -380,7 +380,15 @@ img {
 
 .footer-personal-exhibition,
 .footer-collective-exhibition {
-  min-height: 353px;
+  min-height: 0;
+}
+
+.footer-personal-exhibition {
+  grid-column: 1;
+}
+
+.footer-collective-exhibition {
+  grid-column: 2 / -1;
 }
 
 .footer-block {
@@ -402,6 +410,15 @@ img {
 
 .footer-about p {
   margin-bottom: 22px;
+}
+
+.exhibition-list-collective {
+  columns: 2;
+  column-gap: clamp(28px, 5vw, 80px);
+}
+
+.exhibition-list p {
+  break-inside: avoid;
 }
 
 .footer-block a {
@@ -758,6 +775,15 @@ img {
   .footer-personal-exhibition,
   .footer-collective-exhibition {
     min-height: 0;
+  }
+
+  .footer-personal-exhibition,
+  .footer-collective-exhibition {
+    grid-column: 1;
+  }
+
+  .exhibition-list-collective {
+    columns: 1;
   }
 
   .footer-block {

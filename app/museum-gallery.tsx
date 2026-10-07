@@ -2,6 +2,10 @@
 
 import { useEffect, useMemo, useState, type CSSProperties } from "react";
 import { artworks, type Artwork } from "../lib/artworks";
+import {
+  collectiveExhibitions,
+  personalExhibitions,
+} from "../lib/exhibitions";
 
 type View = "work" | "archive";
 type Language = "fr" | "en";
@@ -31,21 +35,6 @@ const copy = {
       "2015 — Trous noirs, trous blancs — Monographie, BPS22",
       "2015 — Tuer le Temps — Catalogue d’exposition, BPS22",
     ],
-    personalExhibitionLines: [
-      "2016 — Triptyque — Centre Culturel de l’Eden, Charleroi",
-      "2014 — Evermore — Espace 251 Nord, Liège",
-      "2011 — Artothèque, Angers",
-      "2004 — FRAC Provence-Alpes-Côte d’Azur, Marseille",
-      "2002 — Tuer le Temps — BPS22, Charleroi",
-    ],
-    collectiveExhibitionLines: [
-      "2021 — Magma — Musée L, Louvain-la-Neuve",
-      "2018 — Moi, je…!? — BPS22, Charleroi",
-      "2017 — Regards croisés — Palais de la découverte, Paris",
-      "2016 — Uchronies — BPS22, Charleroi",
-      "2004 — Éblouissement — Jeu de Paume, Paris",
-      "2001 — La trahison des images — 49e Biennale de Venise",
-    ],
   },
   en: {
     work: "Work",
@@ -70,21 +59,6 @@ const copy = {
     bookLines: [
       "2015 — Trous noirs, trous blancs — Monograph, BPS22",
       "2015 — Tuer le Temps — Exhibition catalogue, BPS22",
-    ],
-    personalExhibitionLines: [
-      "2016 — Triptyque — Centre Culturel de l’Eden, Charleroi",
-      "2014 — Evermore — Espace 251 Nord, Liège",
-      "2011 — Artothèque, Angers",
-      "2004 — FRAC Provence-Alpes-Côte d’Azur, Marseille",
-      "2002 — Tuer le Temps — BPS22, Charleroi",
-    ],
-    collectiveExhibitionLines: [
-      "2021 — Magma — Musée L, Louvain-la-Neuve",
-      "2018 — Moi, je…!? — BPS22, Charleroi",
-      "2017 — Regards croisés — Palais de la découverte, Paris",
-      "2016 — Uchronies — BPS22, Charleroi",
-      "2004 — Éblouissement — Jeu de Paume, Paris",
-      "2001 — La trahison des images — 49th Venice Biennale",
     ],
   },
 } as const;
@@ -352,15 +326,19 @@ function AboutFooter({ language }: { language: Language }) {
       </section>
       <section className="footer-block footer-personal-exhibition">
         <h2>{text.personalExhibition}</h2>
-        {text.personalExhibitionLines.map((line) => (
-          <p key={line}>{line}</p>
-        ))}
+        <div className="exhibition-list">
+          {personalExhibitions.map((line) => (
+            <p key={line}>{line}</p>
+          ))}
+        </div>
       </section>
       <section className="footer-block footer-collective-exhibition">
         <h2>{text.collectiveExhibition}</h2>
-        {text.collectiveExhibitionLines.map((line) => (
-          <p key={line}>{line}</p>
-        ))}
+        <div className="exhibition-list exhibition-list-collective">
+          {collectiveExhibitions.map((line) => (
+            <p key={line}>{line}</p>
+          ))}
+        </div>
       </section>
       <a className="to-top" href="#top">
         {text.toTop} <span aria-hidden="true">↑</span>
