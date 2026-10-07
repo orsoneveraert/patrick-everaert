@@ -26,6 +26,37 @@ const copy = {
     contactPending: "Coordonnées de l’atelier à venir.",
     artworkIndex: "Index des œuvres ↗",
     toTop: "Haut de page",
+    techniques: "Techniques",
+    chronology: "Chronologie",
+    formats: "Formats",
+    digitalArchive: "Archive numérique",
+    materials: "Matériaux",
+    techniqueLines: [
+      "10 impressions giclées sur papier chiffon collées sur Dibond",
+      "3 impressions giclées sur papier chiffon",
+      "1 lithographie — Atelier Bruno Robbe",
+      "6 impressions sur toile",
+    ],
+    chronologyLines: [
+      "2022, 2021, 2017, 2014, 2013, 2012",
+      "2011, 2010, 2008, 2006, 2005, 2004",
+      "2002, 2001, 2000, 1998, 1997, 1996",
+      "1995, 1992, 1991, 1990, 1989",
+    ],
+    formatLines: [
+      "32 petits formats — ≤ 65 cm",
+      "43 formats moyens — de 65 à 150 cm",
+      "26 grands formats — ≥ 150 cm",
+      "Dimensions : de 15,3 × 22 à 500 × 700 cm",
+    ],
+    archiveLines: [
+      "101 œuvres",
+      "23 années représentées",
+      "1989—2022",
+      "Ordre, dimensions et attribution source conservés",
+    ],
+    materialsText:
+      "33 tirages Lambda collés sur Dibond, 33 tirages photographiques collés sur Dibond, 15 tirages photographiques collés sur Forex, 13 impressions giclées sur papier chiffon, 6 impressions sur toile et 1 lithographie.",
   },
   en: {
     work: "Work",
@@ -45,6 +76,37 @@ const copy = {
     contactPending: "Studio details forthcoming.",
     artworkIndex: "Artwork index ↗",
     toTop: "To top",
+    techniques: "Techniques",
+    chronology: "Chronology",
+    formats: "Formats",
+    digitalArchive: "Digital archive",
+    materials: "Materials",
+    techniqueLines: [
+      "10 giclée prints on rag paper mounted on Dibond",
+      "3 giclée prints on rag paper",
+      "1 lithograph — Atelier Bruno Robbe",
+      "6 prints on canvas",
+    ],
+    chronologyLines: [
+      "2022, 2021, 2017, 2014, 2013, 2012",
+      "2011, 2010, 2008, 2006, 2005, 2004",
+      "2002, 2001, 2000, 1998, 1997, 1996",
+      "1995, 1992, 1991, 1990, 1989",
+    ],
+    formatLines: [
+      "32 small works — ≤ 65 cm",
+      "43 medium works — 65 to 150 cm",
+      "26 large works — ≥ 150 cm",
+      "Dimensions: from 15.3 × 22 to 500 × 700 cm",
+    ],
+    archiveLines: [
+      "101 works",
+      "23 years represented",
+      "1989—2022",
+      "Source order, dimensions and attribution preserved",
+    ],
+    materialsText:
+      "33 Lambda prints mounted on Dibond, 33 photographic prints mounted on Dibond, 15 photographic prints mounted on Forex, 13 giclée prints on rag paper, 6 prints on canvas and 1 lithograph.",
   },
 } as const;
 
@@ -271,22 +333,44 @@ function AboutFooter({ language }: { language: Language }) {
   const text = copy[language];
   return (
     <footer className="portfolio-footer" id="about">
-      <div className="footer-introduction">
+      <section className="footer-block footer-about">
         <h2>{text.about}</h2>
         <p>{text.aboutParagraphs[0]}</p>
         <p>{text.aboutParagraphs[1]}</p>
-      </div>
-      <div className="footer-column">
-        <h2>{text.archive}</h2>
-        <p>{text.worksCount}</p>
-        <p>1989—2022</p>
-        <p>{text.dimensions}</p>
-      </div>
-      <div className="footer-column">
+      </section>
+      <section className="footer-block footer-contact">
         <h2>{text.contact}</h2>
         <p>{text.contactPending}</p>
         <Link href="/manage">{text.artworkIndex}</Link>
-      </div>
+      </section>
+      <section className="footer-block footer-techniques">
+        <h2>{text.techniques}</h2>
+        {text.techniqueLines.map((line) => (
+          <p key={line}>{line}</p>
+        ))}
+      </section>
+      <section className="footer-block footer-chronology">
+        <h2>{text.chronology}</h2>
+        {text.chronologyLines.map((line) => (
+          <p key={line}>{line}</p>
+        ))}
+      </section>
+      <section className="footer-block footer-formats">
+        <h2>{text.formats}</h2>
+        {text.formatLines.map((line) => (
+          <p key={line}>{line}</p>
+        ))}
+      </section>
+      <section className="footer-block footer-archive">
+        <h2>{text.digitalArchive}</h2>
+        {text.archiveLines.map((line) => (
+          <p key={line}>{line}</p>
+        ))}
+      </section>
+      <section className="footer-block footer-materials">
+        <h2>{text.materials}</h2>
+        <p>{text.materialsText}</p>
+      </section>
       <a className="to-top" href="#top">
         {text.toTop} <span aria-hidden="true">↑</span>
       </a>

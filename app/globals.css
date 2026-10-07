@@ -71,7 +71,7 @@ img {
 }
 
 .portfolio-header {
-  position: fixed;
+  position: absolute;
   z-index: 30;
   top: 0;
   left: 0;
@@ -285,52 +285,70 @@ img {
 }
 
 .portfolio-footer {
-  position: relative;
   display: grid;
-  grid-template-columns: minmax(0, 1.8fr) repeat(2, minmax(150px, 0.65fr));
-  gap: clamp(40px, 7vw, 120px);
-  padding: 80px 20px 150px;
-  border-top: 1px solid var(--hairline);
-  font-size: 11px;
-  line-height: 1.45;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 0;
+  padding: 30px 20px 20px;
+  font-family: Arial, Helvetica, sans-serif;
+  font-size: 14px;
+  line-height: 21px;
+  letter-spacing: normal;
+}
+
+.footer-about,
+.footer-contact,
+.footer-techniques {
+  min-height: 522px;
+}
+
+.footer-chronology,
+.footer-formats,
+.footer-archive {
+  min-height: 353px;
+}
+
+.footer-block {
+  padding: 40px 10% 40px 0;
 }
 
 .portfolio-footer h2 {
-  margin: 0 0 18px;
-  font-size: 10px;
+  margin: 0 0 21px;
+  font: inherit;
+  font-size: 14px;
   font-weight: 400;
-  line-height: 1;
+  line-height: 21px;
   text-transform: uppercase;
 }
 
 .portfolio-footer p {
-  margin: 0 0 12px;
+  margin: 0;
 }
 
-.footer-introduction {
-  max-width: 660px;
+.footer-about p {
+  margin-bottom: 22px;
 }
 
-.footer-introduction p {
-  font-size: clamp(16px, 2vw, 28px);
-  line-height: 1.16;
-  letter-spacing: -0.03em;
+.footer-contact p {
+  margin-bottom: 22px;
 }
 
-.footer-introduction p + p {
-  margin-top: 1.1em;
-}
-
-.footer-column a {
-  display: inline-block;
+.footer-block a {
   border-bottom: 1px solid currentColor;
 }
 
+.footer-materials {
+  grid-column: 1;
+  min-height: 374px;
+}
+
 .to-top {
-  position: absolute;
-  right: 20px;
-  bottom: 20px;
-  font-size: 10px;
+  grid-column: 1 / -1;
+  justify-self: start;
+  width: 100%;
+  min-height: 61px;
+  padding-top: 40px;
+  font-size: 14px;
+  line-height: 21px;
   text-transform: uppercase;
 }
 
@@ -615,14 +633,6 @@ img {
 }
 
 @media (max-width: 900px) {
-  .portfolio-footer {
-    grid-template-columns: 1fr 1fr;
-  }
-
-  .footer-introduction {
-    grid-column: 1 / -1;
-  }
-
   .collection-cards {
     grid-template-columns: repeat(2, 1fr);
   }
@@ -690,21 +700,44 @@ img {
 
   .portfolio-footer {
     grid-template-columns: 1fr;
-    gap: 44px;
-    padding: 56px 16px 120px;
+    padding: 30px 16px 20px;
+    font-size: 12px;
+    line-height: 18px;
   }
 
-  .footer-introduction {
-    grid-column: auto;
+  .footer-about,
+  .footer-contact,
+  .footer-techniques,
+  .footer-chronology,
+  .footer-formats,
+  .footer-archive {
+    min-height: 0;
   }
 
-  .footer-introduction p {
-    font-size: 20px;
+  .footer-block {
+    padding: 34px 0;
+  }
+
+  .portfolio-footer h2 {
+    margin-bottom: 18px;
+    font-size: 12px;
+    line-height: 18px;
+  }
+
+  .footer-materials {
+    min-height: 0;
+  }
+
+  .footer-materials,
+  .to-top {
+    grid-column: 1;
   }
 
   .to-top {
-    right: 16px;
-    bottom: 16px;
+    min-height: 52px;
+    padding-top: 34px;
+    font-size: 12px;
+    line-height: 18px;
   }
 
   .portfolio-dialog {

@@ -35,6 +35,10 @@ test("server-renders the editorial portfolio", async () => {
   assert.match(html, />Archive</);
   assert.match(html, /À propos/);
   assert.match(html, /101 œuvres réalisées entre 1989/);
+  assert.match(html, /Techniques/);
+  assert.match(html, /Chronologie/);
+  assert.match(html, /Archive numérique/);
+  assert.match(html, /33 tirages Lambda/);
   assert.match(html, />FR</);
   assert.match(html, />EN</);
   assert.match(html, /\/artworks\/pe-001\.jpg/);
@@ -104,4 +108,12 @@ test("uses local original artwork files in both portfolio views", async () => {
   assert.match(styles, /grid-template-columns: repeat\(2/);
   assert.match(styles, /\.portfolio-header\s*\{[\s\S]*?position: fixed/);
   assert.match(styles, /\.portfolio-intro\s*\{[\s\S]*?min-height: 62svh/);
+  assert.match(
+    styles,
+    /\.portfolio-footer\s*\{[\s\S]*?grid-template-columns: repeat\(3/,
+  );
+  assert.match(
+    styles,
+    /\.portfolio-footer\s*\{[\s\S]*?font-family: Arial/,
+  );
 });
