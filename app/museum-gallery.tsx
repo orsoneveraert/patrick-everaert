@@ -1,7 +1,6 @@
 "use client";
 
 import { useEffect, useMemo, useState } from "react";
-import Link from "next/link";
 import { artworks, type Artwork } from "../lib/artworks";
 
 type View = "work" | "archive";
@@ -24,7 +23,6 @@ const copy = {
     dimensions: "Toutes les dimensions sont en centimètres",
     contact: "Contact",
     contactEmail: "patrickeveraert@mac.com",
-    artworkIndex: "Index des œuvres ↗",
     toTop: "Haut de page",
     books: "Books",
     personalExhibition: "Personal exhibition",
@@ -65,7 +63,6 @@ const copy = {
     dimensions: "All dimensions in centimetres",
     contact: "Contact",
     contactEmail: "patrickeveraert@mac.com",
-    artworkIndex: "Artwork index ↗",
     toTop: "To top",
     books: "Books",
     personalExhibition: "Personal exhibition",
@@ -337,7 +334,6 @@ function AboutFooter({ language }: { language: Language }) {
         <p>
           <a href={`mailto:${text.contactEmail}`}>{text.contactEmail}</a>
         </p>
-        <Link href="/manage">{text.artworkIndex}</Link>
       </section>
       <section className="footer-block footer-books">
         <h2>{text.books}</h2>
