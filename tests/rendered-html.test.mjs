@@ -111,6 +111,8 @@ test("uses local original artwork files in both portfolio views", async () => {
   assert.equal(personalExhibitions.length, 19);
   assert.equal(collectiveExhibitions.length, 69);
   assert.match(source, /loading=\{index < 2 \? "eager" : "lazy"\}/);
+  assert.match(source, /work\.caption_remainder/);
+  assert.match(source, /archive-caption-collection/);
   assert.match(source, /Complete artwork archive/);
   assert.match(source, /portfolio-dialog/);
   assert.match(source, /type Language = "fr" \| "en"/);

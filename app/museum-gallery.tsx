@@ -295,6 +295,11 @@ function ArchiveView({
               </span>
               <span>{work.material}</span>
               <span>{work.physical_dimensions}</span>
+              {work.caption_remainder ? (
+                <span className="archive-caption-collection">
+                  {work.caption_remainder}
+                </span>
+              ) : null}
             </figcaption>
           </figure>
         ))}
