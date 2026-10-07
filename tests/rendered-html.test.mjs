@@ -138,6 +138,8 @@ test("uses local original artwork files in both portfolio views", async () => {
   assert.match(source, /archive-caption-collection/);
   assert.match(source, /Complete artwork archive/);
   assert.match(source, /portfolio-dialog/);
+  assert.match(source, /event\.key === "Escape" \|\| event\.code === "Escape"/);
+  assert.match(source, /<span aria-hidden="true">×<\/span>/);
   assert.match(source, /type Language = "fr" \| "en"/);
   assert.match(source, /onLanguage\("fr"\)/);
   assert.match(source, /onLanguage\("en"\)/);
@@ -162,6 +164,9 @@ test("uses local original artwork files in both portfolio views", async () => {
   assert.match(styles, /\.work-entry\s*\{[\s\S]*?min-height: 100svh/);
   assert.doesNotMatch(styles, /\.work-image-button:hover img/);
   assert.doesNotMatch(styles, /\.archive-image-button:hover img/);
+  assert.match(styles, /\.portfolio-dialog\s*\{[\s\S]*?z-index: 2000/);
+  assert.match(styles, /\.dialog-close\s*\{[\s\S]*?width: 32px/);
+  assert.match(styles, /\.dialog-close\s*\{[\s\S]*?font-size: 20px/);
   assert.match(
     styles,
     /\.portfolio-footer\s*\{[\s\S]*?grid-template-columns: repeat\(3/,

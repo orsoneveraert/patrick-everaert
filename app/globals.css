@@ -438,7 +438,7 @@ img {
 
 .portfolio-dialog {
   position: fixed;
-  z-index: 100;
+  z-index: 2000;
   inset: 0;
   display: grid;
   place-items: center;
@@ -451,14 +451,29 @@ img {
 .dialog-close {
   position: fixed;
   z-index: 2;
-  top: 20px;
-  right: 20px;
-  padding: 0 0 4px;
-  border-bottom: 1px solid currentColor;
+  top: 12px;
+  right: 12px;
+  display: grid;
+  width: 32px;
+  height: 32px;
+  padding: 8px;
+  place-items: center;
   background: transparent;
-  font-size: 10px;
-  text-transform: uppercase;
+  font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+  font-size: 20px;
+  font-weight: 300;
+  line-height: 16px;
   cursor: pointer;
+}
+
+.dialog-close:hover,
+.dialog-close:focus-visible {
+  opacity: 0.5;
+}
+
+.dialog-close:focus-visible {
+  outline: 1px solid currentColor;
+  outline-offset: 2px;
 }
 
 .dialog-figure {
@@ -803,11 +818,6 @@ img {
 
   .portfolio-dialog {
     padding: 54px 14px 18px;
-  }
-
-  .dialog-close {
-    top: 16px;
-    right: 16px;
   }
 
   .dialog-figure img {

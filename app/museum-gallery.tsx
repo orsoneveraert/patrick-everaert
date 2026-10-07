@@ -77,7 +77,10 @@ function ArtworkDialog({
   const text = copy[language];
   useEffect(() => {
     const onKeyDown = (event: KeyboardEvent) => {
-      if (event.key === "Escape") onClose();
+      if (event.key === "Escape" || event.code === "Escape") {
+        event.preventDefault();
+        onClose();
+      }
     };
     document.body.classList.add("dialog-open");
     window.addEventListener("keydown", onKeyDown);
@@ -98,11 +101,15 @@ function ArtworkDialog({
       <button
         className="dialog-close"
         type="button"
-        onClick={onClose}
+        onClick={(event) => {
+          event.stopPropagation();
+          onClose();
+        }}
         aria-label={language === "fr" ? "Fermer l’œuvre" : "Close artwork"}
+        title={text.close}
         autoFocus
       >
-        {text.close}
+        <span aria-hidden="true">×</span>
       </button>
       <figure className="dialog-figure" onClick={(event) => event.stopPropagation()}>
         <img
