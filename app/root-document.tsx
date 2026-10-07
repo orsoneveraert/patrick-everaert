@@ -96,13 +96,15 @@ const structuredData = {
   ],
 };
 
-export default function RootLayout({
+export default function RootDocument({
   children,
+  language = "fr",
 }: Readonly<{
   children: React.ReactNode;
+  language?: "fr" | "en";
 }>) {
   return (
-    <html lang="fr">
+    <html lang={language}>
       <body>
         <script
           type="application/ld+json"

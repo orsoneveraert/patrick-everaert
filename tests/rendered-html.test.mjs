@@ -38,13 +38,13 @@ test("server-renders the editorial portfolio", async () => {
 
   const html = await response.text();
   assert.match(html, /Patrick Everaert/);
-  assert.match(html, /Artiste belge contemporain/);
+  assert.match(html, /artiste belge contemporain/);
   assert.match(html, /rel="canonical" href="https:\/\/patrickeveraert\.info\/?"/);
   assert.match(html, /application\/ld\+json/);
   assert.match(html, /Œuvres sélectionnées/);
   assert.match(html, />Œuvres</);
   assert.match(html, />Archive</);
-  assert.match(html, /href="\/archive"/);
+  assert.match(html, /href="\/archive\/"/);
   assert.match(html, /À propos/);
   assert.match(html, /né en 1962 à Charleroi/);
   assert.match(html, /peintre sans pinceau et photographe sans appareil/);
@@ -101,7 +101,7 @@ test("server-renders the crawlable archive route", async () => {
   const html = await response.text();
   assert.match(html, /Archives complètes des œuvres/);
   assert.match(html, /Archive chronologique complète/);
-  assert.match(html, /rel="canonical" href="https:\/\/patrickeveraert\.info\/archive"/);
+  assert.match(html, /rel="canonical" href="https:\/\/patrickeveraert\.info\/archive\/"/);
   assert.match(html, /58 x 46 cm/);
 });
 
@@ -138,16 +138,16 @@ test("uses local original artwork files in both portfolio views", async () => {
   assert.match(source, /archive-caption-collection/);
   assert.match(source, /Complete artwork archive/);
   assert.match(source, /portfolio-dialog/);
-  assert.match(source, /event\.key === "Escape" \|\| event\.code === "Escape"/);
+  assert.match(source, /onCancel=/);
   assert.match(source, /<span aria-hidden="true">×<\/span>/);
-  assert.match(source, /type Language = "fr" \| "en"/);
-  assert.match(source, /onLanguage\("fr"\)/);
-  assert.match(source, /onLanguage\("en"\)/);
+  assert.match(source, /type Language/);
+  assert.match(source, /portfolioPath\("fr"/);
+  assert.match(source, /portfolioPath\("en"/);
   assert.doesNotMatch(source, /String\(index \+ 1\)\.padStart/);
   assert.doesNotMatch(source, /scale-person|scene-camera|gallery-track/);
   assert.match(source, /window\.history\.pushState/);
   assert.match(source, /window\.addEventListener\("popstate"/);
-  assert.match(artworkSource, /localImageUrl: `\/artworks\/pe-/);
+  assert.match(artworkSource, /localImageUrl: `\/artworks\/\$\{work.id\}/);
   assert.ok(firstArtwork.byteLength > 100_000);
   assert.match(styles, /\.archive-sequence\s*\{[\s\S]*?scroll-snap-type: y mandatory/);
   assert.match(styles, /\.archive-entry\s*\{[\s\S]*?min-height: 100svh/);
@@ -165,8 +165,8 @@ test("uses local original artwork files in both portfolio views", async () => {
   assert.doesNotMatch(styles, /\.work-image-button:hover img/);
   assert.doesNotMatch(styles, /\.archive-image-button:hover img/);
   assert.match(styles, /\.portfolio-dialog\s*\{[\s\S]*?z-index: 2000/);
-  assert.match(styles, /\.dialog-close\s*\{[\s\S]*?width: 32px/);
-  assert.match(styles, /\.dialog-close\s*\{[\s\S]*?font-size: 20px/);
+  assert.match(styles, /\.dialog-close\s*\{[\s\S]*?width: 44px/);
+  assert.match(styles, /\.dialog-close\s*\{[\s\S]*?font-size: 24px/);
   assert.match(
     styles,
     /\.portfolio-footer\s*\{[\s\S]*?grid-template-columns: repeat\(3/,

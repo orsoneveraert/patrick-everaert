@@ -6,7 +6,7 @@ import {
   getCollectionWorks,
   sizeCategoryConfig,
   type ArtworkSizeCategory,
-} from "../../lib/artworks";
+} from "../../../lib/artworks";
 
 const sizeCategories: ArtworkSizeCategory[] = ["small", "medium", "large"];
 

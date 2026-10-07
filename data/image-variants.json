@@ -1,0 +1,2572 @@
+{
+  "pe-001": {
+    "width": 1975,
+    "height": 2500,
+    "variants": [
+      {
+        "width": 480,
+        "url": "/artworks/responsive/pe-001-480.webp"
+      },
+      {
+        "width": 800,
+        "url": "/artworks/responsive/pe-001-800.webp"
+      },
+      {
+        "width": 1200,
+        "url": "/artworks/responsive/pe-001-1200.webp"
+      },
+      {
+        "width": 1600,
+        "url": "/artworks/responsive/pe-001-1600.webp"
+      },
+      {
+        "width": 1975,
+        "url": "/artworks/pe-001.jpg"
+      }
+    ]
+  },
+  "pe-002": {
+    "width": 1748,
+    "height": 2500,
+    "variants": [
+      {
+        "width": 480,
+        "url": "/artworks/responsive/pe-002-480.webp"
+      },
+      {
+        "width": 800,
+        "url": "/artworks/responsive/pe-002-800.webp"
+      },
+      {
+        "width": 1200,
+        "url": "/artworks/responsive/pe-002-1200.webp"
+      },
+      {
+        "width": 1600,
+        "url": "/artworks/responsive/pe-002-1600.webp"
+      },
+      {
+        "width": 1748,
+        "url": "/artworks/pe-002.jpg"
+      }
+    ]
+  },
+  "pe-003": {
+    "width": 2500,
+    "height": 2500,
+    "variants": [
+      {
+        "width": 480,
+        "url": "/artworks/responsive/pe-003-480.webp"
+      },
+      {
+        "width": 800,
+        "url": "/artworks/responsive/pe-003-800.webp"
+      },
+      {
+        "width": 1200,
+        "url": "/artworks/responsive/pe-003-1200.webp"
+      },
+      {
+        "width": 1600,
+        "url": "/artworks/responsive/pe-003-1600.webp"
+      },
+      {
+        "width": 2500,
+        "url": "/artworks/pe-003.jpg"
+      }
+    ]
+  },
+  "pe-004": {
+    "width": 2500,
+    "height": 1514,
+    "variants": [
+      {
+        "width": 480,
+        "url": "/artworks/responsive/pe-004-480.webp"
+      },
+      {
+        "width": 800,
+        "url": "/artworks/responsive/pe-004-800.webp"
+      },
+      {
+        "width": 1200,
+        "url": "/artworks/responsive/pe-004-1200.webp"
+      },
+      {
+        "width": 1600,
+        "url": "/artworks/responsive/pe-004-1600.webp"
+      },
+      {
+        "width": 2500,
+        "url": "/artworks/pe-004.jpg"
+      }
+    ]
+  },
+  "pe-005": {
+    "width": 2500,
+    "height": 2500,
+    "variants": [
+      {
+        "width": 480,
+        "url": "/artworks/responsive/pe-005-480.webp"
+      },
+      {
+        "width": 800,
+        "url": "/artworks/responsive/pe-005-800.webp"
+      },
+      {
+        "width": 1200,
+        "url": "/artworks/responsive/pe-005-1200.webp"
+      },
+      {
+        "width": 1600,
+        "url": "/artworks/responsive/pe-005-1600.webp"
+      },
+      {
+        "width": 2500,
+        "url": "/artworks/pe-005.jpg"
+      }
+    ]
+  },
+  "pe-006": {
+    "width": 2500,
+    "height": 2500,
+    "variants": [
+      {
+        "width": 480,
+        "url": "/artworks/responsive/pe-006-480.webp"
+      },
+      {
+        "width": 800,
+        "url": "/artworks/responsive/pe-006-800.webp"
+      },
+      {
+        "width": 1200,
+        "url": "/artworks/responsive/pe-006-1200.webp"
+      },
+      {
+        "width": 1600,
+        "url": "/artworks/responsive/pe-006-1600.webp"
+      },
+      {
+        "width": 2500,
+        "url": "/artworks/pe-006.jpg"
+      }
+    ]
+  },
+  "pe-007": {
+    "width": 2500,
+    "height": 2500,
+    "variants": [
+      {
+        "width": 480,
+        "url": "/artworks/responsive/pe-007-480.webp"
+      },
+      {
+        "width": 800,
+        "url": "/artworks/responsive/pe-007-800.webp"
+      },
+      {
+        "width": 1200,
+        "url": "/artworks/responsive/pe-007-1200.webp"
+      },
+      {
+        "width": 1600,
+        "url": "/artworks/responsive/pe-007-1600.webp"
+      },
+      {
+        "width": 2500,
+        "url": "/artworks/pe-007.jpg"
+      }
+    ]
+  },
+  "pe-008": {
+    "width": 2500,
+    "height": 2500,
+    "variants": [
+      {
+        "width": 480,
+        "url": "/artworks/responsive/pe-008-480.webp"
+      },
+      {
+        "width": 800,
+        "url": "/artworks/responsive/pe-008-800.webp"
+      },
+      {
+        "width": 1200,
+        "url": "/artworks/responsive/pe-008-1200.webp"
+      },
+      {
+        "width": 1600,
+        "url": "/artworks/responsive/pe-008-1600.webp"
+      },
+      {
+        "width": 2500,
+        "url": "/artworks/pe-008.jpg"
+      }
+    ]
+  },
+  "pe-009": {
+    "width": 2500,
+    "height": 2500,
+    "variants": [
+      {
+        "width": 480,
+        "url": "/artworks/responsive/pe-009-480.webp"
+      },
+      {
+        "width": 800,
+        "url": "/artworks/responsive/pe-009-800.webp"
+      },
+      {
+        "width": 1200,
+        "url": "/artworks/responsive/pe-009-1200.webp"
+      },
+      {
+        "width": 1600,
+        "url": "/artworks/responsive/pe-009-1600.webp"
+      },
+      {
+        "width": 2500,
+        "url": "/artworks/pe-009.jpg"
+      }
+    ]
+  },
+  "pe-010": {
+    "width": 1983,
+    "height": 2500,
+    "variants": [
+      {
+        "width": 480,
+        "url": "/artworks/responsive/pe-010-480.webp"
+      },
+      {
+        "width": 800,
+        "url": "/artworks/responsive/pe-010-800.webp"
+      },
+      {
+        "width": 1200,
+        "url": "/artworks/responsive/pe-010-1200.webp"
+      },
+      {
+        "width": 1600,
+        "url": "/artworks/responsive/pe-010-1600.webp"
+      },
+      {
+        "width": 1983,
+        "url": "/artworks/pe-010.jpg"
+      }
+    ]
+  },
+  "pe-011": {
+    "width": 2500,
+    "height": 2286,
+    "variants": [
+      {
+        "width": 480,
+        "url": "/artworks/responsive/pe-011-480.webp"
+      },
+      {
+        "width": 800,
+        "url": "/artworks/responsive/pe-011-800.webp"
+      },
+      {
+        "width": 1200,
+        "url": "/artworks/responsive/pe-011-1200.webp"
+      },
+      {
+        "width": 1600,
+        "url": "/artworks/responsive/pe-011-1600.webp"
+      },
+      {
+        "width": 2500,
+        "url": "/artworks/pe-011.jpg"
+      }
+    ]
+  },
+  "pe-012": {
+    "width": 2500,
+    "height": 2286,
+    "variants": [
+      {
+        "width": 480,
+        "url": "/artworks/responsive/pe-012-480.webp"
+      },
+      {
+        "width": 800,
+        "url": "/artworks/responsive/pe-012-800.webp"
+      },
+      {
+        "width": 1200,
+        "url": "/artworks/responsive/pe-012-1200.webp"
+      },
+      {
+        "width": 1600,
+        "url": "/artworks/responsive/pe-012-1600.webp"
+      },
+      {
+        "width": 2500,
+        "url": "/artworks/pe-012.jpg"
+      }
+    ]
+  },
+  "pe-013": {
+    "width": 2500,
+    "height": 2286,
+    "variants": [
+      {
+        "width": 480,
+        "url": "/artworks/responsive/pe-013-480.webp"
+      },
+      {
+        "width": 800,
+        "url": "/artworks/responsive/pe-013-800.webp"
+      },
+      {
+        "width": 1200,
+        "url": "/artworks/responsive/pe-013-1200.webp"
+      },
+      {
+        "width": 1600,
+        "url": "/artworks/responsive/pe-013-1600.webp"
+      },
+      {
+        "width": 2500,
+        "url": "/artworks/pe-013.jpg"
+      }
+    ]
+  },
+  "pe-014": {
+    "width": 2500,
+    "height": 1726,
+    "variants": [
+      {
+        "width": 480,
+        "url": "/artworks/responsive/pe-014-480.webp"
+      },
+      {
+        "width": 800,
+        "url": "/artworks/responsive/pe-014-800.webp"
+      },
+      {
+        "width": 1200,
+        "url": "/artworks/responsive/pe-014-1200.webp"
+      },
+      {
+        "width": 1600,
+        "url": "/artworks/responsive/pe-014-1600.webp"
+      },
+      {
+        "width": 2500,
+        "url": "/artworks/pe-014.jpg"
+      }
+    ]
+  },
+  "pe-015": {
+    "width": 2500,
+    "height": 1680,
+    "variants": [
+      {
+        "width": 480,
+        "url": "/artworks/responsive/pe-015-480.webp"
+      },
+      {
+        "width": 800,
+        "url": "/artworks/responsive/pe-015-800.webp"
+      },
+      {
+        "width": 1200,
+        "url": "/artworks/responsive/pe-015-1200.webp"
+      },
+      {
+        "width": 1600,
+        "url": "/artworks/responsive/pe-015-1600.webp"
+      },
+      {
+        "width": 2500,
+        "url": "/artworks/pe-015.jpg"
+      }
+    ]
+  },
+  "pe-016": {
+    "width": 2500,
+    "height": 1249,
+    "variants": [
+      {
+        "width": 480,
+        "url": "/artworks/responsive/pe-016-480.webp"
+      },
+      {
+        "width": 800,
+        "url": "/artworks/responsive/pe-016-800.webp"
+      },
+      {
+        "width": 1200,
+        "url": "/artworks/responsive/pe-016-1200.webp"
+      },
+      {
+        "width": 1600,
+        "url": "/artworks/responsive/pe-016-1600.webp"
+      },
+      {
+        "width": 2500,
+        "url": "/artworks/pe-016.jpg"
+      }
+    ]
+  },
+  "pe-017": {
+    "width": 2500,
+    "height": 1680,
+    "variants": [
+      {
+        "width": 480,
+        "url": "/artworks/responsive/pe-017-480.webp"
+      },
+      {
+        "width": 800,
+        "url": "/artworks/responsive/pe-017-800.webp"
+      },
+      {
+        "width": 1200,
+        "url": "/artworks/responsive/pe-017-1200.webp"
+      },
+      {
+        "width": 1600,
+        "url": "/artworks/responsive/pe-017-1600.webp"
+      },
+      {
+        "width": 2500,
+        "url": "/artworks/pe-017.jpg"
+      }
+    ]
+  },
+  "pe-018": {
+    "width": 2500,
+    "height": 1250,
+    "variants": [
+      {
+        "width": 480,
+        "url": "/artworks/responsive/pe-018-480.webp"
+      },
+      {
+        "width": 800,
+        "url": "/artworks/responsive/pe-018-800.webp"
+      },
+      {
+        "width": 1200,
+        "url": "/artworks/responsive/pe-018-1200.webp"
+      },
+      {
+        "width": 1600,
+        "url": "/artworks/responsive/pe-018-1600.webp"
+      },
+      {
+        "width": 2500,
+        "url": "/artworks/pe-018.jpg"
+      }
+    ]
+  },
+  "pe-019": {
+    "width": 2500,
+    "height": 1667,
+    "variants": [
+      {
+        "width": 480,
+        "url": "/artworks/responsive/pe-019-480.webp"
+      },
+      {
+        "width": 800,
+        "url": "/artworks/responsive/pe-019-800.webp"
+      },
+      {
+        "width": 1200,
+        "url": "/artworks/responsive/pe-019-1200.webp"
+      },
+      {
+        "width": 1600,
+        "url": "/artworks/responsive/pe-019-1600.webp"
+      },
+      {
+        "width": 2500,
+        "url": "/artworks/pe-019.jpg"
+      }
+    ]
+  },
+  "pe-020": {
+    "width": 2500,
+    "height": 705,
+    "variants": [
+      {
+        "width": 480,
+        "url": "/artworks/responsive/pe-020-480.webp"
+      },
+      {
+        "width": 800,
+        "url": "/artworks/responsive/pe-020-800.webp"
+      },
+      {
+        "width": 1200,
+        "url": "/artworks/responsive/pe-020-1200.webp"
+      },
+      {
+        "width": 1600,
+        "url": "/artworks/responsive/pe-020-1600.webp"
+      },
+      {
+        "width": 2500,
+        "url": "/artworks/pe-020.jpg"
+      }
+    ]
+  },
+  "pe-021": {
+    "width": 2054,
+    "height": 2500,
+    "variants": [
+      {
+        "width": 480,
+        "url": "/artworks/responsive/pe-021-480.webp"
+      },
+      {
+        "width": 800,
+        "url": "/artworks/responsive/pe-021-800.webp"
+      },
+      {
+        "width": 1200,
+        "url": "/artworks/responsive/pe-021-1200.webp"
+      },
+      {
+        "width": 1600,
+        "url": "/artworks/responsive/pe-021-1600.webp"
+      },
+      {
+        "width": 2054,
+        "url": "/artworks/pe-021.jpg"
+      }
+    ]
+  },
+  "pe-022": {
+    "width": 2500,
+    "height": 2500,
+    "variants": [
+      {
+        "width": 480,
+        "url": "/artworks/responsive/pe-022-480.webp"
+      },
+      {
+        "width": 800,
+        "url": "/artworks/responsive/pe-022-800.webp"
+      },
+      {
+        "width": 1200,
+        "url": "/artworks/responsive/pe-022-1200.webp"
+      },
+      {
+        "width": 1600,
+        "url": "/artworks/responsive/pe-022-1600.webp"
+      },
+      {
+        "width": 2500,
+        "url": "/artworks/pe-022.jpg"
+      }
+    ]
+  },
+  "pe-023": {
+    "width": 1491,
+    "height": 2500,
+    "variants": [
+      {
+        "width": 480,
+        "url": "/artworks/responsive/pe-023-480.webp"
+      },
+      {
+        "width": 800,
+        "url": "/artworks/responsive/pe-023-800.webp"
+      },
+      {
+        "width": 1200,
+        "url": "/artworks/responsive/pe-023-1200.webp"
+      },
+      {
+        "width": 1491,
+        "url": "/artworks/pe-023.jpg"
+      }
+    ]
+  },
+  "pe-024": {
+    "width": 2500,
+    "height": 2500,
+    "variants": [
+      {
+        "width": 480,
+        "url": "/artworks/responsive/pe-024-480.webp"
+      },
+      {
+        "width": 800,
+        "url": "/artworks/responsive/pe-024-800.webp"
+      },
+      {
+        "width": 1200,
+        "url": "/artworks/responsive/pe-024-1200.webp"
+      },
+      {
+        "width": 1600,
+        "url": "/artworks/responsive/pe-024-1600.webp"
+      },
+      {
+        "width": 2500,
+        "url": "/artworks/pe-024.jpg"
+      }
+    ]
+  },
+  "pe-025": {
+    "width": 2500,
+    "height": 2500,
+    "variants": [
+      {
+        "width": 480,
+        "url": "/artworks/responsive/pe-025-480.webp"
+      },
+      {
+        "width": 800,
+        "url": "/artworks/responsive/pe-025-800.webp"
+      },
+      {
+        "width": 1200,
+        "url": "/artworks/responsive/pe-025-1200.webp"
+      },
+      {
+        "width": 1600,
+        "url": "/artworks/responsive/pe-025-1600.webp"
+      },
+      {
+        "width": 2500,
+        "url": "/artworks/pe-025.jpg"
+      }
+    ]
+  },
+  "pe-026": {
+    "width": 2500,
+    "height": 2500,
+    "variants": [
+      {
+        "width": 480,
+        "url": "/artworks/responsive/pe-026-480.webp"
+      },
+      {
+        "width": 800,
+        "url": "/artworks/responsive/pe-026-800.webp"
+      },
+      {
+        "width": 1200,
+        "url": "/artworks/responsive/pe-026-1200.webp"
+      },
+      {
+        "width": 1600,
+        "url": "/artworks/responsive/pe-026-1600.webp"
+      },
+      {
+        "width": 2500,
+        "url": "/artworks/pe-026.jpg"
+      }
+    ]
+  },
+  "pe-027": {
+    "width": 2500,
+    "height": 2500,
+    "variants": [
+      {
+        "width": 480,
+        "url": "/artworks/responsive/pe-027-480.webp"
+      },
+      {
+        "width": 800,
+        "url": "/artworks/responsive/pe-027-800.webp"
+      },
+      {
+        "width": 1200,
+        "url": "/artworks/responsive/pe-027-1200.webp"
+      },
+      {
+        "width": 1600,
+        "url": "/artworks/responsive/pe-027-1600.webp"
+      },
+      {
+        "width": 2500,
+        "url": "/artworks/pe-027.jpg"
+      }
+    ]
+  },
+  "pe-028": {
+    "width": 2108,
+    "height": 2500,
+    "variants": [
+      {
+        "width": 480,
+        "url": "/artworks/responsive/pe-028-480.webp"
+      },
+      {
+        "width": 800,
+        "url": "/artworks/responsive/pe-028-800.webp"
+      },
+      {
+        "width": 1200,
+        "url": "/artworks/responsive/pe-028-1200.webp"
+      },
+      {
+        "width": 1600,
+        "url": "/artworks/responsive/pe-028-1600.webp"
+      },
+      {
+        "width": 2108,
+        "url": "/artworks/pe-028.jpg"
+      }
+    ]
+  },
+  "pe-029": {
+    "width": 2500,
+    "height": 2500,
+    "variants": [
+      {
+        "width": 480,
+        "url": "/artworks/responsive/pe-029-480.webp"
+      },
+      {
+        "width": 800,
+        "url": "/artworks/responsive/pe-029-800.webp"
+      },
+      {
+        "width": 1200,
+        "url": "/artworks/responsive/pe-029-1200.webp"
+      },
+      {
+        "width": 1600,
+        "url": "/artworks/responsive/pe-029-1600.webp"
+      },
+      {
+        "width": 2500,
+        "url": "/artworks/pe-029.jpg"
+      }
+    ]
+  },
+  "pe-030": {
+    "width": 1846,
+    "height": 2500,
+    "variants": [
+      {
+        "width": 480,
+        "url": "/artworks/responsive/pe-030-480.webp"
+      },
+      {
+        "width": 800,
+        "url": "/artworks/responsive/pe-030-800.webp"
+      },
+      {
+        "width": 1200,
+        "url": "/artworks/responsive/pe-030-1200.webp"
+      },
+      {
+        "width": 1600,
+        "url": "/artworks/responsive/pe-030-1600.webp"
+      },
+      {
+        "width": 1846,
+        "url": "/artworks/pe-030.jpg"
+      }
+    ]
+  },
+  "pe-031": {
+    "width": 2073,
+    "height": 2500,
+    "variants": [
+      {
+        "width": 480,
+        "url": "/artworks/responsive/pe-031-480.webp"
+      },
+      {
+        "width": 800,
+        "url": "/artworks/responsive/pe-031-800.webp"
+      },
+      {
+        "width": 1200,
+        "url": "/artworks/responsive/pe-031-1200.webp"
+      },
+      {
+        "width": 1600,
+        "url": "/artworks/responsive/pe-031-1600.webp"
+      },
+      {
+        "width": 2073,
+        "url": "/artworks/pe-031.jpg"
+      }
+    ]
+  },
+  "pe-032": {
+    "width": 2500,
+    "height": 2500,
+    "variants": [
+      {
+        "width": 480,
+        "url": "/artworks/responsive/pe-032-480.webp"
+      },
+      {
+        "width": 800,
+        "url": "/artworks/responsive/pe-032-800.webp"
+      },
+      {
+        "width": 1200,
+        "url": "/artworks/responsive/pe-032-1200.webp"
+      },
+      {
+        "width": 1600,
+        "url": "/artworks/responsive/pe-032-1600.webp"
+      },
+      {
+        "width": 2500,
+        "url": "/artworks/pe-032.jpg"
+      }
+    ]
+  },
+  "pe-033": {
+    "width": 2500,
+    "height": 2500,
+    "variants": [
+      {
+        "width": 480,
+        "url": "/artworks/responsive/pe-033-480.webp"
+      },
+      {
+        "width": 800,
+        "url": "/artworks/responsive/pe-033-800.webp"
+      },
+      {
+        "width": 1200,
+        "url": "/artworks/responsive/pe-033-1200.webp"
+      },
+      {
+        "width": 1600,
+        "url": "/artworks/responsive/pe-033-1600.webp"
+      },
+      {
+        "width": 2500,
+        "url": "/artworks/pe-033.jpg"
+      }
+    ]
+  },
+  "pe-034": {
+    "width": 1772,
+    "height": 2500,
+    "variants": [
+      {
+        "width": 480,
+        "url": "/artworks/responsive/pe-034-480.webp"
+      },
+      {
+        "width": 800,
+        "url": "/artworks/responsive/pe-034-800.webp"
+      },
+      {
+        "width": 1200,
+        "url": "/artworks/responsive/pe-034-1200.webp"
+      },
+      {
+        "width": 1600,
+        "url": "/artworks/responsive/pe-034-1600.webp"
+      },
+      {
+        "width": 1772,
+        "url": "/artworks/pe-034.jpg"
+      }
+    ]
+  },
+  "pe-035": {
+    "width": 2500,
+    "height": 2499,
+    "variants": [
+      {
+        "width": 480,
+        "url": "/artworks/responsive/pe-035-480.webp"
+      },
+      {
+        "width": 800,
+        "url": "/artworks/responsive/pe-035-800.webp"
+      },
+      {
+        "width": 1200,
+        "url": "/artworks/responsive/pe-035-1200.webp"
+      },
+      {
+        "width": 1600,
+        "url": "/artworks/responsive/pe-035-1600.webp"
+      },
+      {
+        "width": 2500,
+        "url": "/artworks/pe-035.jpg"
+      }
+    ]
+  },
+  "pe-036": {
+    "width": 2500,
+    "height": 2500,
+    "variants": [
+      {
+        "width": 480,
+        "url": "/artworks/responsive/pe-036-480.webp"
+      },
+      {
+        "width": 800,
+        "url": "/artworks/responsive/pe-036-800.webp"
+      },
+      {
+        "width": 1200,
+        "url": "/artworks/responsive/pe-036-1200.webp"
+      },
+      {
+        "width": 1600,
+        "url": "/artworks/responsive/pe-036-1600.webp"
+      },
+      {
+        "width": 2500,
+        "url": "/artworks/pe-036.jpg"
+      }
+    ]
+  },
+  "pe-037": {
+    "width": 2500,
+    "height": 2500,
+    "variants": [
+      {
+        "width": 480,
+        "url": "/artworks/responsive/pe-037-480.webp"
+      },
+      {
+        "width": 800,
+        "url": "/artworks/responsive/pe-037-800.webp"
+      },
+      {
+        "width": 1200,
+        "url": "/artworks/responsive/pe-037-1200.webp"
+      },
+      {
+        "width": 1600,
+        "url": "/artworks/responsive/pe-037-1600.webp"
+      },
+      {
+        "width": 2500,
+        "url": "/artworks/pe-037.jpg"
+      }
+    ]
+  },
+  "pe-038": {
+    "width": 2500,
+    "height": 2219,
+    "variants": [
+      {
+        "width": 480,
+        "url": "/artworks/responsive/pe-038-480.webp"
+      },
+      {
+        "width": 800,
+        "url": "/artworks/responsive/pe-038-800.webp"
+      },
+      {
+        "width": 1200,
+        "url": "/artworks/responsive/pe-038-1200.webp"
+      },
+      {
+        "width": 1600,
+        "url": "/artworks/responsive/pe-038-1600.webp"
+      },
+      {
+        "width": 2500,
+        "url": "/artworks/pe-038.jpg"
+      }
+    ]
+  },
+  "pe-039": {
+    "width": 2500,
+    "height": 2776,
+    "variants": [
+      {
+        "width": 480,
+        "url": "/artworks/responsive/pe-039-480.webp"
+      },
+      {
+        "width": 800,
+        "url": "/artworks/responsive/pe-039-800.webp"
+      },
+      {
+        "width": 1200,
+        "url": "/artworks/responsive/pe-039-1200.webp"
+      },
+      {
+        "width": 1600,
+        "url": "/artworks/responsive/pe-039-1600.webp"
+      },
+      {
+        "width": 2500,
+        "url": "/artworks/pe-039.jpg"
+      }
+    ]
+  },
+  "pe-040": {
+    "width": 2500,
+    "height": 2500,
+    "variants": [
+      {
+        "width": 480,
+        "url": "/artworks/responsive/pe-040-480.webp"
+      },
+      {
+        "width": 800,
+        "url": "/artworks/responsive/pe-040-800.webp"
+      },
+      {
+        "width": 1200,
+        "url": "/artworks/responsive/pe-040-1200.webp"
+      },
+      {
+        "width": 1600,
+        "url": "/artworks/responsive/pe-040-1600.webp"
+      },
+      {
+        "width": 2500,
+        "url": "/artworks/pe-040.jpg"
+      }
+    ]
+  },
+  "pe-041": {
+    "width": 2500,
+    "height": 2500,
+    "variants": [
+      {
+        "width": 480,
+        "url": "/artworks/responsive/pe-041-480.webp"
+      },
+      {
+        "width": 800,
+        "url": "/artworks/responsive/pe-041-800.webp"
+      },
+      {
+        "width": 1200,
+        "url": "/artworks/responsive/pe-041-1200.webp"
+      },
+      {
+        "width": 1600,
+        "url": "/artworks/responsive/pe-041-1600.webp"
+      },
+      {
+        "width": 2500,
+        "url": "/artworks/pe-041.jpg"
+      }
+    ]
+  },
+  "pe-042": {
+    "width": 2500,
+    "height": 2500,
+    "variants": [
+      {
+        "width": 480,
+        "url": "/artworks/responsive/pe-042-480.webp"
+      },
+      {
+        "width": 800,
+        "url": "/artworks/responsive/pe-042-800.webp"
+      },
+      {
+        "width": 1200,
+        "url": "/artworks/responsive/pe-042-1200.webp"
+      },
+      {
+        "width": 1600,
+        "url": "/artworks/responsive/pe-042-1600.webp"
+      },
+      {
+        "width": 2500,
+        "url": "/artworks/pe-042.jpg"
+      }
+    ]
+  },
+  "pe-043": {
+    "width": 2500,
+    "height": 1712,
+    "variants": [
+      {
+        "width": 480,
+        "url": "/artworks/responsive/pe-043-480.webp"
+      },
+      {
+        "width": 800,
+        "url": "/artworks/responsive/pe-043-800.webp"
+      },
+      {
+        "width": 1200,
+        "url": "/artworks/responsive/pe-043-1200.webp"
+      },
+      {
+        "width": 1600,
+        "url": "/artworks/responsive/pe-043-1600.webp"
+      },
+      {
+        "width": 2500,
+        "url": "/artworks/pe-043.jpg"
+      }
+    ]
+  },
+  "pe-044": {
+    "width": 1750,
+    "height": 2500,
+    "variants": [
+      {
+        "width": 480,
+        "url": "/artworks/responsive/pe-044-480.webp"
+      },
+      {
+        "width": 800,
+        "url": "/artworks/responsive/pe-044-800.webp"
+      },
+      {
+        "width": 1200,
+        "url": "/artworks/responsive/pe-044-1200.webp"
+      },
+      {
+        "width": 1600,
+        "url": "/artworks/responsive/pe-044-1600.webp"
+      },
+      {
+        "width": 1750,
+        "url": "/artworks/pe-044.jpg"
+      }
+    ]
+  },
+  "pe-045": {
+    "width": 1711,
+    "height": 2500,
+    "variants": [
+      {
+        "width": 480,
+        "url": "/artworks/responsive/pe-045-480.webp"
+      },
+      {
+        "width": 800,
+        "url": "/artworks/responsive/pe-045-800.webp"
+      },
+      {
+        "width": 1200,
+        "url": "/artworks/responsive/pe-045-1200.webp"
+      },
+      {
+        "width": 1600,
+        "url": "/artworks/responsive/pe-045-1600.webp"
+      },
+      {
+        "width": 1711,
+        "url": "/artworks/pe-045.jpg"
+      }
+    ]
+  },
+  "pe-046": {
+    "width": 2500,
+    "height": 2230,
+    "variants": [
+      {
+        "width": 480,
+        "url": "/artworks/responsive/pe-046-480.webp"
+      },
+      {
+        "width": 800,
+        "url": "/artworks/responsive/pe-046-800.webp"
+      },
+      {
+        "width": 1200,
+        "url": "/artworks/responsive/pe-046-1200.webp"
+      },
+      {
+        "width": 1600,
+        "url": "/artworks/responsive/pe-046-1600.webp"
+      },
+      {
+        "width": 2500,
+        "url": "/artworks/pe-046.jpg"
+      }
+    ]
+  },
+  "pe-047": {
+    "width": 2500,
+    "height": 2500,
+    "variants": [
+      {
+        "width": 480,
+        "url": "/artworks/responsive/pe-047-480.webp"
+      },
+      {
+        "width": 800,
+        "url": "/artworks/responsive/pe-047-800.webp"
+      },
+      {
+        "width": 1200,
+        "url": "/artworks/responsive/pe-047-1200.webp"
+      },
+      {
+        "width": 1600,
+        "url": "/artworks/responsive/pe-047-1600.webp"
+      },
+      {
+        "width": 2500,
+        "url": "/artworks/pe-047.jpg"
+      }
+    ]
+  },
+  "pe-048": {
+    "width": 2500,
+    "height": 2500,
+    "variants": [
+      {
+        "width": 480,
+        "url": "/artworks/responsive/pe-048-480.webp"
+      },
+      {
+        "width": 800,
+        "url": "/artworks/responsive/pe-048-800.webp"
+      },
+      {
+        "width": 1200,
+        "url": "/artworks/responsive/pe-048-1200.webp"
+      },
+      {
+        "width": 1600,
+        "url": "/artworks/responsive/pe-048-1600.webp"
+      },
+      {
+        "width": 2500,
+        "url": "/artworks/pe-048.jpg"
+      }
+    ]
+  },
+  "pe-049": {
+    "width": 2023,
+    "height": 2500,
+    "variants": [
+      {
+        "width": 480,
+        "url": "/artworks/responsive/pe-049-480.webp"
+      },
+      {
+        "width": 800,
+        "url": "/artworks/responsive/pe-049-800.webp"
+      },
+      {
+        "width": 1200,
+        "url": "/artworks/responsive/pe-049-1200.webp"
+      },
+      {
+        "width": 1600,
+        "url": "/artworks/responsive/pe-049-1600.webp"
+      },
+      {
+        "width": 2023,
+        "url": "/artworks/pe-049.jpg"
+      }
+    ]
+  },
+  "pe-050": {
+    "width": 1879,
+    "height": 2500,
+    "variants": [
+      {
+        "width": 480,
+        "url": "/artworks/responsive/pe-050-480.webp"
+      },
+      {
+        "width": 800,
+        "url": "/artworks/responsive/pe-050-800.webp"
+      },
+      {
+        "width": 1200,
+        "url": "/artworks/responsive/pe-050-1200.webp"
+      },
+      {
+        "width": 1600,
+        "url": "/artworks/responsive/pe-050-1600.webp"
+      },
+      {
+        "width": 1879,
+        "url": "/artworks/pe-050.jpg"
+      }
+    ]
+  },
+  "pe-051": {
+    "width": 2188,
+    "height": 2500,
+    "variants": [
+      {
+        "width": 480,
+        "url": "/artworks/responsive/pe-051-480.webp"
+      },
+      {
+        "width": 800,
+        "url": "/artworks/responsive/pe-051-800.webp"
+      },
+      {
+        "width": 1200,
+        "url": "/artworks/responsive/pe-051-1200.webp"
+      },
+      {
+        "width": 1600,
+        "url": "/artworks/responsive/pe-051-1600.webp"
+      },
+      {
+        "width": 2188,
+        "url": "/artworks/pe-051.jpg"
+      }
+    ]
+  },
+  "pe-052": {
+    "width": 2500,
+    "height": 2500,
+    "variants": [
+      {
+        "width": 480,
+        "url": "/artworks/responsive/pe-052-480.webp"
+      },
+      {
+        "width": 800,
+        "url": "/artworks/responsive/pe-052-800.webp"
+      },
+      {
+        "width": 1200,
+        "url": "/artworks/responsive/pe-052-1200.webp"
+      },
+      {
+        "width": 1600,
+        "url": "/artworks/responsive/pe-052-1600.webp"
+      },
+      {
+        "width": 2500,
+        "url": "/artworks/pe-052.jpg"
+      }
+    ]
+  },
+  "pe-053": {
+    "width": 1405,
+    "height": 2500,
+    "variants": [
+      {
+        "width": 480,
+        "url": "/artworks/responsive/pe-053-480.webp"
+      },
+      {
+        "width": 800,
+        "url": "/artworks/responsive/pe-053-800.webp"
+      },
+      {
+        "width": 1200,
+        "url": "/artworks/responsive/pe-053-1200.webp"
+      },
+      {
+        "width": 1405,
+        "url": "/artworks/pe-053.jpg"
+      }
+    ]
+  },
+  "pe-054": {
+    "width": 1860,
+    "height": 2500,
+    "variants": [
+      {
+        "width": 480,
+        "url": "/artworks/responsive/pe-054-480.webp"
+      },
+      {
+        "width": 800,
+        "url": "/artworks/responsive/pe-054-800.webp"
+      },
+      {
+        "width": 1200,
+        "url": "/artworks/responsive/pe-054-1200.webp"
+      },
+      {
+        "width": 1600,
+        "url": "/artworks/responsive/pe-054-1600.webp"
+      },
+      {
+        "width": 1860,
+        "url": "/artworks/pe-054.jpg"
+      }
+    ]
+  },
+  "pe-055": {
+    "width": 1493,
+    "height": 2500,
+    "variants": [
+      {
+        "width": 480,
+        "url": "/artworks/responsive/pe-055-480.webp"
+      },
+      {
+        "width": 800,
+        "url": "/artworks/responsive/pe-055-800.webp"
+      },
+      {
+        "width": 1200,
+        "url": "/artworks/responsive/pe-055-1200.webp"
+      },
+      {
+        "width": 1493,
+        "url": "/artworks/pe-055.jpg"
+      }
+    ]
+  },
+  "pe-056": {
+    "width": 2499,
+    "height": 2500,
+    "variants": [
+      {
+        "width": 480,
+        "url": "/artworks/responsive/pe-056-480.webp"
+      },
+      {
+        "width": 800,
+        "url": "/artworks/responsive/pe-056-800.webp"
+      },
+      {
+        "width": 1200,
+        "url": "/artworks/responsive/pe-056-1200.webp"
+      },
+      {
+        "width": 1600,
+        "url": "/artworks/responsive/pe-056-1600.webp"
+      },
+      {
+        "width": 2499,
+        "url": "/artworks/pe-056.jpg"
+      }
+    ]
+  },
+  "pe-057": {
+    "width": 2429,
+    "height": 2500,
+    "variants": [
+      {
+        "width": 480,
+        "url": "/artworks/responsive/pe-057-480.webp"
+      },
+      {
+        "width": 800,
+        "url": "/artworks/responsive/pe-057-800.webp"
+      },
+      {
+        "width": 1200,
+        "url": "/artworks/responsive/pe-057-1200.webp"
+      },
+      {
+        "width": 1600,
+        "url": "/artworks/responsive/pe-057-1600.webp"
+      },
+      {
+        "width": 2429,
+        "url": "/artworks/pe-057.jpg"
+      }
+    ]
+  },
+  "pe-058": {
+    "width": 2500,
+    "height": 2500,
+    "variants": [
+      {
+        "width": 480,
+        "url": "/artworks/responsive/pe-058-480.webp"
+      },
+      {
+        "width": 800,
+        "url": "/artworks/responsive/pe-058-800.webp"
+      },
+      {
+        "width": 1200,
+        "url": "/artworks/responsive/pe-058-1200.webp"
+      },
+      {
+        "width": 1600,
+        "url": "/artworks/responsive/pe-058-1600.webp"
+      },
+      {
+        "width": 2500,
+        "url": "/artworks/pe-058.jpg"
+      }
+    ]
+  },
+  "pe-059": {
+    "width": 2500,
+    "height": 2500,
+    "variants": [
+      {
+        "width": 480,
+        "url": "/artworks/responsive/pe-059-480.webp"
+      },
+      {
+        "width": 800,
+        "url": "/artworks/responsive/pe-059-800.webp"
+      },
+      {
+        "width": 1200,
+        "url": "/artworks/responsive/pe-059-1200.webp"
+      },
+      {
+        "width": 1600,
+        "url": "/artworks/responsive/pe-059-1600.webp"
+      },
+      {
+        "width": 2500,
+        "url": "/artworks/pe-059.jpg"
+      }
+    ]
+  },
+  "pe-060": {
+    "width": 2500,
+    "height": 1875,
+    "variants": [
+      {
+        "width": 480,
+        "url": "/artworks/responsive/pe-060-480.webp"
+      },
+      {
+        "width": 800,
+        "url": "/artworks/responsive/pe-060-800.webp"
+      },
+      {
+        "width": 1200,
+        "url": "/artworks/responsive/pe-060-1200.webp"
+      },
+      {
+        "width": 1600,
+        "url": "/artworks/responsive/pe-060-1600.webp"
+      },
+      {
+        "width": 2500,
+        "url": "/artworks/pe-060.jpg"
+      }
+    ]
+  },
+  "pe-061": {
+    "width": 2500,
+    "height": 2500,
+    "variants": [
+      {
+        "width": 480,
+        "url": "/artworks/responsive/pe-061-480.webp"
+      },
+      {
+        "width": 800,
+        "url": "/artworks/responsive/pe-061-800.webp"
+      },
+      {
+        "width": 1200,
+        "url": "/artworks/responsive/pe-061-1200.webp"
+      },
+      {
+        "width": 1600,
+        "url": "/artworks/responsive/pe-061-1600.webp"
+      },
+      {
+        "width": 2500,
+        "url": "/artworks/pe-061.jpg"
+      }
+    ]
+  },
+  "pe-062": {
+    "width": 2015,
+    "height": 2500,
+    "variants": [
+      {
+        "width": 480,
+        "url": "/artworks/responsive/pe-062-480.webp"
+      },
+      {
+        "width": 800,
+        "url": "/artworks/responsive/pe-062-800.webp"
+      },
+      {
+        "width": 1200,
+        "url": "/artworks/responsive/pe-062-1200.webp"
+      },
+      {
+        "width": 1600,
+        "url": "/artworks/responsive/pe-062-1600.webp"
+      },
+      {
+        "width": 2015,
+        "url": "/artworks/pe-062.jpg"
+      }
+    ]
+  },
+  "pe-063": {
+    "width": 1869,
+    "height": 2500,
+    "variants": [
+      {
+        "width": 480,
+        "url": "/artworks/responsive/pe-063-480.webp"
+      },
+      {
+        "width": 800,
+        "url": "/artworks/responsive/pe-063-800.webp"
+      },
+      {
+        "width": 1200,
+        "url": "/artworks/responsive/pe-063-1200.webp"
+      },
+      {
+        "width": 1600,
+        "url": "/artworks/responsive/pe-063-1600.webp"
+      },
+      {
+        "width": 1869,
+        "url": "/artworks/pe-063.jpg"
+      }
+    ]
+  },
+  "pe-064": {
+    "width": 2500,
+    "height": 2500,
+    "variants": [
+      {
+        "width": 480,
+        "url": "/artworks/responsive/pe-064-480.webp"
+      },
+      {
+        "width": 800,
+        "url": "/artworks/responsive/pe-064-800.webp"
+      },
+      {
+        "width": 1200,
+        "url": "/artworks/responsive/pe-064-1200.webp"
+      },
+      {
+        "width": 1600,
+        "url": "/artworks/responsive/pe-064-1600.webp"
+      },
+      {
+        "width": 2500,
+        "url": "/artworks/pe-064.jpg"
+      }
+    ]
+  },
+  "pe-065": {
+    "width": 2500,
+    "height": 2500,
+    "variants": [
+      {
+        "width": 480,
+        "url": "/artworks/responsive/pe-065-480.webp"
+      },
+      {
+        "width": 800,
+        "url": "/artworks/responsive/pe-065-800.webp"
+      },
+      {
+        "width": 1200,
+        "url": "/artworks/responsive/pe-065-1200.webp"
+      },
+      {
+        "width": 1600,
+        "url": "/artworks/responsive/pe-065-1600.webp"
+      },
+      {
+        "width": 2500,
+        "url": "/artworks/pe-065.jpg"
+      }
+    ]
+  },
+  "pe-066": {
+    "width": 1787,
+    "height": 2500,
+    "variants": [
+      {
+        "width": 480,
+        "url": "/artworks/responsive/pe-066-480.webp"
+      },
+      {
+        "width": 800,
+        "url": "/artworks/responsive/pe-066-800.webp"
+      },
+      {
+        "width": 1200,
+        "url": "/artworks/responsive/pe-066-1200.webp"
+      },
+      {
+        "width": 1600,
+        "url": "/artworks/responsive/pe-066-1600.webp"
+      },
+      {
+        "width": 1787,
+        "url": "/artworks/pe-066.jpg"
+      }
+    ]
+  },
+  "pe-067": {
+    "width": 2500,
+    "height": 2500,
+    "variants": [
+      {
+        "width": 480,
+        "url": "/artworks/responsive/pe-067-480.webp"
+      },
+      {
+        "width": 800,
+        "url": "/artworks/responsive/pe-067-800.webp"
+      },
+      {
+        "width": 1200,
+        "url": "/artworks/responsive/pe-067-1200.webp"
+      },
+      {
+        "width": 1600,
+        "url": "/artworks/responsive/pe-067-1600.webp"
+      },
+      {
+        "width": 2500,
+        "url": "/artworks/pe-067.jpg"
+      }
+    ]
+  },
+  "pe-068": {
+    "width": 1667,
+    "height": 2500,
+    "variants": [
+      {
+        "width": 480,
+        "url": "/artworks/responsive/pe-068-480.webp"
+      },
+      {
+        "width": 800,
+        "url": "/artworks/responsive/pe-068-800.webp"
+      },
+      {
+        "width": 1200,
+        "url": "/artworks/responsive/pe-068-1200.webp"
+      },
+      {
+        "width": 1600,
+        "url": "/artworks/responsive/pe-068-1600.webp"
+      },
+      {
+        "width": 1667,
+        "url": "/artworks/pe-068.jpg"
+      }
+    ]
+  },
+  "pe-069": {
+    "width": 2500,
+    "height": 2387,
+    "variants": [
+      {
+        "width": 480,
+        "url": "/artworks/responsive/pe-069-480.webp"
+      },
+      {
+        "width": 800,
+        "url": "/artworks/responsive/pe-069-800.webp"
+      },
+      {
+        "width": 1200,
+        "url": "/artworks/responsive/pe-069-1200.webp"
+      },
+      {
+        "width": 1600,
+        "url": "/artworks/responsive/pe-069-1600.webp"
+      },
+      {
+        "width": 2500,
+        "url": "/artworks/pe-069.jpg"
+      }
+    ]
+  },
+  "pe-070": {
+    "width": 2496,
+    "height": 2500,
+    "variants": [
+      {
+        "width": 480,
+        "url": "/artworks/responsive/pe-070-480.webp"
+      },
+      {
+        "width": 800,
+        "url": "/artworks/responsive/pe-070-800.webp"
+      },
+      {
+        "width": 1200,
+        "url": "/artworks/responsive/pe-070-1200.webp"
+      },
+      {
+        "width": 1600,
+        "url": "/artworks/responsive/pe-070-1600.webp"
+      },
+      {
+        "width": 2496,
+        "url": "/artworks/pe-070.jpg"
+      }
+    ]
+  },
+  "pe-071": {
+    "width": 2276,
+    "height": 2500,
+    "variants": [
+      {
+        "width": 480,
+        "url": "/artworks/responsive/pe-071-480.webp"
+      },
+      {
+        "width": 800,
+        "url": "/artworks/responsive/pe-071-800.webp"
+      },
+      {
+        "width": 1200,
+        "url": "/artworks/responsive/pe-071-1200.webp"
+      },
+      {
+        "width": 1600,
+        "url": "/artworks/responsive/pe-071-1600.webp"
+      },
+      {
+        "width": 2276,
+        "url": "/artworks/pe-071.jpg"
+      }
+    ]
+  },
+  "pe-072": {
+    "width": 2500,
+    "height": 1245,
+    "variants": [
+      {
+        "width": 480,
+        "url": "/artworks/responsive/pe-072-480.webp"
+      },
+      {
+        "width": 800,
+        "url": "/artworks/responsive/pe-072-800.webp"
+      },
+      {
+        "width": 1200,
+        "url": "/artworks/responsive/pe-072-1200.webp"
+      },
+      {
+        "width": 1600,
+        "url": "/artworks/responsive/pe-072-1600.webp"
+      },
+      {
+        "width": 2500,
+        "url": "/artworks/pe-072.jpg"
+      }
+    ]
+  },
+  "pe-073": {
+    "width": 1925,
+    "height": 2500,
+    "variants": [
+      {
+        "width": 480,
+        "url": "/artworks/responsive/pe-073-480.webp"
+      },
+      {
+        "width": 800,
+        "url": "/artworks/responsive/pe-073-800.webp"
+      },
+      {
+        "width": 1200,
+        "url": "/artworks/responsive/pe-073-1200.webp"
+      },
+      {
+        "width": 1600,
+        "url": "/artworks/responsive/pe-073-1600.webp"
+      },
+      {
+        "width": 1925,
+        "url": "/artworks/pe-073.jpg"
+      }
+    ]
+  },
+  "pe-074": {
+    "width": 2500,
+    "height": 1530,
+    "variants": [
+      {
+        "width": 480,
+        "url": "/artworks/responsive/pe-074-480.webp"
+      },
+      {
+        "width": 800,
+        "url": "/artworks/responsive/pe-074-800.webp"
+      },
+      {
+        "width": 1200,
+        "url": "/artworks/responsive/pe-074-1200.webp"
+      },
+      {
+        "width": 1600,
+        "url": "/artworks/responsive/pe-074-1600.webp"
+      },
+      {
+        "width": 2500,
+        "url": "/artworks/pe-074.jpg"
+      }
+    ]
+  },
+  "pe-075": {
+    "width": 2254,
+    "height": 2500,
+    "variants": [
+      {
+        "width": 480,
+        "url": "/artworks/responsive/pe-075-480.webp"
+      },
+      {
+        "width": 800,
+        "url": "/artworks/responsive/pe-075-800.webp"
+      },
+      {
+        "width": 1200,
+        "url": "/artworks/responsive/pe-075-1200.webp"
+      },
+      {
+        "width": 1600,
+        "url": "/artworks/responsive/pe-075-1600.webp"
+      },
+      {
+        "width": 2254,
+        "url": "/artworks/pe-075.jpg"
+      }
+    ]
+  },
+  "pe-076": {
+    "width": 2500,
+    "height": 2500,
+    "variants": [
+      {
+        "width": 480,
+        "url": "/artworks/responsive/pe-076-480.webp"
+      },
+      {
+        "width": 800,
+        "url": "/artworks/responsive/pe-076-800.webp"
+      },
+      {
+        "width": 1200,
+        "url": "/artworks/responsive/pe-076-1200.webp"
+      },
+      {
+        "width": 1600,
+        "url": "/artworks/responsive/pe-076-1600.webp"
+      },
+      {
+        "width": 2500,
+        "url": "/artworks/pe-076.jpg"
+      }
+    ]
+  },
+  "pe-077": {
+    "width": 2500,
+    "height": 978,
+    "variants": [
+      {
+        "width": 480,
+        "url": "/artworks/responsive/pe-077-480.webp"
+      },
+      {
+        "width": 800,
+        "url": "/artworks/responsive/pe-077-800.webp"
+      },
+      {
+        "width": 1200,
+        "url": "/artworks/responsive/pe-077-1200.webp"
+      },
+      {
+        "width": 1600,
+        "url": "/artworks/responsive/pe-077-1600.webp"
+      },
+      {
+        "width": 2500,
+        "url": "/artworks/pe-077.jpg"
+      }
+    ]
+  },
+  "pe-078": {
+    "width": 2500,
+    "height": 2375,
+    "variants": [
+      {
+        "width": 480,
+        "url": "/artworks/responsive/pe-078-480.webp"
+      },
+      {
+        "width": 800,
+        "url": "/artworks/responsive/pe-078-800.webp"
+      },
+      {
+        "width": 1200,
+        "url": "/artworks/responsive/pe-078-1200.webp"
+      },
+      {
+        "width": 1600,
+        "url": "/artworks/responsive/pe-078-1600.webp"
+      },
+      {
+        "width": 2500,
+        "url": "/artworks/pe-078.jpg"
+      }
+    ]
+  },
+  "pe-079": {
+    "width": 1757,
+    "height": 2500,
+    "variants": [
+      {
+        "width": 480,
+        "url": "/artworks/responsive/pe-079-480.webp"
+      },
+      {
+        "width": 800,
+        "url": "/artworks/responsive/pe-079-800.webp"
+      },
+      {
+        "width": 1200,
+        "url": "/artworks/responsive/pe-079-1200.webp"
+      },
+      {
+        "width": 1600,
+        "url": "/artworks/responsive/pe-079-1600.webp"
+      },
+      {
+        "width": 1757,
+        "url": "/artworks/pe-079.jpg"
+      }
+    ]
+  },
+  "pe-080": {
+    "width": 1486,
+    "height": 2500,
+    "variants": [
+      {
+        "width": 480,
+        "url": "/artworks/responsive/pe-080-480.webp"
+      },
+      {
+        "width": 800,
+        "url": "/artworks/responsive/pe-080-800.webp"
+      },
+      {
+        "width": 1200,
+        "url": "/artworks/responsive/pe-080-1200.webp"
+      },
+      {
+        "width": 1486,
+        "url": "/artworks/pe-080.jpg"
+      }
+    ]
+  },
+  "pe-081": {
+    "width": 2500,
+    "height": 2583,
+    "variants": [
+      {
+        "width": 480,
+        "url": "/artworks/responsive/pe-081-480.webp"
+      },
+      {
+        "width": 800,
+        "url": "/artworks/responsive/pe-081-800.webp"
+      },
+      {
+        "width": 1200,
+        "url": "/artworks/responsive/pe-081-1200.webp"
+      },
+      {
+        "width": 1600,
+        "url": "/artworks/responsive/pe-081-1600.webp"
+      },
+      {
+        "width": 2500,
+        "url": "/artworks/pe-081.jpg"
+      }
+    ]
+  },
+  "pe-082": {
+    "width": 2500,
+    "height": 1957,
+    "variants": [
+      {
+        "width": 480,
+        "url": "/artworks/responsive/pe-082-480.webp"
+      },
+      {
+        "width": 800,
+        "url": "/artworks/responsive/pe-082-800.webp"
+      },
+      {
+        "width": 1200,
+        "url": "/artworks/responsive/pe-082-1200.webp"
+      },
+      {
+        "width": 1600,
+        "url": "/artworks/responsive/pe-082-1600.webp"
+      },
+      {
+        "width": 2500,
+        "url": "/artworks/pe-082.jpg"
+      }
+    ]
+  },
+  "pe-083": {
+    "width": 2500,
+    "height": 2500,
+    "variants": [
+      {
+        "width": 480,
+        "url": "/artworks/responsive/pe-083-480.webp"
+      },
+      {
+        "width": 800,
+        "url": "/artworks/responsive/pe-083-800.webp"
+      },
+      {
+        "width": 1200,
+        "url": "/artworks/responsive/pe-083-1200.webp"
+      },
+      {
+        "width": 1600,
+        "url": "/artworks/responsive/pe-083-1600.webp"
+      },
+      {
+        "width": 2500,
+        "url": "/artworks/pe-083.jpg"
+      }
+    ]
+  },
+  "pe-084": {
+    "width": 2500,
+    "height": 2219,
+    "variants": [
+      {
+        "width": 480,
+        "url": "/artworks/responsive/pe-084-480.webp"
+      },
+      {
+        "width": 800,
+        "url": "/artworks/responsive/pe-084-800.webp"
+      },
+      {
+        "width": 1200,
+        "url": "/artworks/responsive/pe-084-1200.webp"
+      },
+      {
+        "width": 1600,
+        "url": "/artworks/responsive/pe-084-1600.webp"
+      },
+      {
+        "width": 2500,
+        "url": "/artworks/pe-084.jpg"
+      }
+    ]
+  },
+  "pe-085": {
+    "width": 2500,
+    "height": 1645,
+    "variants": [
+      {
+        "width": 480,
+        "url": "/artworks/responsive/pe-085-480.webp"
+      },
+      {
+        "width": 800,
+        "url": "/artworks/responsive/pe-085-800.webp"
+      },
+      {
+        "width": 1200,
+        "url": "/artworks/responsive/pe-085-1200.webp"
+      },
+      {
+        "width": 1600,
+        "url": "/artworks/responsive/pe-085-1600.webp"
+      },
+      {
+        "width": 2500,
+        "url": "/artworks/pe-085.jpg"
+      }
+    ]
+  },
+  "pe-086": {
+    "width": 2500,
+    "height": 1801,
+    "variants": [
+      {
+        "width": 480,
+        "url": "/artworks/responsive/pe-086-480.webp"
+      },
+      {
+        "width": 800,
+        "url": "/artworks/responsive/pe-086-800.webp"
+      },
+      {
+        "width": 1200,
+        "url": "/artworks/responsive/pe-086-1200.webp"
+      },
+      {
+        "width": 1600,
+        "url": "/artworks/responsive/pe-086-1600.webp"
+      },
+      {
+        "width": 2500,
+        "url": "/artworks/pe-086.jpg"
+      }
+    ]
+  },
+  "pe-087": {
+    "width": 2071,
+    "height": 2500,
+    "variants": [
+      {
+        "width": 480,
+        "url": "/artworks/responsive/pe-087-480.webp"
+      },
+      {
+        "width": 800,
+        "url": "/artworks/responsive/pe-087-800.webp"
+      },
+      {
+        "width": 1200,
+        "url": "/artworks/responsive/pe-087-1200.webp"
+      },
+      {
+        "width": 1600,
+        "url": "/artworks/responsive/pe-087-1600.webp"
+      },
+      {
+        "width": 2071,
+        "url": "/artworks/pe-087.jpg"
+      }
+    ]
+  },
+  "pe-088": {
+    "width": 1226,
+    "height": 2500,
+    "variants": [
+      {
+        "width": 480,
+        "url": "/artworks/responsive/pe-088-480.webp"
+      },
+      {
+        "width": 800,
+        "url": "/artworks/responsive/pe-088-800.webp"
+      },
+      {
+        "width": 1200,
+        "url": "/artworks/responsive/pe-088-1200.webp"
+      },
+      {
+        "width": 1226,
+        "url": "/artworks/pe-088.jpg"
+      }
+    ]
+  },
+  "pe-089": {
+    "width": 1416,
+    "height": 2500,
+    "variants": [
+      {
+        "width": 480,
+        "url": "/artworks/responsive/pe-089-480.webp"
+      },
+      {
+        "width": 800,
+        "url": "/artworks/responsive/pe-089-800.webp"
+      },
+      {
+        "width": 1200,
+        "url": "/artworks/responsive/pe-089-1200.webp"
+      },
+      {
+        "width": 1416,
+        "url": "/artworks/pe-089.jpg"
+      }
+    ]
+  },
+  "pe-090": {
+    "width": 2500,
+    "height": 1711,
+    "variants": [
+      {
+        "width": 480,
+        "url": "/artworks/responsive/pe-090-480.webp"
+      },
+      {
+        "width": 800,
+        "url": "/artworks/responsive/pe-090-800.webp"
+      },
+      {
+        "width": 1200,
+        "url": "/artworks/responsive/pe-090-1200.webp"
+      },
+      {
+        "width": 1600,
+        "url": "/artworks/responsive/pe-090-1600.webp"
+      },
+      {
+        "width": 2500,
+        "url": "/artworks/pe-090.jpg"
+      }
+    ]
+  },
+  "pe-091": {
+    "width": 1226,
+    "height": 2500,
+    "variants": [
+      {
+        "width": 480,
+        "url": "/artworks/responsive/pe-091-480.webp"
+      },
+      {
+        "width": 800,
+        "url": "/artworks/responsive/pe-091-800.webp"
+      },
+      {
+        "width": 1200,
+        "url": "/artworks/responsive/pe-091-1200.webp"
+      },
+      {
+        "width": 1226,
+        "url": "/artworks/pe-091.jpg"
+      }
+    ]
+  },
+  "pe-092": {
+    "width": 1039,
+    "height": 2500,
+    "variants": [
+      {
+        "width": 480,
+        "url": "/artworks/responsive/pe-092-480.webp"
+      },
+      {
+        "width": 800,
+        "url": "/artworks/responsive/pe-092-800.webp"
+      },
+      {
+        "width": 1039,
+        "url": "/artworks/pe-092.jpg"
+      }
+    ]
+  },
+  "pe-093": {
+    "width": 2500,
+    "height": 1694,
+    "variants": [
+      {
+        "width": 480,
+        "url": "/artworks/responsive/pe-093-480.webp"
+      },
+      {
+        "width": 800,
+        "url": "/artworks/responsive/pe-093-800.webp"
+      },
+      {
+        "width": 1200,
+        "url": "/artworks/responsive/pe-093-1200.webp"
+      },
+      {
+        "width": 1600,
+        "url": "/artworks/responsive/pe-093-1600.webp"
+      },
+      {
+        "width": 2500,
+        "url": "/artworks/pe-093.jpg"
+      }
+    ]
+  },
+  "pe-094": {
+    "width": 2500,
+    "height": 2494,
+    "variants": [
+      {
+        "width": 480,
+        "url": "/artworks/responsive/pe-094-480.webp"
+      },
+      {
+        "width": 800,
+        "url": "/artworks/responsive/pe-094-800.webp"
+      },
+      {
+        "width": 1200,
+        "url": "/artworks/responsive/pe-094-1200.webp"
+      },
+      {
+        "width": 1600,
+        "url": "/artworks/responsive/pe-094-1600.webp"
+      },
+      {
+        "width": 2500,
+        "url": "/artworks/pe-094.jpg"
+      }
+    ]
+  },
+  "pe-095": {
+    "width": 1550,
+    "height": 2500,
+    "variants": [
+      {
+        "width": 480,
+        "url": "/artworks/responsive/pe-095-480.webp"
+      },
+      {
+        "width": 800,
+        "url": "/artworks/responsive/pe-095-800.webp"
+      },
+      {
+        "width": 1200,
+        "url": "/artworks/responsive/pe-095-1200.webp"
+      },
+      {
+        "width": 1550,
+        "url": "/artworks/pe-095.jpg"
+      }
+    ]
+  },
+  "pe-096": {
+    "width": 2500,
+    "height": 1571,
+    "variants": [
+      {
+        "width": 480,
+        "url": "/artworks/responsive/pe-096-480.webp"
+      },
+      {
+        "width": 800,
+        "url": "/artworks/responsive/pe-096-800.webp"
+      },
+      {
+        "width": 1200,
+        "url": "/artworks/responsive/pe-096-1200.webp"
+      },
+      {
+        "width": 1600,
+        "url": "/artworks/responsive/pe-096-1600.webp"
+      },
+      {
+        "width": 2500,
+        "url": "/artworks/pe-096.jpg"
+      }
+    ]
+  },
+  "pe-097": {
+    "width": 2500,
+    "height": 1750,
+    "variants": [
+      {
+        "width": 480,
+        "url": "/artworks/responsive/pe-097-480.webp"
+      },
+      {
+        "width": 800,
+        "url": "/artworks/responsive/pe-097-800.webp"
+      },
+      {
+        "width": 1200,
+        "url": "/artworks/responsive/pe-097-1200.webp"
+      },
+      {
+        "width": 1600,
+        "url": "/artworks/responsive/pe-097-1600.webp"
+      },
+      {
+        "width": 2500,
+        "url": "/artworks/pe-097.jpg"
+      }
+    ]
+  },
+  "pe-098": {
+    "width": 1432,
+    "height": 2500,
+    "variants": [
+      {
+        "width": 480,
+        "url": "/artworks/responsive/pe-098-480.webp"
+      },
+      {
+        "width": 800,
+        "url": "/artworks/responsive/pe-098-800.webp"
+      },
+      {
+        "width": 1200,
+        "url": "/artworks/responsive/pe-098-1200.webp"
+      },
+      {
+        "width": 1432,
+        "url": "/artworks/pe-098.jpg"
+      }
+    ]
+  },
+  "pe-099": {
+    "width": 1384,
+    "height": 2406,
+    "variants": [
+      {
+        "width": 480,
+        "url": "/artworks/responsive/pe-099-480.webp"
+      },
+      {
+        "width": 800,
+        "url": "/artworks/responsive/pe-099-800.webp"
+      },
+      {
+        "width": 1200,
+        "url": "/artworks/responsive/pe-099-1200.webp"
+      },
+      {
+        "width": 1384,
+        "url": "/artworks/pe-099.jpg"
+      }
+    ]
+  },
+  "pe-100": {
+    "width": 2241,
+    "height": 1868,
+    "variants": [
+      {
+        "width": 480,
+        "url": "/artworks/responsive/pe-100-480.webp"
+      },
+      {
+        "width": 800,
+        "url": "/artworks/responsive/pe-100-800.webp"
+      },
+      {
+        "width": 1200,
+        "url": "/artworks/responsive/pe-100-1200.webp"
+      },
+      {
+        "width": 1600,
+        "url": "/artworks/responsive/pe-100-1600.webp"
+      },
+      {
+        "width": 2241,
+        "url": "/artworks/pe-100.jpg"
+      }
+    ]
+  },
+  "pe-101": {
+    "width": 993,
+    "height": 2500,
+    "variants": [
+      {
+        "width": 480,
+        "url": "/artworks/responsive/pe-101-480.webp"
+      },
+      {
+        "width": 800,
+        "url": "/artworks/responsive/pe-101-800.webp"
+      },
+      {
+        "width": 993,
+        "url": "/artworks/pe-101.jpg"
+      }
+    ]
+  }
+}

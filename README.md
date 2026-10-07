@@ -1,10 +1,9 @@
 # Patrick Everaert — Virtual Museum MVP
 
-A deliberately minimal, responsive portfolio for Patrick Everaert. The main
-gallery displays 101 works at a consistent physical scale against a white
-museum wall, with a 180 cm human reference, keyboard controls, continuous
-trackpad movement, touch/swipe browsing, named collections, and a
-developer-facing artwork index.
+A minimal, responsive bilingual portfolio for Patrick Everaert, with a selection
+of works, a chronological archive of 101 works, exhibitions, publications and
+contact information. The fullscreen viewer preserves each image's proportions
+against a white background. A developer-facing index is available at `/manage`.
 
 ## Run locally
 
@@ -24,14 +23,21 @@ To verify the production build:
 npm run build
 ```
 
-To generate the static GitHub Pages site:
+To generate the static export:
 
 ```bash
 npm run build:pages
 ```
 
-The export is written to `out/`. Pushes to `main` are deployed by
-`.github/workflows/pages.yml`.
+The export is written to `out/`. Pushes to `main` run both build and test suites
+through `.github/workflows/pages.yml`.
+
+Production is the existing Cloudflare Worker `patrick-everaert`, serving
+`https://patrickeveraert.info/` and redirecting `www` to the primary domain.
+Publish with `npm run deploy` using the existing Wrangler login. This builds
+the Vinext Worker and uploads `dist/server` with its assets from `dist/client`.
+GitHub Pages is not enabled; the old `.openai/hosting.json` Site identifier is
+retained as historical project configuration, not the production deployment target.
 
 ## Content management
 
@@ -39,25 +45,30 @@ The export is written to `out/`. Pushes to `main` are deployed by
 - `data/artworks.csv` is retained as a convenient editorial export.
 - Original captions, physical height and width, image URLs, pixel dimensions,
   and source attribution fields are preserved.
-- `lib/artworks.ts` assigns stable display IDs, preserves source order, and
+- `lib/artworks.ts` reads persistent artwork IDs, preserves source order, and
   defines named collections.
 - The `/manage` view exposes ordering, collection counts, dimensions, materials,
   and attribution links.
 
-Small and medium artworks are hung with their vertical centre 150 cm above the
-floor line. Large works use a separate museum datum: their lower frame edge is
-120 cm above the floor. Dataset-derived size bands use the longest physical edge
-(`≤65 cm`, `66–149 cm`, `≥150 cm`) and an immersive close-view camera. Each
-focused work fills a responsive viewing frame, capped at `6×`, `3.8×`, or
-`2.2×` by category. Artwork, 180 cm figure, floor, wall depth, and hanging
-geometry always zoom together; neighbouring works keep their true relative
-size. The human reference is compositionally retained at the right edge in
-every close view.
+Artwork originals are served locally from `public/artworks`. Source-page and CDN
+URLs remain preserved in the data for attribution and future refreshes.
 
-Artwork images are served locally from `public/artworks` as the 101 downloaded
-original JPEG files. Their scraped CDN and source-page URLs remain preserved in
-the data for attribution and future refreshes. Only the focused work and the
-small rendered neighbour window are mounted, so the browser does not eagerly
-load the complete 58 MB collection. The 180 cm human reference uses the
-user-provided vector SVG with a sanitized, tightly cropped head-to-toe viewBox;
-the floor line passes just above both shoes.
+## Responsive images and permanent links
+
+Artwork IDs are stored in `data/artworks.json`. Keep each ID attached to its
+original image, even when reordering the dataset. Never reuse an existing ID.
+Original JPEG files remain unchanged in `public/artworks`.
+
+`npm run images:prepare` generates WebP derivatives at 480, 800, 1200 and
+1600 pixels where smaller than the original, writes `data/image-variants.json`,
+and refreshes the bilingual image sitemap. Development and both build commands
+run this preparation automatically; generated WebP files are ignored by Git.
+The original JPEG remains the largest responsive candidate.
+
+French routes are `/`, `/archive/` and `/oeuvres/pe-001/` (one route per ID).
+English routes are `/en/`, `/en/archive/` and `/en/works/pe-001/`.
+Opening an artwork updates the address bar, so its URL can be copied or opened
+in another tab. Direct links open the white, full-window image viewer with only
+a close cross. Escape, keyboard focus containment and focus restoration are
+handled by a native modal dialog. Closing returns to the gallery; opening and
+closing in the gallery preserves the current scroll position.

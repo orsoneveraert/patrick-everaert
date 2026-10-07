@@ -1,6 +1,7 @@
 import rawArtworks from "../data/artworks.json";
 
 export type RawArtwork = {
+  id: string;
   title: string;
   year: string;
   material: string;
@@ -58,8 +59,8 @@ export function classifyArtworkSize(
 export const artworks: Artwork[] = (rawArtworks as RawArtwork[]).map(
   (work, index) => ({
     ...work,
-    id: `pe-${String(index + 1).padStart(3, "0")}`,
-    localImageUrl: `/artworks/pe-${String(index + 1).padStart(3, "0")}.jpg`,
+    id: work.id,
+    localImageUrl: `/artworks/${work.id}.jpg`,
     sourceOrder: index + 1,
     maxDimensionCm: Math.max(work.height, work.width),
     sizeCategory: classifyArtworkSize(work),

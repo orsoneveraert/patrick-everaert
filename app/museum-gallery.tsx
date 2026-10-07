@@ -1,7 +1,8 @@
 "use client";
 
 import Link from "next/link";
-import { useEffect, useMemo, useState, type CSSProperties } from "react";
+import { useRouter } from "next/navigation";
+import { useEffect, useMemo, useState, useRef, useCallback, type CSSProperties } from "react";
 import { artworks, type Artwork } from "../lib/artworks";
 import {
   collectiveExhibitions,
@@ -13,8 +14,24 @@ import {
   type Publication,
 } from "../lib/publications";
 
-type View = "work" | "archive";
-type Language = "fr" | "en";
+import { portfolioPath, type View, type Language } from "../lib/portfolio-routes";
+import imageVariants from "../data/image-variants.json";
+
+function responsiveImage(work: Artwork) {
+  const image = imageVariants[work.id as keyof typeof imageVariants];
+  return {
+    srcSet: image.variants.map(({ url, width }) => `${url} ${width}w`).join(", "),
+    width: image.width,
+    height: image.height,
+  };
+}
+
+function workImageSizes(work: Artwork, index: number) {
+  const aspect = work.width / work.height;
+  const maximum = index === 0 ? "min(78vw, 1180px)" : aspect > 1.45 ? "min(82vw, 1240px)" : aspect < 0.76 ? "min(54vw, 760px)" : "min(70vw, 1060px)";
+  const mobileMaximum = index !== 0 && aspect < 0.76 ? "72vw" : "calc(100vw - 32px)";
+  return `(max-width: 680px) min(${mobileMaximum}, calc((100svh - 104px) * ${aspect})), min(${maximum}, calc((100svh - 112px) * ${aspect}), calc(100vw - 40px))`;
+}
 
 const copy = {
   fr: {
@@ -74,75 +91,90 @@ function ArtworkDialog({
   language: Language;
   onClose: () => void;
 }) {
-  const text = copy[language];
+  const dialogRef = useRef<HTMLDialogElement>(null);
   useEffect(() => {
-    const onKeyDown = (event: KeyboardEvent) => {
-      if (event.key === "Escape" || event.code === "Escape") {
-        event.preventDefault();
-        onClose();
-      }
-    };
+    const dialog = dialogRef.current;
+    const previousFocus = document.activeElement as HTMLElement | null;
+    dialog?.showModal();
+    dialog?.focus({ preventScroll: true });
     document.body.classList.add("dialog-open");
-    window.addEventListener("keydown", onKeyDown);
     return () => {
+      dialog?.close();
       document.body.classList.remove("dialog-open");
-      window.removeEventListener("keydown", onKeyDown);
+      previousFocus?.focus({ preventScroll: true });
     };
-  }, [onClose]);
+  }, []);
 
   return (
-    <div
+    <dialog
+      ref={dialogRef}
       className="portfolio-dialog"
-      role="dialog"
-      aria-modal="true"
+      tabIndex={-1}
+      autoFocus
       aria-label={`${artwork.title}, ${artwork.year}`}
-      onClick={onClose}
+      onCancel={(event) => { event.preventDefault(); onClose(); }}
+      onKeyDown={(event) => {
+        if (event.key === "Tab") {
+          event.preventDefault();
+          dialogRef.current?.querySelector<HTMLButtonElement>("button")?.focus();
+        }
+      }}
     >
       <button
         className="dialog-close"
         type="button"
-        onClick={(event) => {
-          event.stopPropagation();
-          onClose();
-        }}
+        onClick={onClose}
         aria-label={language === "fr" ? "Fermer l’œuvre" : "Close artwork"}
-        title={text.close}
-        autoFocus
       >
         <span aria-hidden="true">×</span>
       </button>
-      <figure className="dialog-figure" onClick={(event) => event.stopPropagation()}>
-        <img
-          src={artwork.localImageUrl}
-          alt={`${artwork.title}, ${artwork.year} — ${artwork.material}, ${artwork.physical_dimensions}`}
-          draggable={false}
-          decoding="async"
-          fetchPriority="high"
-        />
-        <figcaption>
-          <span>
-            {artwork.title}, {artwork.year}
-          </span>
-          <span>{artwork.material}</span>
-          <span>{artwork.physical_dimensions}</span>
-        </figcaption>
-      </figure>
-    </div>
+      <img
+        src={artwork.localImageUrl}
+        {...responsiveImage(artwork)}
+        sizes={`min(100vw, ${100 * responsiveImage(artwork).width / responsiveImage(artwork).height}dvh)`}
+        alt={`${artwork.title}, ${artwork.year} — ${artwork.material}, ${artwork.physical_dimensions}`}
+        draggable={false}
+        decoding="async"
+        fetchPriority="high"
+      />
+    </dialog>
   );
 }
 
 function SiteHeader({
   view,
-  onView,
   language,
-  onLanguage,
+  openWork,
 }: {
   view: View;
-  onView: (view: View) => void;
   language: Language;
-  onLanguage: (language: Language) => void;
+  openWork: Artwork | null;
 }) {
   const text = copy[language];
+  const [aboutActive, setAboutActive] = useState(false);
+  useEffect(() => {
+    const footer = document.getElementById("about");
+    if (!footer) return;
+    let observer: IntersectionObserver;
+    const observeFooter = () => {
+      observer?.disconnect();
+      const line = window.innerWidth < 640 ? 96 : 56;
+      observer = new IntersectionObserver(([entry]) => {
+        setAboutActive(entry.isIntersecting);
+      }, {
+        // Follow the section directly beneath the fixed navigation, even for a long footer.
+        rootMargin: `-${line}px 0px -${Math.max(0, window.innerHeight - line - 1)}px 0px`,
+      });
+      observer.observe(footer);
+    };
+    observeFooter();
+    window.addEventListener("resize", observeFooter);
+    return () => {
+      observer.disconnect();
+      window.removeEventListener("resize", observeFooter);
+    };
+  }, [view]);
+  const decades = [...new Set(artworks.map((work) => Math.floor(Number(work.year) / 10) * 10))].sort((a, b) => b - a);
   const goToAbout = () => {
     document.getElementById("about")?.scrollIntoView({ behavior: "smooth" });
   };
@@ -151,58 +183,64 @@ function SiteHeader({
     <header
       className={`portfolio-header${view === "archive" ? " is-archive" : ""}`}
     >
-      <h1 className="header-title">Patrick Everaert</h1>
+      <h1 className="header-title">
+        <Link href={portfolioPath(language)}>Patrick Everaert</Link>
+      </h1>
       <nav
         className="portfolio-nav"
         aria-label={language === "fr" ? "Vues du portfolio" : "Portfolio views"}
       >
         <div className="portfolio-nav-menu">
           <Link
-            className={view === "work" ? "is-active" : ""}
-            href="/"
-            aria-current={view === "work" ? "page" : undefined}
-            onClick={(event) => {
-              event.preventDefault();
-              onView("work");
-            }}
+            className={view === "work" && !aboutActive ? "is-active" : ""}
+            href={portfolioPath(language)}
+            aria-current={view === "work" && !aboutActive ? "page" : undefined}
           >
             {text.work}
           </Link>
           <Link
-            className={view === "archive" ? "is-active" : ""}
-            href="/archive"
-            aria-current={view === "archive" ? "page" : undefined}
-            onClick={(event) => {
-              event.preventDefault();
-              onView("archive");
-            }}
+            className={view === "archive" && !aboutActive ? "is-active" : ""}
+            href={portfolioPath(language, "archive")}
+            aria-current={view === "archive" && !aboutActive ? "page" : undefined}
           >
             {text.archive}
           </Link>
+          {view === "archive" && (
+            <div className="archive-decades" role="group" aria-label={language === "fr" ? "Parcourir par décennie" : "Browse by decade"}>
+              {decades.map((decade, index) => (
+                <span key={decade}>
+                  {index > 0 && <span aria-hidden="true"> · </span>}
+                  <a href={`#decade-${decade}`} aria-label={language === "fr" ? `Années ${decade}` : `${decade}s`}>
+                    {decade}
+                  </a>
+                </span>
+              ))}
+            </div>
+          )}
         </div>
         <div className="header-right">
-          <button className="about-jump" type="button" onClick={goToAbout}>
+          <button className={`about-jump${aboutActive ? " is-active" : ""}`} type="button" onClick={goToAbout} aria-current={aboutActive ? "location" : undefined}>
             <span className="about-label">{text.about}</span>
             <span className="about-arrow" aria-hidden="true">↓</span>
           </button>
           <div className="language-switcher" aria-label="Language / Langue">
-            <button
+            <Link
               className={language === "fr" ? "is-active" : ""}
-              type="button"
-              aria-pressed={language === "fr"}
-              onClick={() => onLanguage("fr")}
+              href={portfolioPath("fr", view, openWork?.id)}
+              hrefLang="fr"
+              aria-current={language === "fr" ? "page" : undefined}
             >
               FR
-            </button>
+            </Link>
             <span aria-hidden="true">/</span>
-            <button
+            <Link
               className={language === "en" ? "is-active" : ""}
-              type="button"
-              aria-pressed={language === "en"}
-              onClick={() => onLanguage("en")}
+              href={portfolioPath("en", view, openWork?.id)}
+              hrefLang="en"
+              aria-current={language === "en" ? "page" : undefined}
             >
               EN
-            </button>
+            </Link>
           </div>
         </div>
       </nav>
@@ -239,24 +277,28 @@ function WorkView({
                 } as CSSProperties & { "--work-aspect": number }
               }
             >
-              <button
+              <a
                 className="work-image-button"
-                type="button"
-                onClick={() => onOpen(work)}
+                href={portfolioPath(language, "work", work.id)}
+                onClick={(event) => { if (!event.metaKey && !event.ctrlKey && !event.shiftKey && !event.altKey) { event.preventDefault(); onOpen(work); } }}
                 aria-label={`${copy[language].open} ${work.title}, ${work.year}`}
               >
                 <img
                   src={work.localImageUrl}
+                  {...responsiveImage(work)}
+                  sizes={workImageSizes(work, index)}
                   alt={`${work.title}, ${work.year} — ${work.material}, ${work.physical_dimensions}`}
                   loading={index < 2 ? "eager" : "lazy"}
                   decoding="async"
                   fetchPriority={index === 0 ? "high" : "auto"}
                   draggable={false}
                 />
-              </button>
+              </a>
               <figcaption>
-                <span>{work.title}</span>
-                <span>{work.year}</span>
+                <span>{work.title}, {work.year}</span>
+                {/^(collection|galerie)\b/i.test(work.caption_remainder.trim()) && (
+                  <span>{work.caption_remainder}</span>
+                )}
               </figcaption>
             </figure>
           );
@@ -286,24 +328,32 @@ function ArchiveView({
   return (
     <section className="archive-view" aria-label={text.completeArchive}>
       <h1 className="sr-only">Patrick Everaert — {text.completeArchive}</h1>
+
       <div className="archive-sequence">
         {archiveWorks.map((work, index) => (
-          <figure className="archive-entry" key={work.id}>
-            <button
+          <figure
+            className="archive-entry"
+            key={work.id}
+            id={index === 0 || Math.floor(Number(work.year) / 10) !== Math.floor(Number(archiveWorks[index - 1].year) / 10)
+              ? `decade-${Math.floor(Number(work.year) / 10) * 10}` : undefined}
+          >
+            <a
               className="archive-image-button"
-              type="button"
-              onClick={() => onOpen(work)}
+              href={portfolioPath(language, "archive", work.id)}
+              onClick={(event) => { if (!event.metaKey && !event.ctrlKey && !event.shiftKey && !event.altKey) { event.preventDefault(); onOpen(work); } }}
               aria-label={`${text.open} ${work.title}, ${work.year}, ${work.physical_dimensions}`}
             >
               <img
                 src={work.localImageUrl}
+                {...responsiveImage(work)}
+                sizes="(max-width: 680px) 65vw, 70vw"
                 alt={`${work.title}, ${work.year} — ${work.material}, ${work.physical_dimensions}`}
                 loading={index < 2 ? "eager" : "lazy"}
                 decoding="async"
                 fetchPriority={index === 0 ? "high" : "auto"}
                 draggable={false}
               />
-            </button>
+            </a>
             <figcaption>
               <span className="archive-caption-title">
                 {work.title}, {work.year}
@@ -379,7 +429,10 @@ function AboutFooter({ language }: { language: Language }) {
         </div>
       </section>
       <a className="to-top" href="#top">
-        {text.toTop} <span aria-hidden="true">↑</span>
+        <span className="to-top-content">
+          <span className="about-label">{text.toTop}</span>
+          <span className="about-arrow" aria-hidden="true">↑</span>
+        </span>
       </a>
     </footer>
   );
@@ -387,57 +440,62 @@ function AboutFooter({ language }: { language: Language }) {
 
 export default function MuseumGallery({
   initialView = "work",
+  initialLanguage = "fr",
+  initialArtwork = null,
 }: {
   initialView?: View;
+  initialLanguage?: Language;
+  initialArtwork?: Artwork | null;
 }) {
+  const router = useRouter();
   const [view, setView] = useState<View>(initialView);
-  const [language, setLanguage] = useState<Language>("fr");
-  const [openWork, setOpenWork] = useState<Artwork | null>(null);
+  const [language, setLanguage] = useState<Language>(initialLanguage);
+  const [openWork, setOpenWork] = useState<Artwork | null>(initialArtwork);
+  const openedHere = useRef(false);
 
   useEffect(() => {
     document.documentElement.lang = language;
   }, [language]);
 
   useEffect(() => {
-    const syncViewToPath = () => {
-      setView(window.location.pathname === "/archive" ? "archive" : "work");
+    const syncLocation = () => {
+      const path = window.location.pathname.replace(/\/$/, "");
+      const nextLanguage = path.startsWith("/en") ? "en" : "fr";
+      const id = path.match(/\/(?:oeuvres|works)\/(pe-\d+)$/)?.[1];
+      setLanguage(nextLanguage);
+      if (!id) setView(path.endsWith("/archive") ? "archive" : "work");
+      setOpenWork(artworks.find((work) => work.id === id) ?? null);
     };
-    window.addEventListener("popstate", syncViewToPath);
-    return () => window.removeEventListener("popstate", syncViewToPath);
+    window.addEventListener("popstate", syncLocation);
+    return () => window.removeEventListener("popstate", syncLocation);
   }, []);
 
-  const changeView = (nextView: View) => {
-    if (nextView !== view) {
-      window.history.pushState(
-        { view: nextView },
-        "",
-        nextView === "archive" ? "/archive" : "/",
-      );
-    }
-    setView(nextView);
-    window.scrollTo({ top: 0, behavior: "auto" });
+  const openArtwork = (work: Artwork) => {
+    window.history.pushState({ ...window.history.state }, "", portfolioPath(language, view, work.id));
+    openedHere.current = true;
+    setOpenWork(work);
   };
+
+  const closeArtwork = useCallback(() => {
+    if (openedHere.current) {
+      openedHere.current = false;
+      window.history.back();
+    } else {
+      router.replace(portfolioPath(language, view), { scroll: false });
+    }
+  }, [language, view, router]);
 
   return (
     <main className="portfolio-shell" id="top">
-      <SiteHeader
-        view={view}
-        onView={changeView}
-        language={language}
-        onLanguage={setLanguage}
-      />
+      <SiteHeader view={view} language={language} openWork={openWork} />
       {view === "work" ? (
-        <WorkView language={language} onOpen={setOpenWork} />
+        <WorkView language={language} onOpen={openArtwork} />
       ) : (
-        <ArchiveView language={language} onOpen={setOpenWork} />
+        <ArchiveView language={language} onOpen={openArtwork} />
       )}
       <AboutFooter language={language} />
       {openWork && (
-        <ArtworkDialog
-          artwork={openWork}
-          language={language}
-          onClose={() => setOpenWork(null)}
-        />
+        <ArtworkDialog artwork={openWork} language={language} onClose={closeArtwork} />
       )}
     </main>
   );

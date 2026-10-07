@@ -76,6 +76,9 @@ img {
   display: flex;
   height: 0;
   pointer-events: none;
+  /* Invert the backdrop at each text pixel, including within a single letter. */
+  color: #fff;
+  mix-blend-mode: difference;
 }
 
 .header-title {
@@ -87,7 +90,7 @@ img {
   width: auto;
   margin: 0;
   padding: 0;
-  color: var(--ink);
+  color: inherit;
   font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
   font-size: 14px;
   font-weight: 400;
@@ -95,7 +98,13 @@ img {
   text-align: left;
   text-transform: uppercase;
   white-space: nowrap;
-  pointer-events: none;
+  pointer-events: auto;
+}
+
+.header-title a,
+.header-title a:hover,
+.header-title a:focus-visible {
+  text-decoration: none;
 }
 
 .portfolio-header.is-archive .header-title {
@@ -123,10 +132,11 @@ img {
   margin: 0;
   padding: 0;
   white-space: nowrap;
+  width: max-content;
   transform: translateX(-50%);
 }
 
-.portfolio-nav-menu a:first-child {
+.portfolio-nav-menu > a:first-child {
   margin-right: 12px;
 }
 
@@ -165,7 +175,7 @@ img {
   gap: 3px;
 }
 
-.language-switcher button {
+.language-switcher a {
   padding: 0;
   border-bottom: 1px solid transparent;
   background: transparent;
@@ -175,21 +185,22 @@ img {
   opacity: 1;
 }
 
-.language-switcher button:hover,
-.language-switcher button:focus-visible,
-.language-switcher button.is-active {
-  border-bottom-color: #000;
+.language-switcher a:hover,
+.language-switcher a:focus-visible,
+.language-switcher a.is-active {
+  border-bottom-color: currentColor;
 }
 
 .portfolio-nav-menu > a:hover,
 .portfolio-nav-menu > a:focus-visible,
 .about-jump:hover,
 .about-jump:focus-visible {
-  border-bottom-color: rgba(0, 0, 0, 0.35);
+  border-bottom-color: rgba(255, 255, 255, 0.35);
 }
 
-.portfolio-nav-menu > a.is-active {
-  border-bottom-color: #000;
+.portfolio-nav-menu > a.is-active,
+.about-jump.is-active {
+  border-bottom-color: currentColor;
 }
 
 .about-label {
@@ -209,15 +220,17 @@ img {
 }
 
 @media (hover: hover) {
-  .about-jump:hover {
+  .about-jump:hover:not(.is-active) {
     border-bottom-color: transparent;
   }
 
-  .about-jump:hover .about-label {
+  .about-jump:hover .about-label,
+  .to-top:hover .about-label {
     transform: translateX(-0.6em);
   }
 
-  .about-jump:hover .about-arrow {
+  .about-jump:hover .about-arrow,
+  .to-top:hover .about-arrow {
     opacity: 1;
     transform: translateX(0.4em);
   }
@@ -281,8 +294,8 @@ img {
 
 .work-entry figcaption {
   display: grid;
-  grid-template-columns: 1fr auto;
-  gap: 10px;
+  grid-template-columns: 1fr;
+  gap: 3px;
   padding-top: 7px;
   color: var(--muted);
   font-size: 9px;
@@ -296,10 +309,32 @@ img {
   overflow: hidden;
 }
 
+.archive-decades {
+  position: absolute;
+  top: 24px;
+  left: 50%;
+  transform: translateX(-50%);
+  text-transform: none;
+  font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+  font-size: 12px;
+  font-weight: 400;
+  line-height: 1.2;
+  letter-spacing: -0.025em;
+  white-space: nowrap;
+}
+
+.archive-decades a:hover,
+.archive-decades a:focus-visible {
+  background: rgba(17, 17, 15, 0.1);
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+
 .archive-sequence {
   height: 100%;
   overflow-y: auto;
   scroll-snap-type: y mandatory;
+  scroll-behavior: smooth;
   scrollbar-width: none;
 }
 
@@ -425,6 +460,12 @@ img {
   border-bottom: 1px solid currentColor;
 }
 
+.to-top-content {
+  position: relative;
+  display: inline-block;
+  isolation: isolate;
+}
+
 .to-top {
   grid-column: 1 / -1;
   justify-self: start;
@@ -440,73 +481,55 @@ img {
   position: fixed;
   z-index: 2000;
   inset: 0;
-  display: grid;
-  place-items: center;
-  padding: clamp(48px, 7vw, 110px) clamp(20px, 6vw, 96px) 24px;
-  overflow: auto;
-  background: rgba(246, 245, 240, 0.99);
-  cursor: zoom-out;
+  width: 100vw;
+  height: 100dvh;
+  max-width: none;
+  max-height: none;
+  margin: 0;
+  padding: 0;
+  border: 0;
+  outline: none;
+  overflow: hidden;
+  background: #fff;
+}
+
+.portfolio-dialog::backdrop {
+  background: #fff;
+}
+
+.portfolio-dialog > img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
 }
 
 .dialog-close {
   position: fixed;
   z-index: 2;
-  top: 12px;
-  right: 12px;
+  top: max(12px, env(safe-area-inset-top));
+  right: max(12px, env(safe-area-inset-right));
   display: grid;
-  width: 32px;
-  height: 32px;
-  padding: 8px;
+  width: 44px;
+  height: 44px;
+  padding: 0;
   place-items: center;
-  background: transparent;
+  background: #fff;
+  color: #111;
   font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
-  font-size: 20px;
+  font-size: 24px;
   font-weight: 300;
-  line-height: 16px;
+  line-height: 1;
   cursor: pointer;
 }
 
-.dialog-close:hover,
-.dialog-close:focus-visible {
-  opacity: 0.5;
+.dialog-close:hover {
+  color: #666;
 }
 
 .dialog-close:focus-visible {
   outline: 1px solid currentColor;
-  outline-offset: 2px;
-}
-
-.dialog-figure {
-  display: flex;
-  width: 100%;
-  height: 100%;
-  margin: 0;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  cursor: default;
-}
-
-.dialog-figure img {
-  display: block;
-  max-width: 100%;
-  max-height: calc(100dvh - 150px);
-  width: auto;
-  height: auto;
-  object-fit: contain;
-}
-
-.dialog-figure figcaption {
-  display: flex;
-  width: min(100%, 1000px);
-  justify-content: center;
-  gap: 20px;
-  padding-top: 10px;
-  color: var(--muted);
-  font-size: 9px;
-  line-height: 1.3;
-  text-align: center;
-  text-transform: uppercase;
+  outline-offset: -4px;
 }
 
 .manage-page {
@@ -732,6 +755,10 @@ img {
 }
 
 @media (max-width: 680px) {
+  .archive-decades {
+    font-size: 11px;
+  }
+
   .work-sequence {
     gap: 0;
     padding-bottom: 15svh;
@@ -754,7 +781,6 @@ img {
   }
 
   .work-entry figcaption {
-    grid-template-columns: 1fr auto;
     font-size: 8px;
   }
 
@@ -816,19 +842,8 @@ img {
     line-height: 18px;
   }
 
-  .portfolio-dialog {
-    padding: 54px 14px 18px;
-  }
 
-  .dialog-figure img {
-    max-height: calc(100dvh - 170px);
-  }
 
-  .dialog-figure figcaption {
-    flex-direction: column;
-    gap: 2px;
-    padding-top: 9px;
-  }
 
   .manage-page {
     padding: 24px 16px;
@@ -874,7 +889,9 @@ img {
   }
 
   .portfolio-nav-menu {
-    position: static;
+    position: relative;
+    display: inline-block;
+    left: auto;
     transform: none;
   }
 
