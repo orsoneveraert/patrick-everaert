@@ -1,7 +1,7 @@
 @import "tailwindcss";
 
 :root {
-  --paper: #f6f5f0;
+  --paper: #f8f7f2;
   --ink: #11110f;
   --muted: #66655f;
   --hairline: rgba(17, 17, 15, 0.22);

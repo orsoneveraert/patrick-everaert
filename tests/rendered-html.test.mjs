@@ -119,7 +119,7 @@ test("uses local original artwork files in both portfolio views", async () => {
   assert.ok(firstArtwork.byteLength > 100_000);
   assert.match(styles, /\.archive-sequence\s*\{[\s\S]*?scroll-snap-type: y mandatory/);
   assert.match(styles, /\.archive-entry\s*\{[\s\S]*?min-height: 100svh/);
-  assert.match(styles, /--paper: #f6f5f0/);
+  assert.match(styles, /--paper: #f8f7f2/);
   assert.match(styles, /grid-template-columns: minmax\(0, 1fr\)/);
   assert.match(styles, /\.portfolio-header\s*\{[\s\S]*?position: fixed/);
   assert.match(styles, /\.header-title\s*\{[\s\S]*?font-size: 14px/);
