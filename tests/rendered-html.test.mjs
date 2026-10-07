@@ -23,23 +23,20 @@ async function render(path = "/") {
   );
 }
 
-test("server-renders the virtual museum", async () => {
+test("server-renders the editorial portfolio", async () => {
   const response = await render();
   assert.equal(response.status, 200);
   assert.match(response.headers.get("content-type") ?? "", /^text\/html\b/i);
 
   const html = await response.text();
   assert.match(html, /Patrick Everaert/);
-  assert.match(html, /Artwork gallery/);
-  assert.match(html, /gallery-track/);
-  assert.match(html, /Previous artwork/);
-  assert.match(html, /Next artwork/);
-  assert.match(html, /Human scale reference, 180 centimetres/);
-  assert.match(html, /scale-person-180-v3\.svg/);
-  assert.doesNotMatch(html, /scale-person-180\.webp/);
-  assert.doesNotMatch(html, />180 cm</);
-  assert.doesNotMatch(html, /Curatorial sequence|collection-select/);
-  assert.doesNotMatch(html, /codex-preview|react-loading-skeleton/);
+  assert.match(html, /Selected works/);
+  assert.match(html, />Work</);
+  assert.match(html, />Archive</);
+  assert.match(html, /About/);
+  assert.match(html, /101 works dated from 1989/);
+  assert.match(html, /\/artworks\/pe-001\.jpg/);
+  assert.doesNotMatch(html, /Human scale reference|gallery-track|floor-line/);
 });
 
 test("keeps all scraped physical dimensions and attribution fields", async () => {
@@ -70,19 +67,15 @@ test("server-renders the management index", async () => {
   assert.match(html, /Chronological/);
   assert.match(html, /Photographic works/);
   assert.match(html, /Artwork size bands/);
-  assert.match(html, /32[\s\S]{0,40}works/);
-  assert.match(html, /43[\s\S]{0,40}works/);
-  assert.match(html, /26[\s\S]{0,40}works/);
-  assert.match(html, /camera max ×[\s\S]{0,20}6/);
-  assert.match(html, /camera max ×[\s\S]{0,20}2\.2/);
+  assert.match(html, /Return to portfolio/);
 });
 
-test("uses local original artwork files and the calibrated scale figure", async () => {
-  const gallerySource = await readFile(
+test("uses local original artwork files in both portfolio views", async () => {
+  const source = await readFile(
     new URL("../app/museum-gallery.tsx", import.meta.url),
     "utf8",
   );
-  const galleryStyles = await readFile(
+  const styles = await readFile(
     new URL("../app/globals.css", import.meta.url),
     "utf8",
   );
@@ -90,72 +83,20 @@ test("uses local original artwork files and the calibrated scale figure", async 
     new URL("../lib/artworks.ts", import.meta.url),
     "utf8",
   );
-  const figureSvg = await readFile(
-    new URL("../public/scale-person-180-v3.svg", import.meta.url),
-    "utf8",
-  );
-
-  assert.match(gallerySource, /imageSrc=\{work\.localImageUrl\}/);
-  assert.doesNotMatch(gallerySource, /fetch\(`\$\{work\.image_url\}/);
-  assert.match(artworkSource, /localImageUrl: `\/artworks\/pe-/);
-  const localArtworkFiles = await readFile(
+  const firstArtwork = await readFile(
     new URL("../public/artworks/pe-001.jpg", import.meta.url),
   );
-  assert.ok(localArtworkFiles.byteLength > 100_000);
-  assert.match(figureSvg, /^<svg\b/);
-  assert.match(figureSvg, /viewBox="353 66 364 1395"/);
-  assert.doesNotMatch(
-    figureSvg,
-    /<(?:script|foreignObject|image|use)\b|on[a-z]+=/i,
-  );
-  assert.match(
-    galleryStyles,
-    /@media \(max-width: 680px\)[\s\S]*?\.person-camera\s*\{\s*display: none;/,
-  );
-  assert.match(
-    galleryStyles,
-    /\.artwork-frame\s*\{[\s\S]*?background: transparent;[\s\S]*?border: 0;/,
-  );
-  assert.doesNotMatch(gallerySource, /setTravelOffset/);
-  assert.match(gallerySource, /--track-x/);
-  assert.match(gallerySource, /flushSync/);
-  assert.match(gallerySource, /requestAnimationFrame/);
-  assert.match(
-    galleryStyles,
-    /\.gallery-track\[data-motion="snapping"\]\s*\{[\s\S]*?transition: transform/,
-  );
-  assert.match(
-    galleryStyles,
-    /\.scene-camera\s*\{[\s\S]*?translateY\(var\(--scene-pan-y\)\) scale\(var\(--scene-zoom\)\)/,
-  );
-  assert.match(gallerySource, /--screen-floor-y/);
-  assert.match(gallerySource, /suppressArtworkOpenRef/);
-  assert.match(gallerySource, /setFullscreenWork\(work\)/);
-  assert.match(gallerySource, /Close full screen artwork/);
-  assert.match(
-    galleryStyles,
-    /\.artwork-lightbox\s*\{[^}]*position:\s*fixed;[^}]*inset:\s*0;/,
-  );
-  assert.match(
-    galleryStyles,
-    /\.artwork-lightbox-image\s*\{[^}]*max-width:\s*100%;[^}]*max-height:/,
-  );
-  assert.doesNotMatch(
-    galleryStyles,
-    /\.site-header\s*\{[^}]*border-bottom:/,
-  );
-  assert.match(
-    galleryStyles,
-    /\.scene-environment\s*\{[^}]*inset:\s*0;[^}]*overflow:\s*hidden;/,
-  );
-  assert.match(
-    galleryStyles,
-    /\.floor-line\s*\{[^}]*top:\s*var\(--screen-floor-y\);[^}]*inset-inline:\s*0;/,
-  );
-  assert.doesNotMatch(galleryStyles, /\.artwork-frame img\s*\{[^}]*translateZ/);
-  assert.doesNotMatch(gallerySource, /person-world/);
-  assert.doesNotMatch(
-    galleryStyles,
-    /\.artwork-slot\s*\{[^}]*transition:\s*left/,
-  );
+
+  assert.match(source, /src=\{work\.localImageUrl\}/);
+  assert.match(source, /artworks\.map\(\(work\)/);
+  assert.match(source, /loading="lazy"/);
+  assert.match(source, /Complete artwork archive/);
+  assert.match(source, /portfolio-dialog/);
+  assert.doesNotMatch(source, /scale-person|scene-camera|gallery-track/);
+  assert.match(artworkSource, /localImageUrl: `\/artworks\/pe-/);
+  assert.ok(firstArtwork.byteLength > 100_000);
+  assert.match(styles, /\.archive-grid\s*\{/);
+  assert.match(styles, /grid-template-columns: repeat\(2/);
+  assert.match(styles, /\.portfolio-header\s*\{[\s\S]*?position: fixed/);
+  assert.match(styles, /\.portfolio-intro\s*\{[\s\S]*?min-height: 62svh/);
 });

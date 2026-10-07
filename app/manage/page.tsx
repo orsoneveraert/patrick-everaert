@@ -1,3 +1,4 @@
+import Link from "next/link";
 import {
   artworks,
   collections,
@@ -21,7 +22,7 @@ export default function ManagePage() {
             portfolio.
           </p>
         </div>
-        <a href="/">Return to museum</a>
+        <Link href="/">Return to portfolio</Link>
       </header>
 
       <section className="manage-summary" aria-label="Dataset summary">
