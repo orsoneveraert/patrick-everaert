@@ -297,12 +297,12 @@ img {
 
 .footer-about,
 .footer-contact,
-.footer-techniques {
+.footer-books {
   min-height: 522px;
 }
 
-.footer-chronology,
-.footer-formats,
+.footer-personal-exhibition,
+.footer-collective-exhibition,
 .footer-archive {
   min-height: 353px;
 }
@@ -707,9 +707,9 @@ img {
 
   .footer-about,
   .footer-contact,
-  .footer-techniques,
-  .footer-chronology,
-  .footer-formats,
+  .footer-books,
+  .footer-personal-exhibition,
+  .footer-collective-exhibition,
   .footer-archive {
     min-height: 0;
   }

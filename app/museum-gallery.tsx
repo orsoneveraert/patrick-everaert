@@ -26,28 +26,29 @@ const copy = {
     contactEmail: "patrickeveraert@mac.com",
     artworkIndex: "Index des œuvres ↗",
     toTop: "Haut de page",
-    techniques: "Techniques",
-    chronology: "Chronologie",
-    formats: "Formats",
+    books: "Books",
+    personalExhibition: "Personal exhibition",
+    collectiveExhibition: "Collective exhibition",
     digitalArchive: "Archive numérique",
     materials: "Matériaux",
-    techniqueLines: [
-      "10 impressions giclées sur papier chiffon collées sur Dibond",
-      "3 impressions giclées sur papier chiffon",
-      "1 lithographie — Atelier Bruno Robbe",
-      "6 impressions sur toile",
+    bookLines: [
+      "2015 — Trous noirs, trous blancs — Monographie, BPS22",
+      "2015 — Tuer le Temps — Catalogue d’exposition, BPS22",
     ],
-    chronologyLines: [
-      "2022, 2021, 2017, 2014, 2013, 2012",
-      "2011, 2010, 2008, 2006, 2005, 2004",
-      "2002, 2001, 2000, 1998, 1997, 1996",
-      "1995, 1992, 1991, 1990, 1989",
+    personalExhibitionLines: [
+      "2016 — Triptyque — Centre Culturel de l’Eden, Charleroi",
+      "2014 — Evermore — Espace 251 Nord, Liège",
+      "2011 — Artothèque, Angers",
+      "2004 — FRAC Provence-Alpes-Côte d’Azur, Marseille",
+      "2002 — Tuer le Temps — BPS22, Charleroi",
     ],
-    formatLines: [
-      "32 petits formats — ≤ 65 cm",
-      "43 formats moyens — de 65 à 150 cm",
-      "26 grands formats — ≥ 150 cm",
-      "Dimensions : de 15,3 × 22 à 500 × 700 cm",
+    collectiveExhibitionLines: [
+      "2021 — Magma — Musée L, Louvain-la-Neuve",
+      "2018 — Moi, je…!? — BPS22, Charleroi",
+      "2017 — Regards croisés — Palais de la découverte, Paris",
+      "2016 — Uchronies — BPS22, Charleroi",
+      "2004 — Éblouissement — Jeu de Paume, Paris",
+      "2001 — La trahison des images — 49e Biennale de Venise",
     ],
     archiveLines: [
       "101 œuvres",
@@ -76,28 +77,29 @@ const copy = {
     contactEmail: "patrickeveraert@mac.com",
     artworkIndex: "Artwork index ↗",
     toTop: "To top",
-    techniques: "Techniques",
-    chronology: "Chronology",
-    formats: "Formats",
+    books: "Books",
+    personalExhibition: "Personal exhibition",
+    collectiveExhibition: "Collective exhibition",
     digitalArchive: "Digital archive",
     materials: "Materials",
-    techniqueLines: [
-      "10 giclée prints on rag paper mounted on Dibond",
-      "3 giclée prints on rag paper",
-      "1 lithograph — Atelier Bruno Robbe",
-      "6 prints on canvas",
+    bookLines: [
+      "2015 — Trous noirs, trous blancs — Monograph, BPS22",
+      "2015 — Tuer le Temps — Exhibition catalogue, BPS22",
     ],
-    chronologyLines: [
-      "2022, 2021, 2017, 2014, 2013, 2012",
-      "2011, 2010, 2008, 2006, 2005, 2004",
-      "2002, 2001, 2000, 1998, 1997, 1996",
-      "1995, 1992, 1991, 1990, 1989",
+    personalExhibitionLines: [
+      "2016 — Triptyque — Centre Culturel de l’Eden, Charleroi",
+      "2014 — Evermore — Espace 251 Nord, Liège",
+      "2011 — Artothèque, Angers",
+      "2004 — FRAC Provence-Alpes-Côte d’Azur, Marseille",
+      "2002 — Tuer le Temps — BPS22, Charleroi",
     ],
-    formatLines: [
-      "32 small works — ≤ 65 cm",
-      "43 medium works — 65 to 150 cm",
-      "26 large works — ≥ 150 cm",
-      "Dimensions: from 15.3 × 22 to 500 × 700 cm",
+    collectiveExhibitionLines: [
+      "2021 — Magma — Musée L, Louvain-la-Neuve",
+      "2018 — Moi, je…!? — BPS22, Charleroi",
+      "2017 — Regards croisés — Palais de la découverte, Paris",
+      "2016 — Uchronies — BPS22, Charleroi",
+      "2004 — Éblouissement — Jeu de Paume, Paris",
+      "2001 — La trahison des images — 49th Venice Biennale",
     ],
     archiveLines: [
       "101 works",
@@ -345,21 +347,21 @@ function AboutFooter({ language }: { language: Language }) {
         </p>
         <Link href="/manage">{text.artworkIndex}</Link>
       </section>
-      <section className="footer-block footer-techniques">
-        <h2>{text.techniques}</h2>
-        {text.techniqueLines.map((line) => (
+      <section className="footer-block footer-books">
+        <h2>{text.books}</h2>
+        {text.bookLines.map((line) => (
           <p key={line}>{line}</p>
         ))}
       </section>
-      <section className="footer-block footer-chronology">
-        <h2>{text.chronology}</h2>
-        {text.chronologyLines.map((line) => (
+      <section className="footer-block footer-personal-exhibition">
+        <h2>{text.personalExhibition}</h2>
+        {text.personalExhibitionLines.map((line) => (
           <p key={line}>{line}</p>
         ))}
       </section>
-      <section className="footer-block footer-formats">
-        <h2>{text.formats}</h2>
-        {text.formatLines.map((line) => (
+      <section className="footer-block footer-collective-exhibition">
+        <h2>{text.collectiveExhibition}</h2>
+        {text.collectiveExhibitionLines.map((line) => (
           <p key={line}>{line}</p>
         ))}
       </section>

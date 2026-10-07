@@ -37,8 +37,10 @@ test("server-renders the editorial portfolio", async () => {
   assert.match(html, /né en 1962 à Charleroi/);
   assert.match(html, /peintre sans pinceau et photographe sans appareil/);
   assert.match(html, /mailto:patrickeveraert@mac\.com/);
-  assert.match(html, /Techniques/);
-  assert.match(html, /Chronologie/);
+  assert.match(html, /Books/);
+  assert.match(html, /Personal exhibition/);
+  assert.match(html, /Collective exhibition/);
+  assert.match(html, /Trous noirs, trous blancs/);
   assert.match(html, /Archive numérique/);
   assert.match(html, /33 tirages Lambda/);
   assert.match(html, />FR</);
