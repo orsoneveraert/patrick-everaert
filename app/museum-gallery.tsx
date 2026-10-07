@@ -58,8 +58,8 @@ const copy = {
     toTop: "To top",
     personalPublication: "Personal publications",
     collectivePublication: "Collective publications",
-    personalExhibition: "Personal exhibition",
-    collectiveExhibition: "Collective exhibition",
+    personalExhibition: "Personal exhibitions",
+    collectiveExhibition: "Collective exhibitions",
   },
 } as const;
 
