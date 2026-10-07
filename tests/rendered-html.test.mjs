@@ -149,7 +149,12 @@ test("uses local original artwork files in both portfolio views", async () => {
   assert.match(source, /window\.addEventListener\("popstate"/);
   assert.match(artworkSource, /localImageUrl: `\/artworks\/\$\{work.id\}/);
   assert.ok(firstArtwork.byteLength > 100_000);
-  assert.match(styles, /\.archive-sequence\s*\{[\s\S]*?scroll-snap-type: y mandatory/);
+  // The document is the only scroller: a nested one traps keyboard scrolling,
+  // and a global smooth rule animates the router's reset to the top.
+  assert.match(styles, /html:has\(\.archive-view\)\s*\{[\s\S]*?scroll-snap-type: y mandatory/);
+  assert.doesNotMatch(styles, /\.archive-sequence\s*\{/);
+  assert.doesNotMatch(styles, /\.archive-view\s*\{/);
+  assert.doesNotMatch(styles, /^\s*scroll-behavior:\s*smooth/m);
   assert.match(styles, /\.archive-entry\s*\{[\s\S]*?min-height: 100svh/);
   assert.match(styles, /--paper: #f8f7f2/);
   assert.match(styles, /grid-template-columns: minmax\(0, 1fr\)/);

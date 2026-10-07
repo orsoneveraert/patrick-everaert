@@ -33,11 +33,26 @@ function workImageSizes(work: Artwork, index: number) {
   return `(max-width: 680px) min(${mobileMaximum}, calc((100svh - 104px) * ${aspect})), min(${maximum}, calc((100svh - 112px) * ${aspect}), calc(100vw - 40px))`;
 }
 
-function scrollToSection(event: React.MouseEvent<HTMLAnchorElement>, id: string, behavior: ScrollBehavior = "smooth") {
+// Smooth scrolling is requested per jump: a global CSS rule would also animate
+// the router's reset to the top after a view change.
+function smoothScroll(): ScrollBehavior {
+  return window.matchMedia("(prefers-reduced-motion: reduce)").matches ? "instant" : "smooth";
+}
+
+// vinext restores a history entry from these two fields, but only writes them
+// when a link leaves the page. Keeping them current lets back and forward both
+// return to the same position, including after an in-page jump.
+function rememberScroll() {
+  if (document.body.classList.contains("dialog-open")) return;
+  window.history.replaceState({ ...window.history.state, __vinext_scrollX: window.scrollX, __vinext_scrollY: window.scrollY }, "", window.location.href);
+}
+
+function scrollToSection(event: React.MouseEvent<HTMLAnchorElement>, id: string, behavior: ScrollBehavior = smoothScroll()) {
   if (event.metaKey || event.ctrlKey || event.shiftKey || event.altKey) return;
   const section = document.getElementById(id);
   if (!section) return;
   event.preventDefault();
+  rememberScroll();
   // A native hash navigation also fires popstate in Safari. Keep this local
   // scroll from triggering a delayed route render over an opened artwork.
   const state = { ...window.history.state, portfolioGallery: window.location.pathname.replace(/\/?$/, "/") };
@@ -275,7 +290,7 @@ function SiteHeader({
   }, [view]);
   const decades = archiveDecades;
   const goToAbout = () => {
-    document.getElementById("about")?.scrollIntoView({ behavior: "smooth" });
+    document.getElementById("about")?.scrollIntoView({ behavior: smoothScroll() });
   };
 
   return (
@@ -566,6 +581,19 @@ export default function MuseumGallery({
   }, [language]);
 
   useEffect(() => {
+    let timer: number;
+    const settle = () => {
+      window.clearTimeout(timer);
+      timer = window.setTimeout(rememberScroll, 200);
+    };
+    window.addEventListener("scroll", settle, { passive: true });
+    return () => {
+      window.clearTimeout(timer);
+      window.removeEventListener("scroll", settle);
+    };
+  }, []);
+
+  useEffect(() => {
     const syncLocation = (event: PopStateEvent) => {
       const galleryPath = portfolioPath(language, view);
       if (event.state?.portfolioGallery === galleryPath) {
@@ -578,6 +606,10 @@ export default function MuseumGallery({
       const nextLanguage = path.startsWith("/en") ? "en" : "fr";
       const id = path.match(/\/(?:oeuvres|works)\/(pe-\d+)$/)?.[1];
       openedHere.current = Boolean(id && event.state?.portfolioGallery === galleryPath);
+      if (!id && event.state?.portfolioGallery === galleryPath && "__vinext_scrollY" in event.state && !document.body.classList.contains("dialog-open")) {
+        // This entry never reaches the router, so restore its position here.
+        window.scrollTo({ left: Number(event.state.__vinext_scrollX) || 0, top: Number(event.state.__vinext_scrollY), behavior: "instant" });
+      }
       setLanguage(nextLanguage);
       if (!id) setView(path.endsWith("/archive") ? "archive" : "work");
       setOpenWork(artworks.find((work) => work.id === id) ?? null);

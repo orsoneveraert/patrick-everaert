@@ -73,7 +73,12 @@ a close cross. Escape, keyboard focus containment and focus restoration are
 handled by a native modal dialog. Closing returns to the gallery; opening and
 closing in the gallery preserves the current scroll position.
 
-On phones, the archive uses the document's natural scroll rather than a nested
-mandatory snap scroller. Image space is reserved before lazy loading, and the
-viewer freezes and restores the page position for iOS Safari. The fixed header
-uses one fixed container while retaining its contrast over the images.
+The document is the only scroller, so wheel, keyboard and footer share one
+scroll position. Above 680px the archive snaps to one work per screen with a
+root `scroll-snap-type`; on phones it scrolls freely. Smooth scrolling is
+requested per jump (About, decades, top) and never set globally, so a view change
+resets to the top instantly. Each history entry keeps its scroll position, so
+back and forward restore it in both directions. Image space is reserved before
+lazy loading, and the viewer freezes and restores the page position for iOS
+Safari. The fixed header uses one fixed container while retaining its contrast
+over the images.

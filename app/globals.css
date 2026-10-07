@@ -11,10 +11,6 @@
   box-sizing: border-box;
 }
 
-html {
-  scroll-behavior: smooth;
-}
-
 html,
 body {
   margin: 0;
@@ -305,9 +301,9 @@ img {
   text-transform: uppercase;
 }
 
-.archive-view {
-  height: 100svh;
-  overflow: hidden;
+/* The document is the only scroller, so wheel, keyboard and footer all agree. */
+html:has(.archive-view) {
+  scroll-snap-type: y mandatory;
 }
 
 .archive-decades {
@@ -331,18 +327,6 @@ img {
   text-underline-offset: 3px;
 }
 
-.archive-sequence {
-  height: 100%;
-  overflow-y: auto;
-  scroll-snap-type: y mandatory;
-  scroll-behavior: smooth;
-  scrollbar-width: none;
-}
-
-.archive-sequence::-webkit-scrollbar {
-  display: none;
-}
-
 .archive-entry {
   display: grid;
   grid-template-columns: minmax(0, 1fr) clamp(190px, 22vw, 310px);
@@ -362,12 +346,15 @@ img {
 }
 
 .archive-image-button img {
+  /* Never taller than the room left by the entry's padding on short screens. */
+  --archive-image-height: min(74svh, calc(100svh - 130px));
+
   display: block;
-  width: min(100%, calc(74svh * var(--image-aspect)));
+  width: min(100%, calc(var(--archive-image-height) * var(--image-aspect)));
   height: auto;
   aspect-ratio: var(--image-aspect);
   max-width: 100%;
-  max-height: 74svh;
+  max-height: var(--archive-image-height);
   margin: 0 auto;
   object-fit: contain;
 }
@@ -390,6 +377,7 @@ img {
 }
 
 .portfolio-footer {
+  scroll-snap-align: start;
   display: grid;
   grid-template-columns: repeat(3, minmax(0, 1fr));
   gap: 0;
@@ -498,6 +486,11 @@ img {
   outline: none;
   overflow: hidden;
   background: #fff;
+}
+
+/* Server-rendered artwork links show the viewer before hydration calls showModal(). */
+.portfolio-dialog:not([open]) {
+  display: block;
 }
 
 .mobile-menu::backdrop,
@@ -857,11 +850,8 @@ img {
     background: currentColor;
   }
 
-  /* One document scroll avoids fighting touch momentum at snap boundaries. */
-  .archive-view,
-  .archive-sequence {
-    height: auto;
-    overflow: visible;
+  /* Touch momentum fights snap boundaries, so phones scroll freely. */
+  html:has(.archive-view) {
     scroll-snap-type: none;
   }
 
@@ -903,8 +893,7 @@ img {
   }
 
   .archive-image-button img {
-    width: min(100%, calc(68svh * var(--image-aspect)));
-    max-height: 68svh;
+    --archive-image-height: min(68svh, calc(100svh - 102px));
   }
 
   .archive-entry figcaption {
@@ -1017,7 +1006,6 @@ img {
   *,
   *::before,
   *::after {
-    scroll-behavior: auto !important;
     animation-duration: 0.01ms !important;
     transition-duration: 0.01ms !important;
   }
