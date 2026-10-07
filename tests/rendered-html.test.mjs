@@ -106,6 +106,7 @@ test("uses local original artwork files in both portfolio views", async () => {
   assert.match(source, /type Language = "fr" \| "en"/);
   assert.match(source, /onLanguage\("fr"\)/);
   assert.match(source, /onLanguage\("en"\)/);
+  assert.doesNotMatch(source, /String\(index \+ 1\)\.padStart/);
   assert.doesNotMatch(source, /scale-person|scene-camera|gallery-track/);
   assert.match(artworkSource, /localImageUrl: `\/artworks\/pe-/);
   assert.ok(firstArtwork.byteLength > 100_000);

@@ -260,7 +260,6 @@ function WorkView({
                 />
               </button>
               <figcaption>
-                <span>{String(index + 1).padStart(2, "0")}</span>
                 <span>{work.title}</span>
                 <span>{work.year}</span>
               </figcaption>

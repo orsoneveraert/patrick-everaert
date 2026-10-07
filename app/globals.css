@@ -221,7 +221,7 @@ img {
 
 .work-entry figcaption {
   display: grid;
-  grid-template-columns: 36px 1fr auto;
+  grid-template-columns: 1fr auto;
   gap: 10px;
   padding-top: 7px;
   color: var(--muted);
@@ -683,7 +683,7 @@ img {
   }
 
   .work-entry figcaption {
-    grid-template-columns: 28px 1fr auto;
+    grid-template-columns: 1fr auto;
     font-size: 8px;
   }
 
