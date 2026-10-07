@@ -232,56 +232,69 @@ img {
 }
 
 .archive-view {
-  padding: 99px 28px clamp(140px, 20vh, 260px);
+  height: 100svh;
+  overflow: hidden;
 }
 
-.archive-grid {
-  display: grid;
-  grid-template-columns: repeat(2, minmax(0, 1fr));
-  align-items: start;
-  gap: 28px;
+.archive-sequence {
+  height: 100%;
+  overflow-y: auto;
+  scroll-snap-type: y mandatory;
+  scrollbar-width: none;
+}
+
+.archive-sequence::-webkit-scrollbar {
+  display: none;
 }
 
 .archive-entry {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) clamp(190px, 22vw, 310px);
+  align-items: center;
+  gap: clamp(32px, 6vw, 100px);
+  min-height: 100svh;
+  padding: clamp(82px, 12vh, 120px) clamp(28px, 7vw, 120px)
+    clamp(48px, 8vh, 90px);
   margin: 0;
+  scroll-snap-align: start;
+  scroll-snap-stop: always;
 }
 
 .archive-image-button {
-  position: relative;
-  overflow: hidden;
+  justify-self: center;
+  min-width: 0;
 }
 
 .archive-image-button img {
   display: block;
-  width: 100%;
-  aspect-ratio: 4 / 5;
-  object-fit: cover;
-  transition: transform 480ms cubic-bezier(0.22, 0.7, 0.2, 1);
+  width: auto;
+  height: auto;
+  max-width: 100%;
+  max-height: 74svh;
+  margin: 0 auto;
+  object-fit: contain;
+  transition: opacity 180ms ease;
 }
 
 .archive-image-button:hover img {
-  transform: scale(1.012);
+  opacity: 0.93;
 }
 
-.archive-meta {
-  position: absolute;
-  z-index: 1;
-  right: 8px;
-  bottom: 7px;
-  left: 8px;
+.archive-entry figcaption {
   display: flex;
-  justify-content: space-between;
-  color: white;
-  font-size: 8px;
-  letter-spacing: 0.04em;
-  text-shadow: 0 1px 8px rgba(0, 0, 0, 0.38);
-  opacity: 0;
-  transition: opacity 160ms ease;
+  flex-direction: column;
+  align-self: center;
+  gap: 3px;
+  color: var(--muted);
+  font-size: 9px;
+  line-height: 1.35;
+  letter-spacing: 0.02em;
+  text-transform: uppercase;
 }
 
-.archive-image-button:hover .archive-meta,
-.archive-image-button:focus-visible .archive-meta {
-  opacity: 1;
+.archive-caption-title {
+  margin-bottom: 4px;
+  color: var(--ink);
 }
 
 .portfolio-footer {
@@ -626,12 +639,6 @@ img {
   white-space: nowrap;
 }
 
-@media (min-width: 1180px) {
-  .archive-grid {
-    grid-template-columns: repeat(3, minmax(0, 1fr));
-  }
-}
-
 @media (max-width: 900px) {
   .collection-cards {
     grid-template-columns: repeat(2, 1fr);
@@ -686,16 +693,18 @@ img {
     font-size: 8px;
   }
 
-  .archive-view {
-    padding: 82px 14px 120px;
+  .archive-entry {
+    grid-template-columns: minmax(0, 1fr) minmax(96px, 31vw);
+    gap: 16px;
+    padding: 68px 16px 34px;
   }
 
-  .archive-grid {
-    gap: 14px;
+  .archive-image-button img {
+    max-height: 68svh;
   }
 
-  .archive-meta {
-    display: none;
+  .archive-entry figcaption {
+    font-size: 8px;
   }
 
   .portfolio-footer {

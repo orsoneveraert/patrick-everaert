@@ -300,11 +300,20 @@ function ArchiveView({
   onOpen: (work: Artwork) => void;
 }) {
   const text = copy[language];
+  const chronologicalWorks = useMemo(
+    () =>
+      [...artworks].sort(
+        (a, b) =>
+          Number(a.year) - Number(b.year) || a.sourceOrder - b.sourceOrder,
+      ),
+    [],
+  );
+
   return (
     <section className="archive-view" aria-label={text.completeArchive}>
       <h1 className="sr-only">Patrick Everaert — {text.completeArchive}</h1>
-      <div className="archive-grid">
-        {artworks.map((work) => (
+      <div className="archive-sequence">
+        {chronologicalWorks.map((work, index) => (
           <figure className="archive-entry" key={work.id}>
             <button
               className="archive-image-button"
@@ -315,15 +324,19 @@ function ArchiveView({
               <img
                 src={work.localImageUrl}
                 alt={`${work.title}, ${work.year}`}
-                loading="lazy"
+                loading={index < 2 ? "eager" : "lazy"}
                 decoding="async"
+                fetchPriority={index === 0 ? "high" : "auto"}
                 draggable={false}
               />
-              <span className="archive-meta" aria-hidden="true">
-                <span>{String(work.sourceOrder).padStart(3, "0")}</span>
-                <span>{work.year}</span>
-              </span>
             </button>
+            <figcaption>
+              <span className="archive-caption-title">
+                {work.title}, {work.year}
+              </span>
+              <span>{work.material}</span>
+              <span>{work.physical_dimensions}</span>
+            </figcaption>
           </figure>
         ))}
       </div>

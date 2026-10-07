@@ -98,8 +98,9 @@ test("uses local original artwork files in both portfolio views", async () => {
   );
 
   assert.match(source, /src=\{work\.localImageUrl\}/);
-  assert.match(source, /artworks\.map\(\(work\)/);
-  assert.match(source, /loading="lazy"/);
+  assert.match(source, /chronologicalWorks\.map\(\(work, index\)/);
+  assert.match(source, /Number\(a\.year\) - Number\(b\.year\)/);
+  assert.match(source, /loading=\{index < 2 \? "eager" : "lazy"\}/);
   assert.match(source, /Complete artwork archive/);
   assert.match(source, /portfolio-dialog/);
   assert.match(source, /type Language = "fr" \| "en"/);
@@ -108,8 +109,9 @@ test("uses local original artwork files in both portfolio views", async () => {
   assert.doesNotMatch(source, /scale-person|scene-camera|gallery-track/);
   assert.match(artworkSource, /localImageUrl: `\/artworks\/pe-/);
   assert.ok(firstArtwork.byteLength > 100_000);
-  assert.match(styles, /\.archive-grid\s*\{/);
-  assert.match(styles, /grid-template-columns: repeat\(2/);
+  assert.match(styles, /\.archive-sequence\s*\{[\s\S]*?scroll-snap-type: y mandatory/);
+  assert.match(styles, /\.archive-entry\s*\{[\s\S]*?min-height: 100svh/);
+  assert.match(styles, /grid-template-columns: minmax\(0, 1fr\)/);
   assert.match(styles, /\.portfolio-header\s*\{[\s\S]*?position: fixed/);
   assert.match(styles, /\.portfolio-intro\s*\{[\s\S]*?min-height: 62svh/);
   assert.match(
