@@ -498,7 +498,12 @@ html:has(.archive-view) {
   background: #fff;
 }
 
+.mobile-menu::backdrop {
+  background: var(--paper);
+}
+
 .mobile-menu {
+  background: var(--paper);
   overflow-y: auto;
   padding: max(64px, env(safe-area-inset-top)) 28px max(64px, env(safe-area-inset-bottom));
   color: var(--ink);
