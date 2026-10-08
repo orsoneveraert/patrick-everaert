@@ -598,6 +598,10 @@ html:has(.archive-view) {
   cursor: pointer;
 }
 
+.mobile-menu .dialog-close {
+  background: transparent;
+}
+
 .dialog-close:hover {
   color: #666;
 }
