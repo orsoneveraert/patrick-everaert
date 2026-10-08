@@ -539,10 +539,16 @@ html:has(.archive-view) {
   text-underline-offset: 6px;
 }
 
+.mobile-menu-archive {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 32px;
+}
+
 .mobile-menu-decades {
-  margin-top: 14px;
   font-size: clamp(17px, 4.8vw, 22px);
-  line-height: 1.8;
+  line-height: 1.1;
   letter-spacing: -0.025em;
   font-style: italic;
 }
